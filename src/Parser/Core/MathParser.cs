@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Text;
 
 namespace Parser {
@@ -8,7 +7,7 @@ namespace Parser {
 
 		private List<Token> RPNExpression;
 
-		public char DecimalSeparator { get; set; }
+		public char DecimalSeparator = ',';
 
 		public readonly List<Operator> Operators = new();
 
@@ -16,17 +15,18 @@ namespace Parser {
 
 		public readonly List<Variable> Variables = new();
 
-		public MathParser() {
-			try {
-				DecimalSeparator = char.Parse(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
-			} catch (FormatException) {
-				DecimalSeparator = '.';
-			}
-		}
+		public MathParser() { Variables.Add(new("x")); }
 
 		public void Parse(string Expression) { RPNExpression = ConvertToRPN(FormatString(Expression)); }
 
-		public double Evaluate() { return CalculateRPN(RPNExpression); }
+		public double Evaluate(double x = 0) {
+			Variables[0].Value = x;
+			double tmp = CalculateRPN(RPNExpression);
+			if (double.IsInfinity(tmp) || double.IsNaN(tmp))
+				throw new Exception("Numerical integration failed, most likely because the integral diverges");
+			return  tmp;
+		}
+
 
 		private static string FormatString(string Expression) {
 			if (string.IsNullOrEmpty(Expression)) throw new ArgumentNullException("Expression is null or empty");
