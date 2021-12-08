@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 namespace Parser {
 	public partial class MathParser {
+		private static readonly List<Variable> Variables = new() { new("x") };
+
 		private static readonly Operator LeftParenthesis = new("("),
 				RightParenthesis = new(")"),
 				Comma = new(",");

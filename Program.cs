@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 namespace Program {
 	class Program {
 		static void Main() {
-			double a, b, delta;
 			bool quit = false;
 			MathParser Parser = new();
 
@@ -20,16 +19,16 @@ namespace Program {
 					if (regEx.Match(text).Success) {
 						string[] str = Regex.Split(text, @"^\s*([a-z0-9(),+-/%^]+)");
 						Parser.Parse(str[1]);
-						a = Parser.Evaluate();
+						double a = Parser.Evaluate();
 						str = Regex.Split(str[2], @"[|]\s*([a-z0-9(),+-/%^]+)");
 						Parser.Parse(str[1]);
-						b = Parser.Evaluate();
+						double b = Parser.Evaluate();
 						if (a >= b) throw new FormatException("a >= b");
 
 						Parser.Parse(str[2]);
-
+						
 						Console.Write("Delta: ");
-						delta = Convert.ToDouble(Console.ReadLine().Replace('.', ','));
+						double delta = Convert.ToDouble(Console.ReadLine().Replace('.', ','));
 
 						Method.left_rectangle_rule(Parser, a, b, delta);
 						Method.right_rectangle_rule(Parser, a, b, delta);
@@ -71,7 +70,7 @@ namespace Program {
 
 			Console.WriteLine("Integral expression input format: \"a|b f(x)\"");
 			Console.WriteLine("Where: a - lower limit, b - upper limit, f(x) - function of x");
-			Console.WriteLine("a<b	a!=b");
+			Console.WriteLine("a<b");
 			Console.WriteLine();
 
 			Console.Write("Available Operators: ");

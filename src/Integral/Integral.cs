@@ -8,8 +8,9 @@ namespace Integral {
 		static void run(integrateFunc integrate, double delta, string str) {
 			double d = 1, n = 1;
 
-			while (Math.Abs(d) > delta) 
+			while (Math.Abs(d) > delta) {
 				d = (integrate(n++) - integrate(n));
+			}
 
 			double a = Math.Abs(integrate(n));
 			double b = a + d;
@@ -66,13 +67,12 @@ namespace Integral {
 
 		public static void simpson_rule(MathParser func, double a, double b, double delta) {
 			double integrate(double n) {
-
-				double h = (b - a) / n;
+				double dx = (b - a) / n;
 				double sum = 0;
 				for (double i = 0; i < n; i++)
-					sum += func.Evaluate(a + i * h) + 4 * func.Evaluate((a + i * h) + h / 2) + func.Evaluate((a + i * h) + h);
+					sum += func.Evaluate(a + i * dx) + 4 * func.Evaluate((a + i * dx) + dx / 2) + func.Evaluate((a + i * dx) + dx);
 
-				return (h / 6) * sum;
+				return (dx / 6) * sum;
 			}
 			run(integrate, delta, "Simpson:");
 		}

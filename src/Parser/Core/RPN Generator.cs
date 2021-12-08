@@ -10,8 +10,7 @@ namespace Parser {
 			List<Token> RPNOutput = new();
 			Stack<Token> Stack = new();
 			while (Position < Expression.Length)
-				SyntaxAnalysisInfixNotation(LexicalAnalysisInfixNotation(Expression, ref Position),
-						RPNOutput, Stack);
+				SyntaxAnalysisInfixNotation(LexicalAnalysisInfixNotation(Expression, ref Position), RPNOutput, Stack);
 			while (Stack.Count > 0) {
 				if (Stack.Peek().IsOperator) RPNOutput.Add(Stack.Pop());
 				else throw new FormatException("Format exception, there is function without parenthesis");
@@ -77,9 +76,8 @@ namespace Parser {
 		private static void SyntaxAnalysisInfixNotation(Token Token, List<Token> OutputList, Stack<Token> Stack) {
 			if (Token == Comma) return;
 			else if (Token.IsNumber || Token.IsVariable) OutputList.Add(Token);
-			else if (Token.IsFunction) {
-				Stack.Push(Token);
-			} else if (Token == LeftParenthesis) Stack.Push(Token);
+			else if (Token.IsFunction) Stack.Push(Token);
+			else if (Token == LeftParenthesis) Stack.Push(Token);
 			else if (Token == RightParenthesis) {
 				Token Element;
 				while ((Element = Stack.Pop()) != LeftParenthesis) OutputList.Add(Element);

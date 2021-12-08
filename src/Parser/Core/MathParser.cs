@@ -9,13 +9,7 @@ namespace Parser {
 
 		public char DecimalSeparator = ',';
 
-		public readonly List<Operator> Operators = new();
-
-		public readonly List<Function> Functions = new();
-
-		public readonly List<Variable> Variables = new();
-
-		public MathParser() { Variables.Add(new("x")); }
+		public MathParser() {}
 
 		public void Parse(string Expression) { RPNExpression = ConvertToRPN(FormatString(Expression)); }
 
@@ -24,9 +18,8 @@ namespace Parser {
 			double tmp = CalculateRPN(RPNExpression);
 			if (double.IsInfinity(tmp) || double.IsNaN(tmp))
 				throw new Exception("Numerical integration failed, most likely because the integral diverges");
-			return  tmp;
+			return tmp;
 		}
-
 
 		private static string FormatString(string Expression) {
 			if (string.IsNullOrEmpty(Expression)) throw new ArgumentNullException("Expression is null or empty");
@@ -37,7 +30,6 @@ namespace Parser {
 				if (ch == '(') UnbalancedParanthesis++;
 				else if (ch == ')') UnbalancedParanthesis--;
 				if (char.IsWhiteSpace(ch)) continue;
-				else if (char.IsUpper(ch)) FormattedString.Append(Char.ToLower(ch));
 				else FormattedString.Append(ch);
 			}
 			if (UnbalancedParanthesis != 0)
