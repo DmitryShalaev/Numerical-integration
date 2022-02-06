@@ -38,6 +38,7 @@ namespace Program {
                         tasks[3] = Method.trapezoid_rule_Async(Parser, a, b, delta);
                         tasks[4] = Method.simpson_rule_Async(Parser, a, b, delta);
                         Task.WaitAll(tasks);
+
                     } else {
                         switch(text) {
                             case "/help":
