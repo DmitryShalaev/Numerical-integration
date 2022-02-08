@@ -3,27 +3,38 @@ using System;
 using System.Threading.Tasks;
 
 namespace Integral {
-    class Method {
-
-        delegate double integrateFunc(double n);
-        static void run(integrateFunc integrate, double delta, string str) {
-            double d = 1, n = 1;
-
-            while(Math.Abs(d) > delta) {
-                d = (integrate(n++) - integrate(n));
+    public class Method {
+        public class Answer {
+            public Answer(double n, double a, double b) {
+                this.number_of_splits = n;
+                this.left_border = a;
+                this.right_border = b;
             }
 
-            double a = Math.Abs(integrate(n));
+            public double number_of_splits { get; set; }
+            public double left_border { get; set; }
+            public double right_border { get; set; }
+
+            public override string ToString() => $"{number_of_splits}\t{left_border}\t{right_border}";
+        }
+
+        delegate double integrateFunc(double n);
+        static private Answer run(integrateFunc func, double delta) {
+            double d = 1;
+            int n = 1;
+
+            while(Math.Abs(d) > delta)
+                d = (func(n++) - func(n));
+            
+            double a = Math.Abs(func(n));
             double b = a + d;
 
             if(a > b)
                 (a, b) = (b, a);
-
-            Console.WriteLine(str);
-            Console.WriteLine("{0}	{1}	{2}", n, a, b);
+            return new(n, a, b);
         }
 
-        private static double rectangle_rule(MathParser func, double a, double b, double n, double frac) {
+        static private double rectangle_rule(MathParser func, double a, double b, double n, double frac) {
             double dx = (b - a) / n;
             double sum = 0.0;
             double xstart = a + frac * dx;
@@ -35,40 +46,29 @@ namespace Integral {
             return sum * dx;
         }
 
-        public static async Task left_rectangle_rule_Async(MathParser func, double a, double b, double delta) {
-            await Task.Run(() => left_rectangle_rule(func, a, b, delta));
-        }
-        public static void left_rectangle_rule(MathParser func, double a, double b, double delta) {
+        static public Answer left_rectangle_rule(MathParser func, double a, double b, double delta) {
             double integrate(double n) {
                 return rectangle_rule(func, a, b, n, 0.0);
             }
-            run(integrate, delta, "Left rectangle:");
+            return run(integrate, delta);
         }
 
-        public static async Task right_rectangle_rule_Async(MathParser func, double a, double b, double delta) {
-            await Task.Run(() => right_rectangle_rule(func, a, b, delta));
-        }
-        public static void right_rectangle_rule(MathParser func, double a, double b, double delta) {
+        static public Answer right_rectangle_rule(MathParser func, double a, double b, double delta) {
             double integrate(double n) {
+
                 return rectangle_rule(func, a, b, n, 1.0);
             }
-            run(integrate, delta, "Right rectangle:");
+            return run(integrate, delta);
         }
 
-        public static async Task midpoint_rectangle_rule_Async(MathParser func, double a, double b, double delta) {
-            await Task.Run(() => midpoint_rectangle_rule(func, a, b, delta));
-        }
-        public static void midpoint_rectangle_rule(MathParser func, double a, double b, double delta) {
+        static public Answer midpoint_rectangle_rule(MathParser func, double a, double b, double delta) {
             double integrate(double n) {
                 return rectangle_rule(func, a, b, n, 0.5);
             }
-            run(integrate, delta, "Midpoint rectangle:");
+            return run(integrate, delta);
         }
 
-        public static async Task trapezoid_rule_Async(MathParser func, double a, double b, double delta) {
-            await Task.Run(() => trapezoid_rule(func, a, b, delta));
-        }
-        public static void trapezoid_rule(MathParser func, double a, double b, double delta) {
+        static public Answer trapezoid_rule(MathParser func, double a, double b, double delta) {
             double integrate(double n) {
                 double dx = (b - a) / n;
                 double sum = 0.5 * (func.Evaluate(a) + func.Evaluate(b));
@@ -78,13 +78,10 @@ namespace Integral {
 
                 return sum * dx;
             }
-            run(integrate, delta, "Trapezoidal:");
+            return run(integrate, delta);
         }
 
-        public static async Task simpson_rule_Async(MathParser func, double a, double b, double delta) {
-            await Task.Run(() => simpson_rule(func, a, b, delta));
-        }
-        public static void simpson_rule(MathParser func, double a, double b, double delta) {
+        static public Answer simpson_rule(MathParser func, double a, double b, double delta) {
             double integrate(double n) {
                 double dx = (b - a) / n;
                 double sum = 0;
@@ -93,7 +90,7 @@ namespace Integral {
 
                 return (dx / 6) * sum;
             }
-            run(integrate, delta, "Simpson:");
+            return run(integrate, delta);
         }
     }
 }
