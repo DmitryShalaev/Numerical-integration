@@ -41,7 +41,7 @@ namespace Program {
                         switch(text) {
                             case "/help":
                             case "help":
-                                Help();
+                                Console.WriteLine(Help.Get_Help());
                                 break;
 
                             case "quit":
@@ -64,39 +64,6 @@ namespace Program {
                     Console.WriteLine("Type \"/help\" for help.");
                 }
             }
-        }
-
-        static void Help() {
-            Console.WriteLine();
-
-            Console.WriteLine("Integral expression input format: \"a|b f(x)\"");
-            Console.WriteLine("Where: a - lower limit, b - upper limit, f(x) - function of x");
-            Console.WriteLine("a<b");
-            Console.WriteLine();
-
-            Console.Write("Available Operators: ");
-            foreach(var item in MathParser.DefaultOperators)
-                Console.Write(item + " ");
-
-            Console.WriteLine();
-
-            Console.Write("Available Functions: ");
-            foreach(var item in MathParser.DefaultFunctions)
-                Console.Write(item + " ");
-
-            Console.WriteLine();
-
-            Console.Write("Available Constants: ");
-            foreach(var item in MathParser.Constants)
-                Console.Write(item.Key + " ");
-
-            Console.WriteLine();
-            Console.WriteLine();
-
-            Console.WriteLine("Clearing the screen: clear, cls");
-            Console.WriteLine("Exit the program: quit, q");
-
-            Console.WriteLine();
         }
     }
 }
