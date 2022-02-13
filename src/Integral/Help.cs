@@ -1,6 +1,6 @@
 ﻿using Parser;
 
-namespace Program {
+namespace Integral {
     public class Help {
         static public string Get_Help() {
             string str =    "\nIntegral expression input format: \"a|b f(x)\"\n" +
