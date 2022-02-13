@@ -19,6 +19,7 @@ namespace Integral {
         }
 
         delegate double integrateFunc(double n);
+        public delegate double MathParserFunc(double x);
         static private Answer run(integrateFunc func, double delta) {
             double d = 1;
             int n = 1;
@@ -34,59 +35,59 @@ namespace Integral {
             return new(n, a, b);
         }
 
-        static private double rectangle_rule(MathParser func, double a, double b, double n, double frac) {
+        static private double rectangle_rule(MathParserFunc func, double a, double b, double n, double frac) {
             double dx = (b - a) / n;
             double sum = 0.0;
             double xstart = a + frac * dx;
 
             for(int i = 0; i < n; i++) {
-                sum += func.Evaluate(xstart + i * dx);
+                sum += func(xstart + i * dx);
             }
 
             return sum * dx;
         }
 
-        static public Answer left_rectangle_rule(MathParser func, double a, double b, double delta) {
+        static public Answer left_rectangle_rule(MathParserFunc func, double a, double b, double delta) {
             double integrate(double n) {
                 return rectangle_rule(func, a, b, n, 0.0);
             }
             return run(integrate, delta);
         }
 
-        static public Answer right_rectangle_rule(MathParser func, double a, double b, double delta) {
+        static public Answer right_rectangle_rule(MathParserFunc func, double a, double b, double delta) {
             double integrate(double n) {
-
                 return rectangle_rule(func, a, b, n, 1.0);
             }
             return run(integrate, delta);
         }
 
-        static public Answer midpoint_rectangle_rule(MathParser func, double a, double b, double delta) {
+        static public Answer midpoint_rectangle_rule(MathParserFunc func, double a, double b, double delta) {
             double integrate(double n) {
                 return rectangle_rule(func, a, b, n, 0.5);
             }
             return run(integrate, delta);
         }
 
-        static public Answer trapezoid_rule(MathParser func, double a, double b, double delta) {
+        static public Answer trapezoid_rule(MathParserFunc func, double a, double b, double delta) {
             double integrate(double n) {
                 double dx = (b - a) / n;
-                double sum = 0.5 * (func.Evaluate(a) + func.Evaluate(b));
+                double sum = 0.5 * (func(a) + func(b));
 
                 for(int i = 1; i < n; i++)
-                    sum += func.Evaluate(a + i * dx);
+                    sum += func(a + i * dx);
 
                 return sum * dx;
             }
             return run(integrate, delta);
         }
 
-        static public Answer simpson_rule(MathParser func, double a, double b, double delta) {
+        static public Answer simpson_rule(MathParserFunc func, double a, double b, double delta) {
             double integrate(double n) {
                 double dx = (b - a) / n;
                 double sum = 0;
+
                 for(double i = 0; i < n; i++)
-                    sum += func.Evaluate(a + i * dx) + 4 * func.Evaluate((a + i * dx) + dx / 2) + func.Evaluate((a + i * dx) + dx);
+                    sum += func(a + i * dx) + 4 * func((a + i * dx) + dx / 2) + func((a + i * dx) + dx);
 
                 return (dx / 6) * sum;
             }
