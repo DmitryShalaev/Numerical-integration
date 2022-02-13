@@ -1,10 +1,8 @@
-﻿using Integral;
-using Parser;
+﻿using Parser;
 using System;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
-namespace Program {
+namespace Integral {
     class Program {
         static void Main() {
             bool quit = false;
