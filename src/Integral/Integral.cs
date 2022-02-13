@@ -1,6 +1,4 @@
-﻿using Parser;
-using System;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace Integral {
     public class Method {
@@ -26,7 +24,7 @@ namespace Integral {
 
             while(Math.Abs(d) > delta)
                 d = (func(n++) - func(n));
-            
+
             double a = Math.Abs(func(n));
             double b = a + d;
 
