@@ -1,6 +1,3 @@
-using Integral;
-using Parser;
-
 namespace WinForms {
     public partial class Form : System.Windows.Forms.Form {
         public Form() {
