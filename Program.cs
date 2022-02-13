@@ -31,11 +31,11 @@ namespace Program {
                         Console.Write("Delta: ");
                         double delta = Convert.ToDouble(Console.ReadLine().Replace('.', ','));
 
-                        Console.WriteLine("Left rectangle rule:\t\t" + Method.left_rectangle_rule(Parser, a, b, delta));
-                        Console.WriteLine("Right rectangle rule:\t\t" + Method.right_rectangle_rule(Parser, a, b, delta));
-                        Console.WriteLine("Midpoint rectangle rule:\t" + Method.midpoint_rectangle_rule(Parser, a, b, delta));
-                        Console.WriteLine("Trapezoid rule:\t\t\t" + Method.trapezoid_rule(Parser, a, b, delta));
-                        Console.WriteLine("Simpson rule:\t\t\t" + Method.simpson_rule(Parser, a, b, delta));
+                        Console.WriteLine("Left rectangle rule:\t\t" + Method.left_rectangle_rule(Parser.Evaluate, a, b, delta));
+                        Console.WriteLine("Right rectangle rule:\t\t" + Method.right_rectangle_rule(Parser.Evaluate, a, b, delta));
+                        Console.WriteLine("Midpoint rectangle rule:\t" + Method.midpoint_rectangle_rule(Parser.Evaluate, a, b, delta));
+                        Console.WriteLine("Trapezoid rule:\t\t\t" + Method.trapezoid_rule(Parser.Evaluate, a, b, delta));
+                        Console.WriteLine("Simpson rule:\t\t\t" + Method.simpson_rule(Parser.Evaluate, a, b, delta));
 
                     } else {
                         switch(text) {
