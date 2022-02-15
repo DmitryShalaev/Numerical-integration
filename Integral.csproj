@@ -2,12 +2,15 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Console\**" />
     <Compile Remove="WinForms\**" />
+    <EmbeddedResource Remove="Console\**" />
     <EmbeddedResource Remove="WinForms\**" />
+    <None Remove="Console\**" />
     <None Remove="WinForms\**" />
   </ItemGroup>
 
