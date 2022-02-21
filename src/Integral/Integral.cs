@@ -16,9 +16,8 @@ namespace Integral {
             public override string ToString() => $"{number_of_splits}\t{left_border}\t{right_border}";
         }
 
-        delegate double integrateFunc(double n);
         public delegate double MathParserFunc(double x);
-        static private Answer run(integrateFunc func, double delta) {
+        static private Answer run(MathParserFunc func, double delta) {
             double d = 1;
             int n = 1;
 
