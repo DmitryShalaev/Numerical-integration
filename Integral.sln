@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Console", "Console\Console.csproj", "{28B5F78D-91C6-4261-93B5-045300C8DF8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinForms", "WinForms\WinForms.csproj", "{9CF41E67-66AD-4639-812B-DF1F59F5ED0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,10 +22,10 @@ Global
 		{893C42EE-EBDB-4E13-B229-E71EC9E96445}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{893C42EE-EBDB-4E13-B229-E71EC9E96445}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{893C42EE-EBDB-4E13-B229-E71EC9E96445}.Release|Any CPU.Build.0 = Release|Any CPU
-		{28B5F78D-91C6-4261-93B5-045300C8DF8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{28B5F78D-91C6-4261-93B5-045300C8DF8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{28B5F78D-91C6-4261-93B5-045300C8DF8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{28B5F78D-91C6-4261-93B5-045300C8DF8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CF41E67-66AD-4639-812B-DF1F59F5ED0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CF41E67-66AD-4639-812B-DF1F59F5ED0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CF41E67-66AD-4639-812B-DF1F59F5ED0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CF41E67-66AD-4639-812B-DF1F59F5ED0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
