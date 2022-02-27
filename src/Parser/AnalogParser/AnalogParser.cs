@@ -60,17 +60,6 @@ namespace Parser {
                 Count++;
             }
 
-            public void Interpolation() {
-                for(int i = 0; i < Count - 1; i += 2) {
-                    Node tmp = this[i].next;
-                    this[i].next = new(new((this[i].point.X + tmp.point.X) / 2,
-                                           (this[i].point.Y + tmp.point.Y) / 2));
-                    this[i].next.next = tmp;
-
-                    Count++;
-                }
-            }
-
             public Node this[int index] {
                 get {
                     if(index < 0 || index >= Count)
