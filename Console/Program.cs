@@ -1,21 +1,25 @@
-﻿using Parser;
-using System;
+﻿using Integral;
+using Parser.Analog;
+using Parser.Mathematical;
 using System.Text.RegularExpressions;
 
-namespace Integral {
+namespace ConsoleIntegral {
     class Program {
         static void Main() {
             bool quit = false;
-            MathParser Parser = new();
 
             Regex regEx = new(@"[a-z0-9(),+-/%^]+\s*[|]\s*[a-z0-9(),+-/%^]+\s*[a-z0-9(),+-/%^]");
 
             while(!quit) {
                 try {
                     Console.Write(">");
-                    string text = Console.ReadLine().ToLower().Replace('.', ',');
+                    string text = Console.ReadLine().ToLower();
 
                     if(regEx.Match(text).Success) {
+                        text = text.Replace('.', ',');
+
+                        MathParser Parser = new();
+
                         string[] str = Regex.Split(text, @"^\s*([a-z0-9(),+-/%^]+)");
                         Parser.Parse(str[1]);
                         double a = Parser.Evaluate();
@@ -24,19 +28,38 @@ namespace Integral {
                         double b = Parser.Evaluate();
                         if(a >= b) throw new FormatException("a >= b");
 
-                        Parser.Parse(str[2]);
-
                         Console.Write("Delta: ");
                         double delta = Convert.ToDouble(Console.ReadLine().Replace('.', ','));
 
-                        Console.WriteLine("Left rectangle rule:\t\t" + Method.left_rectangle_rule(Parser.Evaluate, a, b, delta));
-                        Console.WriteLine("Right rectangle rule:\t\t" + Method.right_rectangle_rule(Parser.Evaluate, a, b, delta));
-                        Console.WriteLine("Midpoint rectangle rule:\t" + Method.midpoint_rectangle_rule(Parser.Evaluate, a, b, delta));
-                        Console.WriteLine("Trapezoid rule:\t\t\t" + Method.trapezoid_rule(Parser.Evaluate, a, b, delta));
-                        Console.WriteLine("Simpson rule:\t\t\t" + Method.simpson_rule(Parser.Evaluate, a, b, delta));
+                        Parser.Parse(str[2]);
+
+                        Console.WriteLine("Left rectangle rule:\t\t" + MathMethod.left_rectangle(Parser, a, b, delta));
+                        Console.WriteLine("Right rectangle rule:\t\t" + MathMethod.right_rectangle(Parser, a, b, delta));
+                        Console.WriteLine("Midpoint rectangle rule:\t" + MathMethod.midpoint_rectangle(Parser, a, b, delta));
+                        Console.WriteLine("Trapezoid rule:\t\t\t" + MathMethod.trapezoid(Parser, a, b, delta));
+                        Console.WriteLine("Simpson rule:\t\t\t" + MathMethod.simpson(Parser, a, b, delta));
 
                     } else {
-                        switch(text) {
+                        switch(text.Split()[0]) {
+                            case "file":
+                                AnalogParser analogParser = new(text.Split()[1]);
+
+                                Console.Write("Delta: ");
+                                double delta = Convert.ToDouble(Console.ReadLine().Replace('.', ','));
+
+                                Task[] tasks = new Task[5];
+                                tasks[0] = new Task(() => Console.WriteLine("Left rectangle rule:\t\t" + AnalogMethod.left_rectangle(new(analogParser), delta)));
+                                tasks[1] = new Task(() => Console.WriteLine("Right rectangle rule:\t\t" + AnalogMethod.right_rectangle(new(analogParser), delta)));
+                                tasks[2] = new Task(() => Console.WriteLine("Midpoint rectangle rule:\t" + AnalogMethod.midpoint_rectangle(new(analogParser), delta)));
+                                tasks[3] = new Task(() => Console.WriteLine("Trapezoid rule:\t\t\t" + AnalogMethod.trapezoid(new(analogParser), delta)));
+                                tasks[4] = new Task(() => Console.WriteLine("Simpson rule:\t\t\t" + AnalogMethod.simpson(new(analogParser), delta)));
+                                foreach(var item in tasks) {
+                                    item.Start();
+                                }
+                                Task.WaitAll(tasks);
+
+                                break;
+
                             case "/help":
                             case "help":
                                 Console.WriteLine(Help());
@@ -58,7 +81,7 @@ namespace Integral {
                         }
                     }
                 } catch(Exception e) {
-                    Console.WriteLine("ERROR: " + e.Message);
+                    Console.WriteLine("ERROR: " + e.Message + e);
                     Console.WriteLine("Type \"/help\" for help.");
                 }
             }
@@ -81,8 +104,10 @@ namespace Integral {
             foreach(var item in MathParser.Constants)
                 str += item.Key + " ";
 
+            str += "\n\nTo calculate the integral from tabular data, use the command: \"file <path>\"";
+
             str += "\n\nClearing the screen: clear, cls\n" +
-                    "Exit the program: quit, q\n";
+                    "Exit the program: quit, q";
 
             return str;
         }
