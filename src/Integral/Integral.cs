@@ -137,7 +137,6 @@ namespace Integral {
             return run(integrate, parser, delta);
         }
 
-
         static public Answer simpson(MathParser parser, double a, double b, double delta) {
             double integrate(double n) {
                 double dx = (b - a) / n;
