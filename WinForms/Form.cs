@@ -1,4 +1,5 @@
 using Parser.Mathematical;
+using Parser.Analog;
 
 namespace WinForms {
     public partial class Form : System.Windows.Forms.Form {
@@ -8,10 +9,14 @@ namespace WinForms {
             try {
 
                 MathParser parser = new();
-                parser.Parse("sin(x)*10");
+                parser.Parse("sin(x)");
 
-                Graph graph = new(PB_1, parser.Evaluate, -10, 10);
-                graph.PlotData();
+                Graph graph1 = new(PB_1, parser.Evaluate, -10, 10);
+                graph1.PlotData();
+
+                AnalogParser analogParser = new("1.txt");
+                Graph graph2 = new(PB_2, analogParser);
+                graph2.PlotData();
 
             } catch(Exception e) {
                 MessageBox.Show(e.Message);

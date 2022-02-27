@@ -1,8 +1,11 @@
-﻿namespace WinForms {
+﻿using Parser.Analog;
+
+namespace WinForms {
     internal class Graph {
         public delegate double MathParserFunc(double x);
         private readonly PictureBox PB;
-        private readonly MathParserFunc func;
+        private readonly MathParserFunc? func;
+        private readonly AnalogParser? parser;
         private readonly double a;
         private readonly double b;
         private readonly Bitmap bmp;
@@ -12,6 +15,7 @@
 
         public Graph(PictureBox pictureBox, MathParserFunc func, double a, double b) {
             PB = pictureBox;
+
             this.func = func;
             this.a = a;
             this.b = b;
@@ -23,6 +27,22 @@
             PB.Image = bmp;
 
             axisLimits = new double[] { a, b, -1, 1 };
+        }
+
+        public Graph(PictureBox pictureBox, AnalogParser parser) {
+            PB = pictureBox;
+
+            this.parser = parser;
+            this.a = parser.LeftBorder;
+            this.b = parser.RightBorder;
+
+            bmp = new Bitmap(PB.Width, PB.Height);
+            gfx = Graphics.FromImage(bmp);
+            gfx.Clear(Color.White);
+            gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            PB.Image = bmp;
+
+            axisLimits = new double[] { a, b, parser.BottomBorder, parser.UpperBorder };
         }
 
         private Point GetPixelFromLocation(double x, double y) {
@@ -38,21 +58,27 @@
         private void CreateData() {
             List<double> xsList = new List<double>();
             List<double> ysList = new List<double>();
+            if(func!=null) {
+                double min = double.MaxValue, max = double.MinValue;
 
-            double min = double.MaxValue, max = double.MinValue;
+                for(double i = a; i < b; i += 0.0001) {
+                    double tmp = func(i);
+                    if(min >= tmp) {
+                        min = tmp;
+                    } else if(max <= tmp) {
+                        max = tmp;
+                    }
+                    axisLimits[2] = min;
+                    axisLimits[3] = max;
 
-            for(double i = a; i < b; i += 0.0001) {
-                double tmp = func(i);
-                if(min >= tmp) {
-                    min = tmp;
-                } else if(max <= tmp) {
-                    max = tmp;
+                    xsList.Add(i);
+                    ysList.Add(tmp);
                 }
-                axisLimits[2] = min;
-                axisLimits[3] = max;
-
-                xsList.Add(i);
-                ysList.Add(tmp);
+            } else {
+                for(int i = 0; i < parser.Count; i++) {
+                    xsList.Add(parser[i].point.X);
+                    ysList.Add(parser[i].point.Y);
+                }
             }
 
             xs = xsList.ToArray();
@@ -71,7 +97,7 @@
             for(int i = 0; i < xs.Length; i++) {
                 points[i] = GetPixelFromLocation(xs[i], ys[i]);
             }
-            gfx.DrawCurve(Pens.Blue, points);
+            gfx.DrawLines(Pens.Blue, points);
 
             gfx.DrawString($"{Math.Round(axisLimits[0])}; {Math.Round(axisLimits[1])}; {Math.Round(axisLimits[2])}; {Math.Round(axisLimits[3])} ", new Font("Arial", 10), new SolidBrush(Color.Black), bmp.Width / 2 - 50, 0);
 

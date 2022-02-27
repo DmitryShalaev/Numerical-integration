@@ -24,7 +24,9 @@
         /// </summary>
         private void InitializeComponent() {
             this.PB_1 = new System.Windows.Forms.PictureBox();
+            this.PB_2 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.PB_1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_2)).BeginInit();
             this.SuspendLayout();
             // 
             // PB_1
@@ -35,17 +37,27 @@
             this.PB_1.TabIndex = 0;
             this.PB_1.TabStop = false;
             // 
+            // PB_2
+            // 
+            this.PB_2.Location = new System.Drawing.Point(854, 12);
+            this.PB_2.Name = "PB_2";
+            this.PB_2.Size = new System.Drawing.Size(800, 800);
+            this.PB_2.TabIndex = 1;
+            this.PB_2.TabStop = false;
+            // 
             // Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(824, 825);
+            this.ClientSize = new System.Drawing.Size(1666, 825);
+            this.Controls.Add(this.PB_2);
             this.Controls.Add(this.PB_1);
             this.Name = "Form";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form";
             this.TopMost = true;
             ((System.ComponentModel.ISupportInitialize)(this.PB_1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -53,5 +65,6 @@
         #endregion
 
         private PictureBox PB_1;
+        private PictureBox PB_2;
     }
 }
