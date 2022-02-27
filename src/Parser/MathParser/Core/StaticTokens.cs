@@ -2,20 +2,21 @@
 using System.Collections.Generic;
 
 namespace Parser {
-    public partial class MathParser {
-        private static readonly List<Variable> Variables = new() { new("x") };
+    namespace Mathematical {
+        public partial class MathParser {
+            private static readonly List<Variable> Variables = new() { new("x") };
 
-        private static readonly Operator LeftParenthesis = new("("),
+            private static readonly Operator LeftParenthesis = new("("),
                 RightParenthesis = new(")"),
                 Comma = new(",");
 
-        private static readonly UnaryOperator UnaryPlus = new("un+", 6, (x) => x),
+            private static readonly UnaryOperator UnaryPlus = new("un+", 6, (x) => x),
                 UnaryMinus = new("un-", 6, (x) => -x);
 
-        private static readonly BinaryOperator Plus = new("+", 2, (x, y) => x + y),
+            private static readonly BinaryOperator Plus = new("+", 2, (x, y) => x + y),
                         Minus = new("-", 2, (x, y) => x - y);
 
-        public static readonly List<Operator> DefaultOperators =
+            public static readonly List<Operator> DefaultOperators =
                 new()
                 {
                     LeftParenthesis,
@@ -31,7 +32,7 @@ namespace Parser {
                     new BinaryOperator("%", 8, (x, y) => x % y)
                 };
 
-        public static readonly List<Function> DefaultFunctions =
+            public static readonly List<Function> DefaultFunctions =
                 new()
                 {
                     new UnaryFunction("sqrt", Math.Sqrt),
@@ -44,11 +45,12 @@ namespace Parser {
                     new BinaryFunction("log", Math.Log),
                 };
 
-        public static readonly Dictionary<string, Constant> Constants =
+            public static readonly Dictionary<string, Constant> Constants =
                 new()
                 {
                     { "pi", Math.PI },
                     { "e", Math.E }
                 };
+        }
     }
 }
