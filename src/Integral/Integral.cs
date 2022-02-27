@@ -6,7 +6,12 @@ namespace Integral {
     public class Answer {
         public Answer(double n, double a, double b) {
             this.number_of_splits = n;
-            this.ans = (a + b) / 2;
+            this.ans = Math.Abs((a + b) / 2);
+        }
+
+        public Answer(double n, double a) {
+            this.number_of_splits = n;
+            this.ans = Math.Abs(a);
         }
 
         public double number_of_splits { get; set; }
@@ -31,19 +36,6 @@ namespace Integral {
 
             return new(n, a, a + d);
         }
-        static private Answer run(AnalogParserFunc func, AnalogParser parser, double delta) {
-            double d = 1;
-
-            while(Math.Abs(d) > delta) {
-                double tmp = func();
-                parser.Interpolation();
-                d = func() - tmp;
-            }
-
-            double a = Math.Abs(func());
-
-            return new(parser.Count, a, a + d);
-        }
 
         static private double rectangle(MathParserFunc func, double a, double b, double n, double frac) {
             double dx = (b - a) / n;
@@ -64,7 +56,7 @@ namespace Integral {
 
             return run(integrate, delta);
         }
-        static public Answer left_rectangle(AnalogParser parser, double delta) {
+        static public Answer left_rectangle(AnalogParser parser) {
             double integrate() {
                 double sum = 0;
 
@@ -73,7 +65,7 @@ namespace Integral {
 
                 return sum;
             }
-            return run(integrate, parser, delta);
+            return new(parser.Count, integrate());
         }
 
         static public Answer right_rectangle(MathParser parser, double a, double b, double delta) {
@@ -82,7 +74,7 @@ namespace Integral {
             }
             return run(integrate, delta);
         }
-        static public Answer right_rectangle(AnalogParser parser, double delta) {
+        static public Answer right_rectangle(AnalogParser parser) {
             double integrate() {
                 double sum = 0;
 
@@ -91,7 +83,7 @@ namespace Integral {
 
                 return sum;
             }
-            return run(integrate, parser, delta);
+            return new(parser.Count, integrate());
         }
 
         static public Answer midpoint_rectangle(MathParser parser, double a, double b, double delta) {
@@ -100,7 +92,7 @@ namespace Integral {
             }
             return run(integrate, delta);
         }
-        static public Answer midpoint_rectangle(AnalogParser parser, double delta) {
+        static public Answer midpoint_rectangle(AnalogParser parser) {
             double integrate() {
                 double sum = 0;
 
@@ -109,7 +101,7 @@ namespace Integral {
 
                 return sum;
             }
-            return run(integrate, parser, delta);
+            return new(parser.Count, integrate());
         }
 
         static public Answer trapezoid(MathParser parser, double a, double b, double delta) {
@@ -124,7 +116,7 @@ namespace Integral {
             }
             return run(integrate, delta);
         }
-        static public Answer trapezoid(AnalogParser parser, double delta) {
+        static public Answer trapezoid(AnalogParser parser) {
             double integrate() {
                 double sum = ((parser[0].point.Y/2)*(parser[1].point.X-parser.LeftBorder))+
                              ((parser[^1].point.Y/2)*(parser.RightBorder-parser[^2].point.X));
@@ -134,7 +126,7 @@ namespace Integral {
 
                 return sum;
             }
-            return run(integrate, parser, delta);
+            return new(parser.Count, integrate());
         }
 
         static public Answer simpson(MathParser parser, double a, double b, double delta) {
@@ -148,7 +140,7 @@ namespace Integral {
             }
             return run(integrate, delta);
         }
-        static public Answer simpson(AnalogParser parser, double delta) {
+        static public Answer simpson(AnalogParser parser) {
             double integrate() {
                 double dx = (parser.RightBorder - parser.LeftBorder)/parser.Count;
                 double sum = 0;
@@ -158,7 +150,7 @@ namespace Integral {
 
                 return (dx / 3) * sum;
             }
-            return run(integrate, parser, delta);
+            return new(parser.Count, integrate());
         }
     }
 }
