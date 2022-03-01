@@ -1,5 +1,4 @@
 ﻿using Parser.Analog;
-using Parser.Mathematical;
 using System;
 
 namespace Integral {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 
@@ -40,19 +39,11 @@ namespace Parser {
             }
 
             public double Interpolate(double x) {
-                double lagrangePol = 0;
-
-                for(int i = 0; i < Count; i++) {
-                    double basicsPol = 1;
-                    for(int j = 0; j < Count; j++) {
-                        if(j != i) {
-                            basicsPol *= (x - list[j].X) / (list[i].X -list[j].X);
-                        }
-                    }
-                    lagrangePol += basicsPol * list[i].Y;
+                for(int i = 0; i < Count - 1; i++) {
+                    if(list[i + 1].X >= x)
+                        return (list[i].Y + ((x - list[i].X) / (list[i + 1].X - list[i].X)) * ((list[i + 1].Y - list[i].Y) / 1));
                 }
-
-                return lagrangePol;
+                return 0;
             }
         }
     }
