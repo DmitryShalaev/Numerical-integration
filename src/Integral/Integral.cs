@@ -22,10 +22,10 @@ namespace Integral {
 
     public class Method {
 
-        public delegate double MathParserFunc(double x);
+        public delegate double ParserFunc(double x);
         delegate double AnalogParserFunc();
 
-        static private Answer run(MathParserFunc func, double delta) {
+        static private Answer run(ParserFunc func, double delta) {
             double d = 1;
             int n = 1;
 
@@ -37,7 +37,7 @@ namespace Integral {
             return new(n, a, a + d);
         }
 
-        static private double rectangle(MathParserFunc func, double a, double b, double n, double frac) {
+        static private double rectangle(ParserFunc func, double a, double b, double n, double frac) {
             double dx = (b - a) / n;
             double sum = 0;
             double xstart = a + frac * dx;
@@ -49,108 +49,71 @@ namespace Integral {
             return sum * dx;
         }
 
-        static public Answer left_rectangle(MathParser parser, double a, double b, double delta) {
+        static public Answer left_rectangle(ParserFunc func, double a, double b, double delta) {
             double integrate(double n) {
-                return rectangle(parser.Evaluate, a, b, n, 0.0);
+                return rectangle(func, a, b, n, 0.0);
             }
 
             return run(integrate, delta);
         }
-        static public Answer left_rectangle(AnalogParser parser) {
-            double integrate() {
-                double sum = 0;
 
-                for(int i = 0; i < parser.Count - 1; i++)
-                    sum += parser[i].point.Y * (parser[i + 1].point.X - parser[i].point.X);
-
-                return sum;
-            }
-            return new(parser.Count, integrate());
+        static public Answer left_rectangle(AnalogParser parser, double delta) {
+            return left_rectangle(parser.Interpolate, parser.LeftBorder, parser.RightBorder, delta);
         }
 
-        static public Answer right_rectangle(MathParser parser, double a, double b, double delta) {
+        static public Answer right_rectangle(ParserFunc func, double a, double b, double delta) {
             double integrate(double n) {
-                return rectangle(parser.Evaluate, a, b, n, 1.0);
+                return rectangle(func, a, b, n, 1.0);
             }
             return run(integrate, delta);
         }
-        static public Answer right_rectangle(AnalogParser parser) {
-            double integrate() {
-                double sum = 0;
 
-                for(int i = 1; i < parser.Count; i++)
-                    sum += parser[i].point.Y * (parser[i].point.X - parser[i - 1].point.X);
-
-                return sum;
-            }
-            return new(parser.Count, integrate());
+        static public Answer right_rectangle(AnalogParser parser, double delta) {
+            return right_rectangle(parser.Interpolate, parser.LeftBorder, parser.RightBorder, delta);
         }
 
-        static public Answer midpoint_rectangle(MathParser parser, double a, double b, double delta) {
+        static public Answer midpoint_rectangle(ParserFunc func, double a, double b, double delta) {
             double integrate(double n) {
-                return rectangle(parser.Evaluate, a, b, n, 0.5);
+                return rectangle(func, a, b, n, 0.5);
             }
             return run(integrate, delta);
         }
-        static public Answer midpoint_rectangle(AnalogParser parser) {
-            double integrate() {
-                double sum = 0;
 
-                for(int i = 1; i < parser.Count; i++)
-                    sum += ((parser[i - 1].point.Y + parser[i].point.Y) / 2) * (parser[i].point.X - parser[i - 1].point.X);
-
-                return sum;
-            }
-            return new(parser.Count, integrate());
+        static public Answer midpoint_rectangle(AnalogParser parser, double delta) {
+            return midpoint_rectangle(parser.Interpolate, parser.LeftBorder, parser.RightBorder, delta);
         }
 
-        static public Answer trapezoid(MathParser parser, double a, double b, double delta) {
+        static public Answer trapezoid(ParserFunc func, double a, double b, double delta) {
             double integrate(double n) {
                 double dx = (b - a) / n;
-                double sum = (parser.Evaluate(a) + parser.Evaluate(b)) / 2;
+                double sum = (func(a) + func(b)) / 2;
 
                 for(int i = 1; i < n; i++)
-                    sum += parser.Evaluate(a + i * dx);
+                    sum += func(a + i * dx);
 
                 return sum * dx;
             }
             return run(integrate, delta);
         }
-        static public Answer trapezoid(AnalogParser parser) {
-            double integrate() {
-                double sum = ((parser[0].point.Y/2)*(parser[1].point.X-parser.LeftBorder))+
-                             ((parser[^1].point.Y/2)*(parser.RightBorder-parser[^2].point.X));
 
-                for(int i = 1; i < parser.Count - 1; i++)
-                    sum += parser[i].point.Y * (parser[i + 1].point.X - parser[i].point.X);
-
-                return sum;
-            }
-            return new(parser.Count, integrate());
+        static public Answer trapezoid(AnalogParser parser, double delta) {
+            return trapezoid(parser.Interpolate, parser.LeftBorder, parser.RightBorder, delta);
         }
 
-        static public Answer simpson(MathParser parser, double a, double b, double delta) {
+        static public Answer simpson(ParserFunc func, double a, double b, double delta) {
             double integrate(double n) {
                 double dx = (b - a) / n;
                 double sum = 0;
                 for(double i = 0; i < n; i++)
-                    sum += parser.Evaluate(a + i * dx) + 4 * parser.Evaluate((a + i * dx) + dx / 2) + parser.Evaluate((a + i * dx) + dx);
+                    sum += func(a + i * dx) + 4 * func((a + i * dx) + dx / 2) + func((a + i * dx) + dx);
 
                 return (dx / 6) * sum;
             }
             return run(integrate, delta);
         }
-        static public Answer simpson(AnalogParser parser) {
-            double integrate() {
-                double dx = (parser.RightBorder - parser.LeftBorder)/parser.Count;
-                double sum = 0;
 
-                for(int i = 1; i < parser.Count - 1; i += 2)
-                    sum += parser[i - 1].point.Y + 4 * parser[i].point.Y + parser[i + 1].point.Y;
-
-                return (dx / 3) * sum;
-            }
-            return new(parser.Count, integrate());
+        static public Answer simpson(AnalogParser parser, double delta) {
+            return simpson(parser.Interpolate, parser.LeftBorder, parser.RightBorder, delta);
         }
     }
 }
