@@ -3,42 +3,59 @@ using Parser.Mathematical;
 
 namespace WinForms {
     public partial class Form : System.Windows.Forms.Form {
+
+        List<Graph> graphs = new();
         public Form() {
             InitializeComponent();
 
             try {
-
                 MathParser mathParser = new();
-                mathParser.Parse("cos(x)");
-                double a = 0, b = 10, delta = 0.001;
+                mathParser.Parse("x^4");
+                double a = -1, b = 1, delta = 0.001;
 
-                Graph graph1 = new(PB_1, mathParser, a, b, delta);
-                Graph graph2 = new(PB_2, mathParser, a, b, delta);
-                Graph graph3 = new(PB_3, mathParser, a, b, delta);
-                Graph graph4 = new(PB_4, mathParser, a, b, delta);
-                Graph graph5 = new(PB_5, mathParser, a, b, delta);
-                graph1.Visualize(Graph.Method.left_rectangle);
-                graph2.Visualize(Graph.Method.right_rectangle);
-                graph3.Visualize(Graph.Method.midpoint_rectangle);
-                graph4.Visualize(Graph.Method.trapezoid);
-                graph5.Visualize(Graph.Method.simpson);
-                
+#if DEBUG
+               using(StreamWriter SW = new("1.txt"))
+                   for(double i = a; i <= b; i += delta)
+                       SW.Write($"{i};{Math.Pow(i,4)}\n");
+#endif         
+
+                graphs.Add(new(PB_1, mathParser.Evaluate, a, b, delta));
+                graphs.Add(new(PB_2, mathParser.Evaluate, a, b, delta));
+                graphs.Add(new(PB_3, mathParser.Evaluate, a, b, delta));
+                graphs.Add(new(PB_4, mathParser.Evaluate, a, b, delta));
+                graphs.Add(new(PB_5, mathParser.Evaluate, a, b, delta));
+                graphs[0].Visualize(Graph.Method.left_rectangle);
+                graphs[1].Visualize(Graph.Method.right_rectangle);
+                graphs[2].Visualize(Graph.Method.midpoint_rectangle);
+                graphs[3].Visualize(Graph.Method.trapezoid);
+                graphs[4].Visualize(Graph.Method.simpson);
+
                 AnalogParser analogParser = new("1.txt");
 
-                Graph graph6 = new(PB_6, analogParser, delta);
-                Graph graph7 = new(PB_7, analogParser, delta);
-                Graph graph8 = new(PB_8, analogParser, delta);
-                Graph graph9 = new(PB_9, analogParser, delta);
-                Graph graph10 = new(PB_10, analogParser, delta);
-                graph6.Visualize(Graph.Method.left_rectangle);
-                graph7.Visualize(Graph.Method.right_rectangle);
-                graph8.Visualize(Graph.Method.midpoint_rectangle);
-                graph9.Visualize(Graph.Method.trapezoid);
-                graph10.Visualize(Graph.Method.simpson);
+                graphs.Add(new(PB_6, analogParser, delta));
+                graphs.Add(new(PB_7, analogParser, delta));
+                graphs.Add(new(PB_8, analogParser, delta));
+                graphs.Add(new(PB_9, analogParser, delta));
+                graphs.Add(new(PB_10, analogParser, delta));
+                graphs[5].Visualize(Graph.Method.left_rectangle);
+                graphs[6].Visualize(Graph.Method.right_rectangle);
+                graphs[7].Visualize(Graph.Method.midpoint_rectangle);
+                graphs[8].Visualize(Graph.Method.trapezoid);
+                graphs[9].Visualize(Graph.Method.simpson);
 
             } catch(Exception e) {
-                MessageBox.Show(e.Message);
+                MessageBox.Show(e.ToString());
                 throw;
+            }
+
+        }
+
+        private void PB_Click(object sender, EventArgs e) {
+            foreach(var item in graphs) {
+                if((sender as PictureBox).Name == item.PB.Name) {
+                    item.ReDraw();
+                    return;
+                }
             }
 
         }

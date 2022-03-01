@@ -52,6 +52,7 @@
             this.PB_1.Size = new System.Drawing.Size(300, 300);
             this.PB_1.TabIndex = 0;
             this.PB_1.TabStop = false;
+            this.PB_1.Click += new System.EventHandler(this.PB_Click);
             // 
             // PB_2
             // 
@@ -60,6 +61,7 @@
             this.PB_2.Size = new System.Drawing.Size(300, 300);
             this.PB_2.TabIndex = 1;
             this.PB_2.TabStop = false;
+            this.PB_2.Click += new System.EventHandler(this.PB_Click);
             // 
             // PB_8
             // 
@@ -68,6 +70,7 @@
             this.PB_8.Size = new System.Drawing.Size(300, 300);
             this.PB_8.TabIndex = 3;
             this.PB_8.TabStop = false;
+            this.PB_8.Click += new System.EventHandler(this.PB_Click);
             // 
             // PB_7
             // 
@@ -76,6 +79,7 @@
             this.PB_7.Size = new System.Drawing.Size(300, 300);
             this.PB_7.TabIndex = 2;
             this.PB_7.TabStop = false;
+            this.PB_7.Click += new System.EventHandler(this.PB_Click);
             // 
             // PB_9
             // 
@@ -84,6 +88,7 @@
             this.PB_9.Size = new System.Drawing.Size(300, 300);
             this.PB_9.TabIndex = 5;
             this.PB_9.TabStop = false;
+            this.PB_9.Click += new System.EventHandler(this.PB_Click);
             // 
             // PB_3
             // 
@@ -92,6 +97,7 @@
             this.PB_3.Size = new System.Drawing.Size(300, 300);
             this.PB_3.TabIndex = 4;
             this.PB_3.TabStop = false;
+            this.PB_3.Click += new System.EventHandler(this.PB_Click);
             // 
             // PB_6
             // 
@@ -100,6 +106,7 @@
             this.PB_6.Size = new System.Drawing.Size(300, 300);
             this.PB_6.TabIndex = 10;
             this.PB_6.TabStop = false;
+            this.PB_6.Click += new System.EventHandler(this.PB_Click);
             // 
             // PB_10
             // 
@@ -108,6 +115,7 @@
             this.PB_10.Size = new System.Drawing.Size(300, 300);
             this.PB_10.TabIndex = 8;
             this.PB_10.TabStop = false;
+            this.PB_10.Click += new System.EventHandler(this.PB_Click);
             // 
             // PB_5
             // 
@@ -116,6 +124,7 @@
             this.PB_5.Size = new System.Drawing.Size(300, 300);
             this.PB_5.TabIndex = 7;
             this.PB_5.TabStop = false;
+            this.PB_5.Click += new System.EventHandler(this.PB_Click);
             // 
             // PB_4
             // 
@@ -124,6 +133,7 @@
             this.PB_4.Size = new System.Drawing.Size(300, 300);
             this.PB_4.TabIndex = 6;
             this.PB_4.TabStop = false;
+            this.PB_4.Click += new System.EventHandler(this.PB_Click);
             // 
             // Form
             // 

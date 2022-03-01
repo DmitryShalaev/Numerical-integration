@@ -1,5 +1,4 @@
 ﻿using Parser.Analog;
-using Parser.Mathematical;
 
 namespace WinForms {
     internal class Graph {
@@ -11,23 +10,25 @@ namespace WinForms {
             simpson
         }
 
-        public delegate double MathParserFunc(double x);
-        private readonly PictureBox PB;
-        private readonly MathParser? mathParser;
+        public delegate double ParserFunc(double x);
+        public readonly PictureBox PB;
+        private readonly ParserFunc func;
         private readonly AnalogParser? analogParser;
+        private Integral.Answer? answer;
+        private Method? lastMethod;
         private readonly double a;
         private readonly double b;
         private readonly double delta;
-        private readonly Bitmap bmp;
-        private readonly Graphics gfx;
+        private Bitmap bmp;
+        private Graphics gfx;
 
         private double[] axisLimits;
         private Point origin;
 
-        public Graph(PictureBox pictureBox, MathParser mathParser, double a, double b, double delta) {
+        public Graph(PictureBox pictureBox, ParserFunc func, double a, double b, double delta) {
             PB = pictureBox;
 
-            this.mathParser = mathParser;
+            this.func = func;
             this.a = a;
             this.b = b;
             this.delta = delta;
@@ -39,8 +40,8 @@ namespace WinForms {
             PB.Image = bmp;
 
             double min = double.MaxValue, max = double.MinValue;
-            for(double i = a; i < b; i += 0.0001) {
-                double tmp = mathParser.Evaluate(i);
+            for(double i = a; i < b; i += ((b - a) / bmp.Width)) {
+                double tmp = func(i);
                 if(min >= tmp)
                     min = tmp;
                 else if(max <= tmp)
@@ -56,6 +57,7 @@ namespace WinForms {
             PB = pictureBox;
 
             analogParser = parser;
+            func = parser.Interpolate;
             a = parser.LeftBorder;
             b = parser.RightBorder;
             this.delta = delta;
@@ -79,53 +81,42 @@ namespace WinForms {
             return new Point(xPx, yPx);
         }
 
-        public void Visualize(Method method) {
-            if(mathParser != null) {
-                switch(method) {
-                    case Method.left_rectangle:
-                        MathRectangle(Integral.Method.left_rectangle(mathParser, a, b, delta), 0);
-                        break;
-                    case Method.right_rectangle:
-                        MathRectangle(Integral.Method.right_rectangle(mathParser, a, b, delta), 1);
-                        break;
-                    case Method.midpoint_rectangle:
-                        MathRectangle(Integral.Method.midpoint_rectangle(mathParser, a, b, delta), 0.5);
-                        break;
-                    case Method.trapezoid:
-                        MathTrapezoid(Integral.Method.trapezoid(mathParser, a, b, delta));
-                        break;
-                    case Method.simpson:
-                        MathSimpson(Integral.Method.simpson(mathParser, a, b, delta));
-                        break;
-                }
-            } else {
-                switch(method) {
-                    case Method.left_rectangle:
-                        AnalogRectangle(Integral.Method.left_rectangle(analogParser), 0);
-                        break;
-                    case Method.right_rectangle:
-                        AnalogRectangle(Integral.Method.left_rectangle(analogParser), 1);
-                        break;
-                    case Method.midpoint_rectangle:
-                        AnalogRectangle(Integral.Method.left_rectangle(analogParser), 0.5);
-                        break;
-                    case Method.trapezoid:
-                        AnalogTrapezoid(Integral.Method.trapezoid(analogParser));
-                        break;
-                    case Method.simpson:
-                        AnalogSimpson(Integral.Method.simpson(analogParser));
-                        break;
-                }
+        public void Visualize(Method? method, Integral.Answer? answer = null) {
+            switch(method) {
+                case Method.left_rectangle:
+                    lastMethod = Method.left_rectangle;
+                    Rectangle(answer ?? Integral.Method.left_rectangle(func.Invoke, a, b, delta), 0);
+                    break;
+                case Method.right_rectangle:
+                    lastMethod = Method.right_rectangle;
+                    Rectangle(answer ?? Integral.Method.right_rectangle(func.Invoke, a, b, delta), 1);
+                    break;
+                case Method.midpoint_rectangle:
+                    lastMethod = Method.midpoint_rectangle;
+                    Rectangle(answer ?? Integral.Method.midpoint_rectangle(func.Invoke, a, b, delta), 0.5);
+                    break;
+                case Method.trapezoid:
+                    lastMethod = Method.trapezoid;
+                    Trapezoid(answer ?? Integral.Method.trapezoid(func.Invoke, a, b, delta));
+                    break;
+                case Method.simpson:
+                    lastMethod = Method.simpson;
+                    Simpson(answer ?? Integral.Method.simpson(func.Invoke, a, b, delta));
+                    break;
             }
         }
 
-        private void MathRectangle(Integral.Answer answer, double frac) {
+        private void Rectangle(Integral.Answer answer, double frac) {
             List<Rectangle> rectangles = new();
+
+            this.answer = answer;
+
             double dx = (b - a) / answer.number_of_splits;
             double offset = frac * dx;
+
             for(double i = 0; i <= answer.number_of_splits; i++) {
-                Point p = GetPixelFromLocation((a + dx  * i) - offset, mathParser.Evaluate(a + dx * i));
-                if(mathParser.Evaluate(a + dx * i) >= 0) {
+                Point p = GetPixelFromLocation((a + dx  * i) - offset, func(a + dx * i));
+                if(func(a + dx * i) >= 0) {
                     rectangles.Add(new(p, new(GetPixelFromLocation(((a + dx * i) - offset) + dx, 0).X - p.X, origin.Y - p.Y)));
                 } else {
                     int height = p.Y - origin.Y;
@@ -135,100 +126,77 @@ namespace WinForms {
             }
 
             gfx.DrawRectangles(Pens.Red, rectangles.ToArray());
+
+#if DEBUG
             gfx.DrawString($"{answer.number_of_splits} : {frac}\t{answer.ans}", new Font("Arial", 10), new SolidBrush(Color.Black), bmp.Width / 2 - 100, 20);
+#endif
         }
 
-        private void AnalogRectangle(Integral.Answer answer, double frac) {
-            List<Rectangle> rectangles = new();
-            double dx = (b - a) / answer.number_of_splits;
-            double offset = frac * dx;
-            for(int i = 0; i < analogParser.Count - 1; i++) {
-                Point p = GetPixelFromLocation(analogParser[i].point.X- offset, analogParser[i].point.Y);
-                if(analogParser[i].point.Y >= 0) {
-                    rectangles.Add(new(p, new(GetPixelFromLocation(analogParser[i + 1].point.X - offset, 0).X - p.X, origin.Y - p.Y)));
-                } else {
-                    int height = p.Y - origin.Y;
-                    p.Y = origin.Y;
-                    rectangles.Add(new(p, new(GetPixelFromLocation(analogParser[i + 1].point.X - offset, 0).X - p.X, height)));
-                }
-            }
-
-            gfx.DrawRectangles(Pens.Red, rectangles.ToArray());
-            gfx.DrawString($"{answer.number_of_splits} : {frac}\t{answer.ans}", new Font("Arial", 10), new SolidBrush(Color.Black), bmp.Width / 2 - 100, 20);
-        }
-
-        private void MathTrapezoid(Integral.Answer answer) {
+        private void Trapezoid(Integral.Answer answer) {
+            this.answer = answer;
 
             double dx = (b - a) / answer.number_of_splits;
+
             for(double i = 0; i <= answer.number_of_splits; i++) {
                 List<Point> trapezoids = new();
                 trapezoids.Add(GetPixelFromLocation((a + dx * i), 0));
-                trapezoids.Add(GetPixelFromLocation((a + dx * i), mathParser.Evaluate(a + dx * i)));
-                trapezoids.Add(GetPixelFromLocation(((a + dx * i) + dx), mathParser.Evaluate((a + dx * i) + dx)));
+                trapezoids.Add(GetPixelFromLocation((a + dx * i), func(a + dx * i)));
+                trapezoids.Add(GetPixelFromLocation(((a + dx * i) + dx), func((a + dx * i) + dx)));
                 trapezoids.Add(GetPixelFromLocation((a + dx * i) + dx, 0));
                 gfx.DrawPolygon(Pens.Red, trapezoids.ToArray());
             }
 
+#if DEBUG
             gfx.DrawString($"{answer.number_of_splits}\t{answer.ans}", new Font("Arial", 10), new SolidBrush(Color.Black), bmp.Width / 2 - 100, 20);
+#endif
         }
 
-        private void AnalogTrapezoid(Integral.Answer answer) {
-            for(int i = 0; i < analogParser.Count - 1; i++) {
-                List<Point> trapezoids = new();
-                trapezoids.Add(GetPixelFromLocation(analogParser[i].point.X, 0));
-                trapezoids.Add(GetPixelFromLocation(analogParser[i].point.X, analogParser[i].point.Y));
-                trapezoids.Add(GetPixelFromLocation(analogParser[i + 1].point.X, analogParser[i + 1].point.Y));
-                trapezoids.Add(GetPixelFromLocation(analogParser[i + 1].point.X, 0));
-                gfx.DrawPolygon(Pens.Red, trapezoids.ToArray());
-            }
-
-            gfx.DrawString($"{answer.number_of_splits}\t{answer.ans}", new Font("Arial", 10), new SolidBrush(Color.Black), bmp.Width / 2 - 100, 20);
-        }
-
-        private void MathSimpson(Integral.Answer answer) {
+        private void Simpson(Integral.Answer answer) {
+            this.answer = answer;
 
             double dx = (b - a) / answer.number_of_splits;
             List<Point> parabolas = new();
             for(double i = 0; i <= answer.number_of_splits; i++) {
-                parabolas.Add(GetPixelFromLocation((a + dx * i), mathParser.Evaluate(a + dx * i)));
-                gfx.DrawLine(Pens.Red, GetPixelFromLocation(((a + dx * i)), 0), GetPixelFromLocation(((a + dx * i)), mathParser.Evaluate((a + dx * i))));
+                parabolas.Add(GetPixelFromLocation((a + dx * i), func(a + dx * i)));
+                gfx.DrawLine(Pens.Red, GetPixelFromLocation(((a + dx * i)), 0), GetPixelFromLocation(((a + dx * i)), func((a + dx * i))));
             }
+            gfx.DrawLine(Pens.Red, GetPixelFromLocation(a, 0), GetPixelFromLocation(b, 0));
+
             gfx.DrawCurve(Pens.Red, parabolas.ToArray());
 
+#if DEBUG
             gfx.DrawString($"{answer.number_of_splits}\t{answer.ans}", new Font("Arial", 10), new SolidBrush(Color.Black), bmp.Width / 2 - 100, 20);
-        }
-
-        private void AnalogSimpson(Integral.Answer answer) {
-            List<Point> parabolas = new();
-            for(int i = 0; i < analogParser.Count-1; i++) {
-                parabolas.Add(GetPixelFromLocation(analogParser[i].point.X, analogParser[i].point.Y));
-                gfx.DrawLine(Pens.Red, GetPixelFromLocation(analogParser[i].point.X, 0), GetPixelFromLocation(analogParser[i].point.X, analogParser[i].point.Y));
-            }
-            gfx.DrawCurve(Pens.Red, parabolas.ToArray());
-
-            gfx.DrawString($"{answer.number_of_splits}\t{answer.ans}", new Font("Arial", 10), new SolidBrush(Color.Black), bmp.Width / 2 - 100, 20);
+#endif
         }
 
         private void PlotGrapg() {
-            List<Point> points = new();
-
-            if(mathParser != null) {
-                for(double i = a; i < b; i += 0.0001)
-                    points.Add(GetPixelFromLocation(i, mathParser.Evaluate(i)));
-            } else {
-                for(int i = 0; i < analogParser.Count; i++)
-                    points.Add(GetPixelFromLocation(analogParser[i].point.X, analogParser[i].point.Y));
-            }
-
             origin = GetPixelFromLocation(0, 0);
             gfx.DrawLine(Pens.LightGray, 0, origin.Y, bmp.Width, origin.Y);
             gfx.DrawLine(Pens.LightGray, origin.X, 0, origin.X, bmp.Height);
 
+            List<Point> points = new();            
+            for(double i = a; i <= b; i += ((b - a) / bmp.Width))
+                points.Add(GetPixelFromLocation(i, func(i)));
+            
             gfx.DrawLines(Pens.Blue, points.ToArray());
 
+#if DEBUG
             gfx.DrawString($"{Math.Round(axisLimits[0])}; {Math.Round(axisLimits[1])}; {Math.Round(axisLimits[2])}; {Math.Round(axisLimits[3])} ", new Font("Arial", 10), new SolidBrush(Color.Black), bmp.Width / 2 - 100, 0);
+#endif
+        }
 
-            PB.Image = bmp;
+        public void ReDraw() {
+            if(answer != null && lastMethod != null) {
+
+                bmp = new Bitmap(PB.Width, PB.Height);
+                gfx = Graphics.FromImage(bmp);
+                gfx.Clear(Color.White);
+                gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                PB.Image = bmp;
+
+                PlotGrapg();
+                Visualize(lastMethod, answer);
+            }
         }
     }
 }
