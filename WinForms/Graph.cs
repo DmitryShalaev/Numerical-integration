@@ -10,15 +10,6 @@ namespace Graphs {
             simpson
         }
 
-        public class Camera {
-            public Point Position { get; set; }
-            public double Zoom { get; set; }
-            public Camera() {
-                Zoom = 0;
-                Position = new(0, 0);
-            }
-        }
-
         public delegate double ParserFunc(double x);
         public readonly PictureBox PB;
         private readonly ParserFunc func;
@@ -32,8 +23,6 @@ namespace Graphs {
 
         private double[] axisLimits;
         private Point origin;
-
-        public Camera camera;
 
         public Graph(PictureBox pictureBox, ParserFunc func, double a, double b, double delta, double? bottomBorder = null, double? upperBorder = null) {
             PB = pictureBox;
@@ -63,8 +52,6 @@ namespace Graphs {
                 axisLimits = new double[] { a, b, bottomBorder ?? 0, upperBorder ?? 0 };
             }
 
-            camera = new();
-
             PlotGrapg();
         }
 
@@ -72,12 +59,12 @@ namespace Graphs {
             this(pictureBox, parser.Interpolate, parser.LeftBorder, parser.RightBorder,
                 delta, parser.BottomBorder, parser.UpperBorder) { }
 
-        private Point GetPixelFromLocation(double x, double y) {//TODO Настроить зум
-            double pxPerUnitX = Math.Max(bmp.Width  / (axisLimits[1] - axisLimits[0]) + camera.Zoom * bmp.Width  / (axisLimits[1] - axisLimits[0]),0);
-            double pxPerUnitY = Math.Max(bmp.Height / (axisLimits[3] - axisLimits[2]) + camera.Zoom * bmp.Height / (axisLimits[3] - axisLimits[2]),0);
+        private Point GetPixelFromLocation(double x, double y) {
+            double pxPerUnitX = Math.Max(bmp.Width  / (axisLimits[1] - axisLimits[0]),0);
+            double pxPerUnitY = Math.Max(bmp.Height / (axisLimits[3] - axisLimits[2]),0);
             int xPx = (int)((x - axisLimits[0]) * pxPerUnitX);
-            int yPx = bmp.Height - (int)((y - axisLimits[2]) * pxPerUnitY);
-            return new Point(xPx - camera.Position.X, yPx - camera.Position.Y);
+            int yPx = bmp.Height - 1 - (int)((y - axisLimits[2]) * pxPerUnitY);
+            return new Point(xPx, yPx);
         }
 
         public void Visualize(Method? method, Integral.Answer? answer = null) {

@@ -46,6 +46,7 @@
             this.TB_Login.Name = "TB_Login";
             this.TB_Login.Size = new System.Drawing.Size(200, 27);
             this.TB_Login.TabIndex = 0;
+            this.TB_Login.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_KeyPress);
             // 
             // label2
             // 
@@ -60,8 +61,10 @@
             // 
             this.TB_Password.Location = new System.Drawing.Point(12, 85);
             this.TB_Password.Name = "TB_Password";
+            this.TB_Password.PasswordChar = '*';
             this.TB_Password.Size = new System.Drawing.Size(200, 27);
             this.TB_Password.TabIndex = 2;
+            this.TB_Password.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_KeyPress);
             // 
             // B_LogIn
             // 
@@ -81,6 +84,7 @@
             this.B_SingUp.TabIndex = 5;
             this.B_SingUp.Text = "Sing Up";
             this.B_SingUp.UseVisualStyleBackColor = true;
+            this.B_SingUp.Click += new System.EventHandler(this.B_SingUp_Click);
             // 
             // Authorization
             // 

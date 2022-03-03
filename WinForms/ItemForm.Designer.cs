@@ -34,9 +34,6 @@
             this.PB.Size = new System.Drawing.Size(858, 829);
             this.PB.TabIndex = 1;
             this.PB.TabStop = false;
-            this.PB.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PB_MouseDown);
-            this.PB.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PB_MouseMove);
-            this.PB.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PB_MouseUp);
             // 
             // Item
             // 
