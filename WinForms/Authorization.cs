@@ -11,10 +11,15 @@ namespace AuthorizationForm {
 
         Regex regEx = new(@"^[0-9a-zA-Z-_]+");
         public Authorization() {
-            using(StreamReader SR = new("users")) {
-                string jsonString = SR.ReadToEnd();
-                users = JsonSerializer.Deserialize<Dictionary<string, byte[]>>(jsonString) ?? new();
+            try {
+                using(StreamReader SR = new("users")) {
+                    string jsonString = SR.ReadToEnd();
+                    users = JsonSerializer.Deserialize<Dictionary<string, byte[]>>(jsonString) ?? new();
+                }
+            } catch(FileNotFoundException) {
+                users = new();
             }
+
             InitializeComponent();
         }
 

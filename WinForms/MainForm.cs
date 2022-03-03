@@ -10,13 +10,14 @@ namespace WinForms {
         double a = 0, b = 0, delta = 0;
 
         public MainForm() {
+            #region Main window customization
             InitializeComponent();
-            CLB_Methods.SetItemChecked(0, true);
-
 
             this.Location = new((System.Windows.Forms.Screen.GetWorkingArea(this).Width / 2) - (this.Width / 2),
                                  System.Windows.Forms.Screen.GetWorkingArea(this).Height - this.Height);
 
+            CLB_Methods.SetItemChecked(0, true);
+            #endregion
 
 #if !DEBUG
             #region Launching the authorization window
@@ -28,7 +29,7 @@ namespace WinForms {
 
             try {
 
-                  //AnalogParser analogParser = new("1.txt");
+
 
             } catch(Exception e) {
                 MessageBox.Show(e.ToString());
@@ -73,13 +74,27 @@ namespace WinForms {
             }
         }
 
+        private void B_LoadFile_Click(object sender, EventArgs e) {
+            using(OpenFileDialog openFileDialog = new OpenFileDialog()) {
+                openFileDialog.Filter = "(*.txt *.csv)|*.txt;*.csv";
+                if(openFileDialog.ShowDialog() == DialogResult.OK) {
+                    using(StreamReader reader = new StreamReader(openFileDialog.OpenFile())) {
+                        AnalogParser analogParser = new(openFileDialog.FileName);
+
+                        ItemForms.Item itemForms = new();
+                        itemForms.Drow(analogParser, double.Parse(TB_Delta.Text), Graph.Method.simpson);
+                    }
+                }
+            }
+        }
+
         private void AuthorizationFormClosing(object? sender, FormClosingEventArgs e) {
             if(!(sender as Authorization).logInSuccessful)
                 this.Close();
         }
 
         private void CLB_Methods_SelectedIndexChanged(object sender, EventArgs e) {
-            
+            MessageBox.Show(e.ToString());
         }
     }
 }

@@ -68,6 +68,7 @@
             this.B_LoadFile.TabIndex = 4;
             this.B_LoadFile.Text = "Load File";
             this.B_LoadFile.UseVisualStyleBackColor = true;
+            this.B_LoadFile.Click += new System.EventHandler(this.B_LoadFile_Click);
             // 
             // GB_MathPars
             // 
