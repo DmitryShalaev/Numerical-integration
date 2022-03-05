@@ -5,8 +5,11 @@
 		public int width;
 		public int height;
 
-		public SetSizeForm() {
+		public SetSizeForm(Size size) {
 			InitializeComponent();
+
+			TB_Height.Text = size.Height.ToString();
+			TB_Width.Text = size.Width.ToString();
 		}
 
 		private void B_OK_Click(object sender, EventArgs e) {

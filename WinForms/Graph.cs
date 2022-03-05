@@ -174,7 +174,7 @@ namespace Graphs {
 				if(saveFileDialog.ShowDialog() == DialogResult.OK) {
 					PictureBox pictureBox = new PictureBox();
 
-					SizeForm.SetSizeForm setSizeForm = new();
+					SizeForm.SetSizeForm setSizeForm = new(PB.Size);
 					setSizeForm.FormClosing += new FormClosingEventHandler(SetSizeFormClosing);
 					setSizeForm.ShowDialog();
 
@@ -191,7 +191,7 @@ namespace Graphs {
 
 		private void SetSizeFormClosing(object? sender, FormClosingEventArgs e) {
 			if((sender as SizeForm.SetSizeForm).SetSizeSuccessful) {
-				saveSize = new(Math.Max((sender as SizeForm.SetSizeForm).width,1), Math.Max((sender as SizeForm.SetSizeForm).height,1));
+				saveSize = new(Math.Max((sender as SizeForm.SetSizeForm).width, 1), Math.Max((sender as SizeForm.SetSizeForm).height, 1));
 			}
 		}
 	}
