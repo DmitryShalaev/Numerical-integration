@@ -10,9 +10,12 @@ namespace AuthorizationForm {
 		Dictionary<string, byte[]> users;
 
 		Regex regEx = new(@"^[0-9a-zA-Z-_]+");
+
+		private string AppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+
 		public Authorization() {
 			try {
-				using(StreamReader SR = new("users")) {
+				using(StreamReader SR = new(AppData + "\\users")) {
 					string jsonString = SR.ReadToEnd();
 					users = JsonSerializer.Deserialize<Dictionary<string, byte[]>>(jsonString) ?? new();
 				}
@@ -53,6 +56,7 @@ namespace AuthorizationForm {
 		}
 
 		private void B_SingUp_Click(object sender, EventArgs e) {
+
 			if(regEx.Match(TB_Login.Text).Success && regEx.Match(TB_Password.Text).Success) {
 				if(users.ContainsKey(TB_Login.Text)) {
 					TB_Password.Text = "";
@@ -64,11 +68,10 @@ namespace AuthorizationForm {
 					users.Add(TB_Login.Text, MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(TB_Password.Text)));
 					TB_Password.Text = "";
 
-					MessageBox.Show("Successful registration");
-
-					using(StreamWriter SW = new("users")) {
+					using(StreamWriter SW = new(AppData + "\\users"))
 						SW.WriteLine(JsonSerializer.Serialize(users));
-					}
+
+					MessageBox.Show("Successful registration");
 				}
 				return;
 			}
