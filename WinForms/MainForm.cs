@@ -21,7 +21,7 @@ namespace WinForms {
                                 (System.Windows.Forms.Screen.GetWorkingArea(this).Height / 2) + (this.Height / 2));
             #endregion
 
-            windowManager = new(this);
+            windowManager = new(this, CLB_Methods);
 
 #if !DEBUG
             #region Launching the authorization window

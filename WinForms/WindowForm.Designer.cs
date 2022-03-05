@@ -27,6 +27,7 @@
             this.PB = new System.Windows.Forms.PictureBox();
             this.CMS_WindowForm = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetZizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.L_Answer = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.PB)).BeginInit();
             this.CMS_WindowForm.SuspendLayout();
@@ -42,21 +43,30 @@
             this.PB.Size = new System.Drawing.Size(661, 551);
             this.PB.TabIndex = 1;
             this.PB.TabStop = false;
+            this.PB.DoubleClick += new System.EventHandler(this.PB_DoubleClick);
             // 
             // CMS_WindowForm
             // 
             this.CMS_WindowForm.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.CMS_WindowForm.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveToolStripMenuItem});
+            this.saveToolStripMenuItem,
+            this.resetZizeToolStripMenuItem});
             this.CMS_WindowForm.Name = "CMS_WindowForm";
-            this.CMS_WindowForm.Size = new System.Drawing.Size(211, 56);
+            this.CMS_WindowForm.Size = new System.Drawing.Size(130, 52);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(129, 24);
             this.saveToolStripMenuItem.Text = "Save As";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // resetZizeToolStripMenuItem
+            // 
+            this.resetZizeToolStripMenuItem.Name = "resetZizeToolStripMenuItem";
+            this.resetZizeToolStripMenuItem.Size = new System.Drawing.Size(129, 24);
+            this.resetZizeToolStripMenuItem.Text = "Reset";
+            this.resetZizeToolStripMenuItem.Click += new System.EventHandler(this.resetZizeToolStripMenuItem_Click);
             // 
             // L_Answer
             // 
@@ -94,5 +104,6 @@
         private Label L_Answer;
         private ContextMenuStrip CMS_WindowForm;
         private ToolStripMenuItem saveToolStripMenuItem;
+        private ToolStripMenuItem resetZizeToolStripMenuItem;
     }
 }
