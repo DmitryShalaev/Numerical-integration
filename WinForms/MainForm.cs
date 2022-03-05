@@ -34,24 +34,28 @@ namespace WinForms {
 
 		private void ParseFunction() {
 			try {
-				if(TB_A.Text != "" && TB_B.Text != "" && TB_MathFunc.Text != "" && double.Parse(TB_Delta.Text) > 0) {
+				if(!string.IsNullOrWhiteSpace(TB_A.Text) && !string.IsNullOrWhiteSpace(TB_B.Text) &&
+					!string.IsNullOrWhiteSpace(TB_MathFunc.Text) && double.Parse(TB_Delta.Text) > 0) {
 					MathParser mathParser = new();
 
-					mathParser.Parse(TB_A.Text);
+					mathParser.Parse(TB_A.Text.Replace(".",","));
 					a = mathParser.Evaluate();
 
-					mathParser.Parse(TB_B.Text);
+					mathParser.Parse(TB_B.Text.Replace(".", ","));
 					b = mathParser.Evaluate();
 
+					if(!(a < b))
+						throw new Exception("The lower limit must be less than the upper");
+					
 					delta = double.Parse(TB_Delta.Text);
 
-					mathParser.Parse(TB_MathFunc.Text);
+					mathParser.Parse(TB_MathFunc.Text.Replace(".", ","));
 
-					parserFunc = mathParser.Evaluate;
+					windowManager.Refresh(parserFunc = mathParser.Evaluate, a, b, delta);
 
-					windowManager.Refresh(parserFunc, a, b, double.Parse(TB_Delta.Text));
+					B_Update.Visible = false;
 				} else {
-					MessageBox.Show("The lower limit, upper limit, and math fields must be filled in " +
+					throw new Exception("The lower limit, upper limit, and math fields must be filled in " +
 									"and Delta must be greater than zero");
 				}
 			} catch(Exception e) {
@@ -82,7 +86,9 @@ namespace WinForms {
 
 						parserFunc = analogParser.Interpolate;
 
-						windowManager.Refresh(parserFunc, a, b, double.Parse(TB_Delta.Text));
+						windowManager.Refresh(parserFunc, a, b, delta);
+
+						B_Update.Visible = true;
 					}
 				}
 			}
@@ -105,6 +111,20 @@ namespace WinForms {
 				}
 			}
 			CLB_Methods.Enabled = true;
+		}
+
+		private void B_Update_Click(object sender, EventArgs e) {
+			if(parserFunc != null) {
+				delta = double.Parse(TB_Delta.Text);
+				windowManager.Refresh(parserFunc, a, b, delta);
+			}
+		}
+
+		private void toggleALLToolStripMenuItem_Click(object sender, EventArgs e) {
+			bool flag = sender.ToString() == "Disable ALL" ? false : true;
+			for(int i = 0; i < CLB_Methods.Items.Count; i++) {
+				CLB_Methods.SetItemChecked(i, flag);
+			}
 		}
 	}
 }

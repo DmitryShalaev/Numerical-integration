@@ -181,8 +181,8 @@ namespace Graphs {
 					if(saveSize != null) {
 						pictureBox.Size = (Size)saveSize;
 
-						Graph PBGraph =new(pictureBox, func, a, b, delta);
-						PBGraph.Visualize(lastMethod);
+						Graph PBGraph = new(pictureBox, func, a, b, delta);
+						PBGraph.Visualize(lastMethod, answer);
 						PBGraph.bmp.Save(saveFileDialog.FileName);
 					}
 				}
