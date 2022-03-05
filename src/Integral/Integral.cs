@@ -8,11 +8,6 @@ namespace Integral {
 			this.ans = Math.Abs((a + b) / 2);
 		}
 
-		public Answer(double n, double a) {
-			this.number_of_splits = n;
-			this.ans = Math.Abs(a);
-		}
-
 		public double number_of_splits { get; set; }
 		public double ans { get; set; }
 
