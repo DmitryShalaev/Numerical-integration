@@ -38,7 +38,7 @@ namespace WinForms {
 					!string.IsNullOrWhiteSpace(TB_MathFunc.Text) && double.Parse(TB_Delta.Text) > 0) {
 					MathParser mathParser = new();
 
-					mathParser.Parse(TB_A.Text.Replace(".",","));
+					mathParser.Parse(TB_A.Text.Replace(".", ","));
 					a = mathParser.Evaluate();
 
 					mathParser.Parse(TB_B.Text.Replace(".", ","));
@@ -46,12 +46,13 @@ namespace WinForms {
 
 					if(!(a < b))
 						throw new Exception("The lower limit must be less than the upper");
-					
+
 					delta = double.Parse(TB_Delta.Text);
 
 					mathParser.Parse(TB_MathFunc.Text.Replace(".", ","));
+					parserFunc = mathParser.Evaluate;
 
-					windowManager.Refresh(parserFunc = mathParser.Evaluate, a, b, delta);
+					windowManager.Refresh(parserFunc, a, b, delta);
 
 					B_Update.Visible = false;
 				} else {
@@ -114,17 +115,17 @@ namespace WinForms {
 		}
 
 		private void B_Update_Click(object sender, EventArgs e) {
-			if(parserFunc != null) {
-				delta = double.Parse(TB_Delta.Text);
-				windowManager.Refresh(parserFunc, a, b, delta);
-			}
+			if(parserFunc != null)
+				windowManager.Refresh(parserFunc, a, b, delta = double.Parse(TB_Delta.Text));
 		}
 
 		private void toggleALLToolStripMenuItem_Click(object sender, EventArgs e) {
-			bool flag = sender.ToString() == "Disable ALL" ? false : true;
-			for(int i = 0; i < CLB_Methods.Items.Count; i++) {
-				CLB_Methods.SetItemChecked(i, flag);
-			}
+			for(int i = 0; i < CLB_Methods.Items.Count; i++)
+				CLB_Methods.SetItemChecked(i, sender.ToString() == "Enable ALL" ? true : false);
+		}
+
+		private void resetALLToolStripMenuItem_Click(object sender, EventArgs e) {
+			windowManager.ResetAll();
 		}
 	}
 }

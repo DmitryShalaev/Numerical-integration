@@ -17,7 +17,7 @@ namespace Manager {
 
 		public void Add(Graph.Method method) {
 			WindowForm.Window window = new(method);
-			window.FormClosing += new FormClosingEventHandler(windowClosing);
+			window.FormClosing += new FormClosingEventHandler(WindowClosing);
 			window.SetSize(new Size(size, size));
 			Windows.Add(method, window);
 		}
@@ -35,11 +35,13 @@ namespace Manager {
 
 		public void Refresh(Graph.ParserFunc func, double a, double b, double delta, Graph.Method? method = null) {
 			if(Windows.Count == 0) {
-				MessageBox.Show("You must select at least one numerical integration method");
+				throw new Exception("You must select at least one numerical integration method");
 			}
 			if(method == null) {
 				foreach(var window in Windows) {
-					SetLocation(window.Key);
+					if(!window.Value.IsShown)
+						SetLocation(window.Key);
+
 					window.Value.Show(func, a, b, delta);
 				}
 			} else {
@@ -69,7 +71,12 @@ namespace Manager {
 			}
 		}
 
-		private void windowClosing(object? sender, FormClosingEventArgs e) {
+		public void ResetAll() {
+			foreach(var window in Windows)
+				window.Value.Reset();
+		}
+
+		private void WindowClosing(object? sender, FormClosingEventArgs e) {
 			Windows.Remove((sender as WindowForm.Window).method);
 			checkedListBox.SetItemChecked((int)(sender as WindowForm.Window).method, false);
 		}

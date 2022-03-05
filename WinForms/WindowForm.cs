@@ -6,14 +6,20 @@ namespace WindowForm {
 		public Graph.Method method;
 		private Size initialSize;
 		private Point initiallocation;
+
+		public bool IsShown { get; private set; }
+
 		public Window(Graph.Method method) {
 			InitializeComponent();
 
 			this.method = method;
+			IsShown = false;
 			this.Text = method.ToString().Replace('_', ' ');
 		}
 
 		public void Show(Graph.ParserFunc func, double a, double b, double delta) {
+			IsShown = true;
+
 			graph = new(PB, func, a, b, delta);
 			graph.Visualize(method);
 
@@ -38,7 +44,11 @@ namespace WindowForm {
 			graph.SaveGraph();
 		}
 
-		private void resetZizeToolStripMenuItem_Click(object sender, EventArgs e) {
+		private void resetSizeToolStripMenuItem_Click(object sender, EventArgs e) {
+			Reset();
+		}
+
+		public void Reset() {
 			this.WindowState = FormWindowState.Normal;
 			this.Size = initialSize;
 			this.Location = initiallocation;
