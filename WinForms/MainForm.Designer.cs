@@ -92,7 +92,7 @@
             this.TB_A.Name = "TB_A";
             this.TB_A.Size = new System.Drawing.Size(65, 27);
             this.TB_A.TabIndex = 1;
-            this.TB_A.Text = "0";
+            this.TB_A.Text = "-1";
             this.TB_A.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // TB_B
@@ -102,7 +102,7 @@
             this.TB_B.Name = "TB_B";
             this.TB_B.Size = new System.Drawing.Size(65, 27);
             this.TB_B.TabIndex = 2;
-            this.TB_B.Text = "1";
+            this.TB_B.Text = "10";
             this.TB_B.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // pictureBox1
@@ -129,7 +129,7 @@
             this.CLB_Methods.Name = "CLB_Methods";
             this.CLB_Methods.Size = new System.Drawing.Size(173, 114);
             this.CLB_Methods.TabIndex = 6;
-            this.CLB_Methods.SelectedIndexChanged += new System.EventHandler(this.CLB_Methods_SelectedIndexChanged);
+            this.CLB_Methods.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.CLB_Methods_ItemCheck);
             // 
             // GB_IntegrationOptions
             // 

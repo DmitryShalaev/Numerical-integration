@@ -13,16 +13,18 @@ namespace Graphs {
         public delegate double ParserFunc(double x);
         public readonly PictureBox PB;
         private readonly ParserFunc func;
-        private Integral.Answer? answer;
+        public Integral.Answer? answer;
         private Method? lastMethod;
         private readonly double a;
         private readonly double b;
         private readonly double delta;
-        private Bitmap bmp;
+        public Bitmap bmp;
         private Graphics gfx;
 
         private double[] axisLimits;
         private Point origin;
+
+        private Size? saveSize;
 
         public Graph(PictureBox pictureBox, ParserFunc func, double a, double b, double delta, double? bottomBorder = null, double? upperBorder = null) {
             PB = pictureBox;
@@ -52,7 +54,7 @@ namespace Graphs {
                 axisLimits = new double[] { a, b, bottomBorder ?? 0, upperBorder ?? 0 };
             }
 
-            PlotGrapg();
+            PlotGraph();
         }
 
         public Graph(PictureBox pictureBox, AnalogParser parser, double delta) :
@@ -108,10 +110,6 @@ namespace Graphs {
             }
             Rectangle[] rec = rectangles.ToArray();
             gfx.DrawRectangles(Pens.Red, rectangles.ToArray());
-
-#if DEBUG
-            gfx.DrawString($"{answer.number_of_splits} : {frac}\t{answer.ans}", new Font("Arial", 10), new SolidBrush(Color.Black), bmp.Width / 2 - 100, 20);
-#endif
         }
 
         private void Trapezoid(Integral.Answer answer) {
@@ -127,10 +125,6 @@ namespace Graphs {
                 trapezoids.Add(GetPixelFromLocation((a + dx * i) + dx, 0));
                 gfx.DrawPolygon(Pens.Red, trapezoids.ToArray());
             }
-
-#if DEBUG
-            gfx.DrawString($"{answer.number_of_splits}\t{answer.ans}", new Font("Arial", 10), new SolidBrush(Color.Black), bmp.Width / 2 - 100, 20);
-#endif
         }
 
         private void Simpson(Integral.Answer answer) {
@@ -145,13 +139,9 @@ namespace Graphs {
             gfx.DrawLine(Pens.Red, GetPixelFromLocation(a, 0), GetPixelFromLocation(b, 0));
 
             gfx.DrawCurve(Pens.Red, parabolas.ToArray());
-
-#if DEBUG
-            gfx.DrawString($"{answer.number_of_splits}\t{answer.ans}", new Font("Arial", 10), new SolidBrush(Color.Black), bmp.Width / 2 - 100, 20);
-#endif
         }
 
-        private void PlotGrapg() {
+        private void PlotGraph() {
             origin = GetPixelFromLocation(0, 0);
             gfx.DrawLine(Pens.LightGray, 0, origin.Y, bmp.Width, origin.Y);
             gfx.DrawLine(Pens.LightGray, origin.X, 0, origin.X, bmp.Height);
@@ -161,23 +151,48 @@ namespace Graphs {
                 points.Add(GetPixelFromLocation(i, func(i)));
 
             gfx.DrawLines(Pens.Blue, points.ToArray());
-
-#if DEBUG
-            gfx.DrawString($"{Math.Round(axisLimits[0])}; {Math.Round(axisLimits[1])}; {Math.Round(axisLimits[2])}; {Math.Round(axisLimits[3])} ", new Font("Arial", 10), new SolidBrush(Color.Black), bmp.Width / 2 - 100, 0);
-#endif
         }
 
         public void ReDraw() {
             if(answer != null && lastMethod != null) {
 
-                bmp = new Bitmap(PB.Width, PB.Height);
+                bmp = new Bitmap(Math.Max(PB.Width, 1), Math.Max(PB.Height, 1));
                 gfx = Graphics.FromImage(bmp);
                 gfx.Clear(Color.White);
                 gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
                 PB.Image = bmp;
 
-                PlotGrapg();
+                PlotGraph();
                 Visualize(lastMethod, answer);
+            }
+        }
+
+        public void SaveGraph() {
+            using(SaveFileDialog saveFileDialog = new SaveFileDialog()) {
+                saveFileDialog.Filter = "PNG|*.png|JPEG|*.jpg|BMP|*.bmp";
+                saveFileDialog.FileName = lastMethod.ToString() ?? "";
+                if(saveFileDialog.ShowDialog() == DialogResult.OK) {
+                    PictureBox pictureBox = new PictureBox();
+
+                    SizeForm.SetSizeForm setSizeForm = new();
+                    setSizeForm.FormClosing += new FormClosingEventHandler(SetSizeFormClosing);
+                    setSizeForm.ShowDialog();
+
+                    if(saveSize != null) {
+                        pictureBox.Size = (Size)saveSize;
+
+                        Graph PBGraph =new(pictureBox, func, a, b, delta);
+                        PBGraph.Visualize(lastMethod);
+
+                        PBGraph.bmp.Save(saveFileDialog.FileName);
+                    }
+                }
+            }
+        }
+
+        private void SetSizeFormClosing(object? sender, FormClosingEventArgs e) {
+            if((sender as SizeForm.SetSizeForm).SetSizeSuccessful) {
+                saveSize = new((sender as SizeForm.SetSizeForm).width, (sender as SizeForm.SetSizeForm).height);
             }
         }
     }
