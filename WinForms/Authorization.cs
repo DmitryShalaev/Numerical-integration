@@ -15,11 +15,10 @@ namespace AuthorizationForm {
 
 		public Authorization() {
 			try {
-				using(StreamReader SR = new(AppData + "\\users")) {
-					string jsonString = SR.ReadToEnd();
-					users = JsonSerializer.Deserialize<Dictionary<string, byte[]>>(jsonString) ?? new();
+				using(StreamReader SR = new(AppData + "\\users.us")) {
+					users = JsonSerializer.Deserialize<Dictionary<string, byte[]>>(SR.ReadToEnd()) ?? new();
 				}
-			} catch(FileNotFoundException) {
+			} catch(Exception) {
 				users = new();
 			}
 
@@ -68,7 +67,7 @@ namespace AuthorizationForm {
 					users.Add(TB_Login.Text, MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(TB_Password.Text)));
 					TB_Password.Text = "";
 
-					using(StreamWriter SW = new(AppData + "\\users"))
+					using(StreamWriter SW = new(AppData + "\\users.us"))
 						SW.WriteLine(JsonSerializer.Serialize(users));
 
 					MessageBox.Show("Successful registration");
