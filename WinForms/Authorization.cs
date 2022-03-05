@@ -11,11 +11,11 @@ namespace AuthorizationForm {
 
 		Regex regEx = new(@"^[0-9a-zA-Z-_]+");
 
-		private string AppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+		private string Personal = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 
 		public Authorization() {
 			try {
-				using(StreamReader SR = new(AppData + "\\users.us")) {
+				using(StreamReader SR = new(Personal + "\\users.us")) {
 					users = JsonSerializer.Deserialize<Dictionary<string, byte[]>>(SR.ReadToEnd()) ?? new();
 				}
 			} catch(Exception) {
@@ -67,7 +67,7 @@ namespace AuthorizationForm {
 					users.Add(TB_Login.Text, MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(TB_Password.Text)));
 					TB_Password.Text = "";
 
-					using(StreamWriter SW = new(AppData + "\\users.us"))
+					using(StreamWriter SW = new(Personal + "\\users.us"))
 						SW.WriteLine(JsonSerializer.Serialize(users));
 
 					MessageBox.Show("Successful registration");
