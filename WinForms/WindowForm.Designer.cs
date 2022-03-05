@@ -35,7 +35,6 @@
             // 
             // PB
             // 
-            this.PB.ContextMenuStrip = this.CMS_WindowForm;
             this.PB.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PB.Location = new System.Drawing.Point(0, 0);
             this.PB.Margin = new System.Windows.Forms.Padding(0);
@@ -85,6 +84,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(661, 551);
+            this.ContextMenuStrip = this.CMS_WindowForm;
             this.Controls.Add(this.L_Answer);
             this.Controls.Add(this.PB);
             this.Name = "Window";
