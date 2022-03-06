@@ -64,8 +64,8 @@ namespace Graphs {
 		private Point GetPixelFromLocation(double x, double y) {
 			double pxPerUnitX = Math.Max(bmp.Width  / (axisLimits[1] - axisLimits[0]),0);
 			double pxPerUnitY = Math.Max(bmp.Height / (axisLimits[3] - axisLimits[2]),0);
-			int xPx = (int)((x - axisLimits[0]) * pxPerUnitX);
-			int yPx = bmp.Height - 1 - (int)((y - axisLimits[2]) * pxPerUnitY);
+			int xPx = (int)Math.Round((x - axisLimits[0]) * pxPerUnitX);
+			int yPx = bmp.Height - 1 - (int)Math.Round(((y - axisLimits[2]) * pxPerUnitY));
 			return new Point(xPx, yPx);
 		}
 

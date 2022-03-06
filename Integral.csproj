@@ -7,10 +7,13 @@
 
   <ItemGroup>
     <Compile Remove="Console\**" />
+    <Compile Remove="Installer\**" />
     <Compile Remove="WinForms\**" />
     <EmbeddedResource Remove="Console\**" />
+    <EmbeddedResource Remove="Installer\**" />
     <EmbeddedResource Remove="WinForms\**" />
     <None Remove="Console\**" />
+    <None Remove="Installer\**" />
     <None Remove="WinForms\**" />
   </ItemGroup>
 

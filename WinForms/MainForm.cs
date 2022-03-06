@@ -7,11 +7,11 @@ namespace WinForms {
 	public partial class MainForm : System.Windows.Forms.Form {
 		WindowManager windowManager;
 
+		private double a;
+		private double b;
+		private double delta { get { return double.Parse(TB_Delta.Text.Replace('.', ',')); } }
 
-		double a;
-		double b;
-		double delta;
-		Graph.ParserFunc? parserFunc;
+		private Graph.ParserFunc? parserFunc;
 
 		public MainForm() {
 			#region Main window customization
@@ -35,7 +35,7 @@ namespace WinForms {
 		private void ParseFunction() {
 			try {
 				if(!string.IsNullOrWhiteSpace(TB_A.Text) && !string.IsNullOrWhiteSpace(TB_B.Text) &&
-					!string.IsNullOrWhiteSpace(TB_MathFunc.Text) && double.Parse(TB_Delta.Text) > 0) {
+					!string.IsNullOrWhiteSpace(TB_MathFunc.Text) && delta > 0) {
 					MathParser mathParser = new();
 
 					mathParser.Parse(TB_A.Text.Replace(".", ","));
@@ -46,8 +46,6 @@ namespace WinForms {
 
 					if(!(a < b))
 						throw new Exception("The lower limit must be less than the upper");
-
-					delta = double.Parse(TB_Delta.Text);
 
 					mathParser.Parse(TB_MathFunc.Text.Replace(".", ","));
 					parserFunc = mathParser.Evaluate;
@@ -83,7 +81,6 @@ namespace WinForms {
 
 						a = analogParser.LeftBorder;
 						b = analogParser.RightBorder;
-						delta = double.Parse(TB_Delta.Text);
 
 						parserFunc = analogParser.Interpolate;
 
@@ -116,7 +113,7 @@ namespace WinForms {
 
 		private void B_Update_Click(object sender, EventArgs e) {
 			if(parserFunc != null)
-				windowManager.Refresh(parserFunc, a, b, delta = double.Parse(TB_Delta.Text));
+				windowManager.Refresh(parserFunc, a, b, delta);
 		}
 
 		private void toggleALLToolStripMenuItem_Click(object sender, EventArgs e) {
