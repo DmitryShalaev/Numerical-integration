@@ -1,5 +1,4 @@
-﻿using Parser.Analog;
-using System;
+﻿using System;
 
 namespace Integral {
 	public class Answer {
@@ -51,10 +50,6 @@ namespace Integral {
 			return run(integrate, delta);
 		}
 
-		static public Answer left_rectangle(AnalogParser parser, double delta) {
-			return left_rectangle(parser.Interpolate, parser.LeftBorder, parser.RightBorder, delta);
-		}
-
 		static public Answer right_rectangle(ParserFunc func, double a, double b, double delta) {
 			double integrate(double n) {
 				return rectangle(func, a, b, n, 1.0);
@@ -62,19 +57,11 @@ namespace Integral {
 			return run(integrate, delta);
 		}
 
-		static public Answer right_rectangle(AnalogParser parser, double delta) {
-			return right_rectangle(parser.Interpolate, parser.LeftBorder, parser.RightBorder, delta);
-		}
-
 		static public Answer midpoint_rectangle(ParserFunc func, double a, double b, double delta) {
 			double integrate(double n) {
 				return rectangle(func, a, b, n, 0.5);
 			}
 			return run(integrate, delta);
-		}
-
-		static public Answer midpoint_rectangle(AnalogParser parser, double delta) {
-			return midpoint_rectangle(parser.Interpolate, parser.LeftBorder, parser.RightBorder, delta);
 		}
 
 		static public Answer trapezoid(ParserFunc func, double a, double b, double delta) {
@@ -90,10 +77,6 @@ namespace Integral {
 			return run(integrate, delta);
 		}
 
-		static public Answer trapezoid(AnalogParser parser, double delta) {
-			return trapezoid(parser.Interpolate, parser.LeftBorder, parser.RightBorder, delta);
-		}
-
 		static public Answer simpson(ParserFunc func, double a, double b, double delta) {
 			double integrate(double n) {
 				double dx = (b - a) / n;
@@ -104,10 +87,6 @@ namespace Integral {
 				return (dx / 6) * sum;
 			}
 			return run(integrate, delta);
-		}
-
-		static public Answer simpson(AnalogParser parser, double delta) {
-			return simpson(parser.Interpolate, parser.LeftBorder, parser.RightBorder, delta);
 		}
 	}
 }

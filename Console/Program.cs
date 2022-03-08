@@ -48,11 +48,11 @@ namespace ConsoleIntegral {
 								double delta = Convert.ToDouble(Console.ReadLine().Replace('.', ','));
 
 								Task[] tasks = new Task[5];
-								tasks[0] = new Task(() => Console.WriteLine("Left rectangle rule:\t\t" + Method.left_rectangle(analogParser, delta)));
-								tasks[1] = new Task(() => Console.WriteLine("Right rectangle rule:\t\t" + Method.right_rectangle(analogParser, delta)));
-								tasks[2] = new Task(() => Console.WriteLine("Midpoint rectangle rule:\t" + Method.midpoint_rectangle(analogParser, delta)));
-								tasks[3] = new Task(() => Console.WriteLine("Trapezoid rule:\t\t\t" + Method.trapezoid(analogParser, delta)));
-								tasks[4] = new Task(() => Console.WriteLine("Simpson rule:\t\t\t" + Method.simpson(analogParser, delta)));
+								tasks[0] = new Task(() => Console.WriteLine("Left rectangle rule:\t\t" + Method.left_rectangle(analogParser.Interpolate, analogParser.LeftBorder, analogParser.RightBorder, delta)));
+								tasks[1] = new Task(() => Console.WriteLine("Right rectangle rule:\t\t" + Method.right_rectangle(analogParser.Interpolate, analogParser.LeftBorder, analogParser.RightBorder, delta)));
+								tasks[2] = new Task(() => Console.WriteLine("Midpoint rectangle rule:\t" + Method.midpoint_rectangle(analogParser.Interpolate, analogParser.LeftBorder, analogParser.RightBorder, delta)));
+								tasks[3] = new Task(() => Console.WriteLine("Trapezoid rule:\t\t\t" + Method.trapezoid(analogParser.Interpolate, analogParser.LeftBorder, analogParser.RightBorder, delta)));
+								tasks[4] = new Task(() => Console.WriteLine("Simpson rule:\t\t\t" + Method.simpson(analogParser.Interpolate, analogParser.LeftBorder, analogParser.RightBorder, delta)));
 								foreach(var item in tasks) {
 									item.Start();
 								}
