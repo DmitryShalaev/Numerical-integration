@@ -26,7 +26,7 @@ namespace Integral {
 			while(Math.Abs(d) > delta)
 				d = (func(n++) - func(n));
 
-			double a = Math.Abs(func(n));
+			double a = func(n);
 
 			return new(n, (a + d) / 2);
 		}
