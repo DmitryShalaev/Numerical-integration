@@ -54,6 +54,7 @@ namespace Graphs {
 				axisLimits = new double[] { a, b, bottomBorder ?? 0, upperBorder ?? 0 };
 			}
 
+
 			PlotGraph();
 		}
 
@@ -64,8 +65,8 @@ namespace Graphs {
 		private Point GetPixelFromLocation(double x, double y) {
 			double pxPerUnitX = Math.Max(bmp.Width  / (axisLimits[1] - axisLimits[0]),0);
 			double pxPerUnitY = Math.Max(bmp.Height / (axisLimits[3] - axisLimits[2]),0);
-			int xPx = (int)Math.Round((x - axisLimits[0]) * pxPerUnitX);
-			int yPx = bmp.Height - 1 - (int)Math.Round(((y - axisLimits[2]) * pxPerUnitY));
+			int xPx = (int)((x - axisLimits[0]) * pxPerUnitX);
+			int yPx = bmp.Height  - (int)((y - axisLimits[2]) * pxPerUnitY);
 			return new Point(xPx, yPx);
 		}
 
@@ -170,7 +171,9 @@ namespace Graphs {
 		public void SaveGraph() {
 			using(SaveFileDialog saveFileDialog = new SaveFileDialog()) {
 				saveFileDialog.Filter = "PNG|*.png|JPEG|*.jpg|BMP|*.bmp";
-				saveFileDialog.FileName = lastMethod.ToString() ?? "";
+				saveFileDialog.FileName = lastMethod.ToString() ?? " ";
+				saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
 				if(saveFileDialog.ShowDialog() == DialogResult.OK) {
 					PictureBox pictureBox = new PictureBox();
 

@@ -155,30 +155,30 @@
 			// 
 			this.CMS_MainForm.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.CMS_MainForm.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toggleALLToolStripMenuItem,
             this.enableALLToolStripMenuItem,
+            this.toggleALLToolStripMenuItem,
             this.resetALLToolStripMenuItem});
 			this.CMS_MainForm.Name = "CMS_MainForm";
-			this.CMS_MainForm.Size = new System.Drawing.Size(157, 76);
+			this.CMS_MainForm.Size = new System.Drawing.Size(211, 104);
 			// 
 			// toggleALLToolStripMenuItem
 			// 
 			this.toggleALLToolStripMenuItem.Name = "toggleALLToolStripMenuItem";
-			this.toggleALLToolStripMenuItem.Size = new System.Drawing.Size(156, 24);
+			this.toggleALLToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
 			this.toggleALLToolStripMenuItem.Text = "Disable ALL";
 			this.toggleALLToolStripMenuItem.Click += new System.EventHandler(this.toggleALLToolStripMenuItem_Click);
 			// 
 			// enableALLToolStripMenuItem
 			// 
 			this.enableALLToolStripMenuItem.Name = "enableALLToolStripMenuItem";
-			this.enableALLToolStripMenuItem.Size = new System.Drawing.Size(156, 24);
+			this.enableALLToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
 			this.enableALLToolStripMenuItem.Text = "Enable ALL";
 			this.enableALLToolStripMenuItem.Click += new System.EventHandler(this.toggleALLToolStripMenuItem_Click);
 			// 
 			// resetALLToolStripMenuItem
 			// 
 			this.resetALLToolStripMenuItem.Name = "resetALLToolStripMenuItem";
-			this.resetALLToolStripMenuItem.Size = new System.Drawing.Size(156, 24);
+			this.resetALLToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
 			this.resetALLToolStripMenuItem.Text = "Reset ALL";
 			this.resetALLToolStripMenuItem.Click += new System.EventHandler(this.resetALLToolStripMenuItem_Click);
 			// 

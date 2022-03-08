@@ -72,6 +72,7 @@
 			this.L_Answer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.L_Answer.AutoSize = true;
+			this.L_Answer.BackColor = System.Drawing.SystemColors.Control;
 			this.L_Answer.Location = new System.Drawing.Point(0, 531);
 			this.L_Answer.Margin = new System.Windows.Forms.Padding(0);
 			this.L_Answer.Name = "L_Answer";

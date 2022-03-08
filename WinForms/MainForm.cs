@@ -14,15 +14,15 @@ namespace WinForms {
 		private Graph.ParserFunc? parserFunc;
 
 		public MainForm() {
-			#region Main window customization
 			InitializeComponent();
 
 			this.Location = new((System.Windows.Forms.Screen.GetWorkingArea(this).Width / 2) - (this.Width / 2),
 								(System.Windows.Forms.Screen.GetWorkingArea(this).Height / 2) + (this.Height / 2));
-			#endregion
 
 			windowManager = new(this, CLB_Methods);
 
+			toggleALLToolStripMenuItem_Click("Enable ALL", EventArgs.Empty);
+			
 #if !DEBUG
 			#region Launching the authorization window
 			AuthorizationForm.Authorization authForm = new();
@@ -73,22 +73,26 @@ namespace WinForms {
 		}
 
 		private void B_LoadFile_Click(object sender, EventArgs e) {
-			using(OpenFileDialog openFileDialog = new OpenFileDialog()) {
-				openFileDialog.Filter = "(*.txt *.csv)|*.txt;*.csv";
-				if(openFileDialog.ShowDialog() == DialogResult.OK) {
-					using(StreamReader reader = new StreamReader(openFileDialog.OpenFile())) {
-						AnalogParser analogParser = new(openFileDialog.FileName);
+			try {
+				using(OpenFileDialog openFileDialog = new OpenFileDialog()) {
+					openFileDialog.Filter = "(*.txt *.csv)|*.txt;*.csv";
+					if(openFileDialog.ShowDialog() == DialogResult.OK) {
+						using(StreamReader reader = new StreamReader(openFileDialog.OpenFile())) {
+							AnalogParser analogParser = new(openFileDialog.FileName);
 
-						a = analogParser.LeftBorder;
-						b = analogParser.RightBorder;
+							a = analogParser.LeftBorder;
+							b = analogParser.RightBorder;
 
-						parserFunc = analogParser.Interpolate;
+							parserFunc = analogParser.Interpolate;
 
-						windowManager.Refresh(parserFunc, a, b, delta);
+							windowManager.Refresh(parserFunc, a, b, delta);
 
-						B_Update.Visible = true;
+							B_Update.Visible = true;
+						}
 					}
 				}
+			} catch(Exception ex) {
+				MessageBox.Show(ex.Message.ToString());
 			}
 		}
 
@@ -98,8 +102,6 @@ namespace WinForms {
 		}
 
 		private void CLB_Methods_ItemCheck(object sender, ItemCheckEventArgs e) {
-			CLB_Methods.Enabled = false;
-
 			if(e.NewValue == CheckState.Unchecked) {
 				windowManager.Remove((Graph.Method)e.Index);
 			} else {
@@ -108,7 +110,6 @@ namespace WinForms {
 					windowManager.Refresh(parserFunc, a, b, delta, (Graph.Method)e.Index);
 				}
 			}
-			CLB_Methods.Enabled = true;
 		}
 
 		private void B_Update_Click(object sender, EventArgs e) {

@@ -34,9 +34,9 @@ namespace Manager {
 		}
 
 		public void Refresh(Graph.ParserFunc func, double a, double b, double delta, Graph.Method? method = null) {
-			if(Windows.Count == 0) {
-				throw new Exception("You must select at least one numerical integration method");
-			}
+			if(Windows.Count == 0)
+				MessageBox.Show("In order to see the result of numerical integration,\nyou must select at least one method");
+			
 			if(method == null) {
 				foreach(var window in Windows) {
 					if(!window.Value.IsShown)

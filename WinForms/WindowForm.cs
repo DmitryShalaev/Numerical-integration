@@ -24,7 +24,7 @@ namespace WindowForm {
 			graph.Visualize(method);
 
 			L_Answer.Text = "Answer: " + graph.answer.ans + "; Splits: " + graph.answer.number_of_splits;
-
+			this.MinimumSize = new(L_Answer.Width + 16, 0);
 			this.Show();
 		}
 
