@@ -13,13 +13,16 @@ namespace Parser {
 			public float BottomBorder { get; private set; }
 			public float UpperBorder { get; private set; }
 
+			double prevX = double.MaxValue;
+			int lastIndex = 0;
+
 			public AnalogParser(string src) {
 				list = new List<PointF>();
 
 				using(StreamReader SR = new(src)) {
 					string[] str = SR.ReadToEnd().Replace('.', ',').Split();
 					foreach(var item in str) {
-						if(item != "") {
+						if(!string.IsNullOrWhiteSpace(item)) {
 							string[] parts = item.Split(';');
 							list.Add(new(float.Parse(parts[0]), float.Parse(parts[1])));
 
@@ -39,9 +42,16 @@ namespace Parser {
 			}
 
 			public double Interpolate(double x) {
-				for(int i = 0; i < Count - 1; i++) {
-					if(list[i + 1].X >= x)
+				if(x < prevX)
+					lastIndex = 0;
+
+				prevX = x;
+
+				for(int i = lastIndex; i < Count - 1; i++) {
+					if(list[i + 1].X >= x) {
+						lastIndex = i;
 						return (list[i].Y + ((x - list[i].X) / (list[i + 1].X - list[i].X)) * ((list[i + 1].Y - list[i].Y) / 1));
+					}
 				}
 				return 0;
 			}
