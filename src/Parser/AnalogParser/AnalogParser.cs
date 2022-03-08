@@ -7,7 +7,6 @@ namespace Parser {
 		public class AnalogParser {
 			private List<PointF> list;
 
-			public int Count { get { return list.Count; } }
 			public float LeftBorder { get { return list[0].X; } }
 			public float RightBorder { get { return list[^1].X; } }
 			public float BottomBorder { get; private set; }
@@ -35,19 +34,13 @@ namespace Parser {
 				}
 			}
 
-			public PointF this[int index] {
-				get {
-					return list[index];
-				}
-			}
-
 			public double Interpolate(double x) {
 				if(x < prevX)
 					lastIndex = 0;
 
 				prevX = x;
 
-				for(int i = lastIndex; i < Count - 1; i++) {
+				for(int i = lastIndex; i < list.Count - 1; i++) {
 					if(list[i + 1].X >= x) {
 						lastIndex = i;
 						return (list[i].Y + ((x - list[i].X) / (list[i + 1].X - list[i].X)) * ((list[i + 1].Y - list[i].Y) / 1));
