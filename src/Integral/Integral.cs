@@ -3,9 +3,9 @@ using System;
 
 namespace Integral {
 	public class Answer {
-		public Answer(double n, double a, double b) {
+		public Answer(double n, double ans) {
 			this.number_of_splits = n;
-			this.ans = Math.Abs((a + b) / 2);
+			this.ans = ans;
 		}
 
 		public double number_of_splits { get; set; }
@@ -28,7 +28,7 @@ namespace Integral {
 
 			double a = Math.Abs(func(n));
 
-			return new(n, a, a + d);
+			return new(n, (a + d) / 2);
 		}
 
 		static private double rectangle(ParserFunc func, double a, double b, double n, double frac) {
