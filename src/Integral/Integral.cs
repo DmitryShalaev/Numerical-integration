@@ -3,14 +3,14 @@
 namespace Integral {
 	public class Answer {
 		public Answer(double n, double ans) {
-			this.number_of_splits = n;
+			this.splits = n;
 			this.ans = ans;
 		}
 
-		public double number_of_splits { get; set; }
+		public double splits { get; set; }
 		public double ans { get; set; }
 
-		public override string ToString() => $"{number_of_splits}\t{ans}";
+		public override string ToString() => $"{splits}\t{ans}";
 	}
 
 	public class Method {
