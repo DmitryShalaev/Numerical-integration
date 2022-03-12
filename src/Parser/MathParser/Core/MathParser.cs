@@ -10,8 +10,6 @@ namespace Parser {
 
 			public char DecimalSeparator = ',';
 
-			public MathParser() { }
-
 			public void Parse(string Expression) { RPNExpression = ConvertToRPN(FormatString(Expression)); }
 
 			public double Evaluate(double x = 0) {
