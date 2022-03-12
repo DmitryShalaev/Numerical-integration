@@ -1,6 +1,4 @@
-﻿using Parser.Analog;
-
-namespace Graphs {
+﻿namespace Graphs {
 	public class Graph {
 		public enum Method {
 			left_rectangle,
@@ -17,6 +15,8 @@ namespace Graphs {
 		private Method? lastMethod;
 		private readonly double a;
 		private readonly double b;
+		private readonly double upperBorder;
+		private readonly double bottomBorder;
 		private readonly double delta;
 		public Bitmap bmp;
 		private Graphics gfx;
@@ -26,12 +26,14 @@ namespace Graphs {
 
 		private Size? saveSize;
 
-		public Graph(PictureBox pictureBox, ParserFunc func, double a, double b, double delta, double? bottomBorder = null, double? upperBorder = null) {
+		public Graph(PictureBox pictureBox, ParserFunc func, double a, double b, double upperBorder, double bottomBorder, double delta) {
 			PB = pictureBox;
 
 			this.func = func;
 			this.a = a;
 			this.b = b;
+			this.upperBorder = upperBorder;
+			this.bottomBorder = bottomBorder;
 			this.delta = delta;
 
 			bmp = new Bitmap(PB.Width, PB.Height);
@@ -40,20 +42,7 @@ namespace Graphs {
 			gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 			PB.Image = bmp;
 
-			if(bottomBorder == null || upperBorder == null) {
-				double min = double.MaxValue, max = double.MinValue;
-				for(double i = a; i < b; i += ((b - a) / bmp.Width)) {
-					double tmp = func(i);
-					if(min >= tmp)
-						min = tmp;
-					else if(max <= tmp)
-						max = tmp;
-				}
-				axisLimits = new double[] { a, b, min, max };
-			} else {
-				axisLimits = new double[] { a, b, bottomBorder ?? 0, upperBorder ?? 0 };
-			}
-
+			axisLimits = new double[] { a, b, bottomBorder, upperBorder };
 
 			PlotGraph();
 		}
@@ -62,7 +51,7 @@ namespace Graphs {
 			double pxPerUnitX = Math.Max(bmp.Width  / (axisLimits[1] - axisLimits[0]),0);
 			double pxPerUnitY = Math.Max(bmp.Height / (axisLimits[3] - axisLimits[2]),0);
 			int xPx = (int)((x - axisLimits[0]) * pxPerUnitX);
-			int yPx = bmp.Height  - (int)((y - axisLimits[2]) * pxPerUnitY);
+			int yPx = (int)(bmp.Height  - ((y - axisLimits[2]) * pxPerUnitY));
 			return new Point(xPx, yPx);
 		}
 
@@ -95,7 +84,7 @@ namespace Graphs {
 			double dx = (b - a) / answer.splits;
 			double offset = frac * dx;
 
-			for(double i = 0; i <= answer.splits; i++) {
+			for(int i = 0; i <= answer.splits; i++) {
 				Point p = GetPixelFromLocation((a + dx  * i) - offset, func(a + dx * i));
 				if(func(a + dx * i) >= 0) {
 					rectangles.Add(new(p, new(GetPixelFromLocation(((a + dx * i) - offset) + dx, 0).X - p.X, origin.Y - p.Y)));
@@ -114,7 +103,7 @@ namespace Graphs {
 
 			double dx = (b - a) / answer.splits;
 
-			for(double i = 0; i < answer.splits; i++) {
+			for(int i = 0; i < answer.splits; i++) {
 				List<Point> trapezoids = new();
 				trapezoids.Add(GetPixelFromLocation((a + dx * i), 0));
 				trapezoids.Add(GetPixelFromLocation((a + dx * i), func(a + dx * i)));
@@ -129,7 +118,7 @@ namespace Graphs {
 
 			double dx = (b - a) / answer.splits;
 			List<Point> parabolas = new();
-			for(double i = 0; i <= answer.splits; i++) {
+			for(int i = 0; i <= answer.splits; i++) {
 				parabolas.Add(GetPixelFromLocation((a + dx * i), func(a + dx * i)));
 				gfx.DrawLine(Pens.Red, GetPixelFromLocation(((a + dx * i)), 0), GetPixelFromLocation(((a + dx * i)), func((a + dx * i))));
 			}
@@ -180,7 +169,7 @@ namespace Graphs {
 					if(saveSize != null) {
 						pictureBox.Size = (Size)saveSize;
 
-						Graph PBGraph = new(pictureBox, func, a, b, delta);
+						Graph PBGraph = new(pictureBox, func, a, b, upperBorder, bottomBorder, delta);
 						PBGraph.Visualize(lastMethod, answer);
 						PBGraph.bmp.Save(saveFileDialog.FileName);
 					}

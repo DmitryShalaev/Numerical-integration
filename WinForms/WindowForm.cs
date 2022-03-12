@@ -17,10 +17,10 @@ namespace WindowForm {
 			this.Text = method.ToString().Replace('_', ' ');
 		}
 
-		public void Show(Graph.ParserFunc func, double a, double b, double delta) {
+		public void Show(Graph.ParserFunc func, double a, double b, double upperBorder, double bottomBorder, double delta) {
 			IsShown = true;
 
-			graph = new(PB, func, a, b, delta);
+			graph = new(PB, func, a, b, upperBorder, bottomBorder, delta);
 			graph.Visualize(method);
 
 			L_Answer.Text = "Answer: " + graph.answer.ans + "; Splits: " + graph.answer.splits;

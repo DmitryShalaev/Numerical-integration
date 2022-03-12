@@ -4,7 +4,7 @@ namespace Manager {
 	public class WindowManager {
 		private Dictionary<Graph.Method, WindowForm.Window> Windows;
 		private CheckedListBox checkedListBox;
-		private int size;
+		public int size { get; private set; }
 		private Size WorkingArea;
 
 		public WindowManager(Control ctl, CheckedListBox checkedListBox) {
@@ -33,7 +33,7 @@ namespace Manager {
 			return Windows.ContainsKey(method);
 		}
 
-		public void Refresh(Graph.ParserFunc func, double a, double b, double delta, Graph.Method? method = null) {
+		public void Refresh(Graph.ParserFunc func, double a, double b, double upperBorder, double bottomBorder, double delta, Graph.Method? method = null) {
 			if(Windows.Count == 0)
 				MessageBox.Show("In order to see the result of numerical integration,\nyou must select at least one method");
 
@@ -42,11 +42,11 @@ namespace Manager {
 					if(!window.Value.IsShown)
 						SetLocation(window.Key);
 
-					window.Value.Show(func, a, b, delta);
+					window.Value.Show(func, a, b, upperBorder, bottomBorder, delta);
 				}
 			} else {
 				SetLocation((Graph.Method)method);
-				Windows[(Graph.Method)method].Show(func, a, b, delta);
+				Windows[(Graph.Method)method].Show(func, a, b, upperBorder, bottomBorder, delta);
 			}
 
 		}

@@ -9,6 +9,8 @@ namespace WinForms {
 
 		private double a;
 		private double b;
+		private double upperBorder = double.MinValue;
+		private double bottomBorder = double.MaxValue;
 		private double delta { get { return double.Parse(TB_Delta.Text.Replace('.', ',')); } }
 
 		private Graph.ParserFunc? parserFunc;
@@ -22,7 +24,7 @@ namespace WinForms {
 			windowManager = new(this, CLB_Methods);
 
 			toggleALLToolStripMenuItem_Click("Enable ALL", EventArgs.Empty);
-			
+
 #if !DEBUG
 			#region Launching the authorization window
 			AuthorizationForm.Authorization authForm = new();
@@ -36,6 +38,9 @@ namespace WinForms {
 			try {
 				if(!string.IsNullOrWhiteSpace(TB_A.Text) && !string.IsNullOrWhiteSpace(TB_B.Text) &&
 					!string.IsNullOrWhiteSpace(TB_MathFunc.Text) && delta > 0) {
+
+					B_Update.Visible = false;
+
 					MathParser mathParser = new();
 
 					mathParser.Parse(TB_A.Text.Replace(".", ","));
@@ -50,9 +55,15 @@ namespace WinForms {
 					mathParser.Parse(TB_MathFunc.Text.Replace(".", ","));
 					parserFunc = mathParser.Evaluate;
 
-					windowManager.Refresh(parserFunc, a, b, delta);
+					for(double i = a; i <= b; i += ((b - a) / windowManager.size)) {
+						double tmp = parserFunc(i);
+						if(bottomBorder >= tmp)
+							bottomBorder = tmp;
+						else if(upperBorder <= tmp)
+							upperBorder = tmp;
+					}
 
-					B_Update.Visible = false;
+					windowManager.Refresh(parserFunc, a, b, upperBorder, bottomBorder, delta);
 				} else {
 					throw new Exception("The lower limit, upper limit, and math fields must be filled in " +
 									"and Delta must be greater than zero");
@@ -67,9 +78,8 @@ namespace WinForms {
 		}
 
 		private void TB_MathFunc_KeyPress(object sender, KeyPressEventArgs e) {
-			if(e.KeyChar == ((char)Keys.Enter)) {
+			if(e.KeyChar == ((char)Keys.Enter))
 				ParseFunction();
-			}
 		}
 
 		private void B_LoadFile_Click(object sender, EventArgs e) {
@@ -83,17 +93,24 @@ namespace WinForms {
 							a = analogParser.LeftBorder;
 							b = analogParser.RightBorder;
 
+							upperBorder = analogParser.UpperBorder;
+							bottomBorder = analogParser.BottomBorder;
+
 							parserFunc = analogParser.Interpolate;
 
-							windowManager.Refresh(parserFunc, a, b, delta);
-
-							B_Update.Visible = true;
+							windowManager.Refresh(parserFunc, a, b, upperBorder, bottomBorder, delta);
 						}
+
+						B_Update.Visible = true;
 					}
 				}
 			} catch(Exception ex) {
 				MessageBox.Show(ex.Message.ToString());
 			}
+		}
+		private void B_Update_Click(object sender, EventArgs e) {
+			if(parserFunc != null)
+				windowManager.Refresh(parserFunc, a, b, upperBorder, bottomBorder, delta);
 		}
 
 		private void AuthorizationFormClosing(object? sender, FormClosingEventArgs e) {
@@ -107,14 +124,9 @@ namespace WinForms {
 			} else {
 				windowManager.Add((Graph.Method)e.Index);
 				if(parserFunc != null) {
-					windowManager.Refresh(parserFunc, a, b, delta, (Graph.Method)e.Index);
+					windowManager.Refresh(parserFunc, a, b, upperBorder, bottomBorder, delta, (Graph.Method)e.Index);
 				}
 			}
-		}
-
-		private void B_Update_Click(object sender, EventArgs e) {
-			if(parserFunc != null)
-				windowManager.Refresh(parserFunc, a, b, delta);
 		}
 
 		private void toggleALLToolStripMenuItem_Click(object sender, EventArgs e) {
