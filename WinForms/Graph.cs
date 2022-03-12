@@ -58,10 +58,6 @@ namespace Graphs {
 			PlotGraph();
 		}
 
-		public Graph(PictureBox pictureBox, AnalogParser parser, double delta) :
-			this(pictureBox, parser.Interpolate, parser.LeftBorder, parser.RightBorder,
-				delta, parser.BottomBorder, parser.UpperBorder) { }
-
 		private Point GetPixelFromLocation(double x, double y) {
 			double pxPerUnitX = Math.Max(bmp.Width  / (axisLimits[1] - axisLimits[0]),0);
 			double pxPerUnitY = Math.Max(bmp.Height / (axisLimits[3] - axisLimits[2]),0);
@@ -96,10 +92,10 @@ namespace Graphs {
 
 			this.answer = answer;
 
-			double dx = (b - a) / answer.number_of_splits;
+			double dx = (b - a) / answer.splits;
 			double offset = frac * dx;
 
-			for(double i = 0; i <= answer.number_of_splits; i++) {
+			for(double i = 0; i <= answer.splits; i++) {
 				Point p = GetPixelFromLocation((a + dx  * i) - offset, func(a + dx * i));
 				if(func(a + dx * i) >= 0) {
 					rectangles.Add(new(p, new(GetPixelFromLocation(((a + dx * i) - offset) + dx, 0).X - p.X, origin.Y - p.Y)));
@@ -116,9 +112,9 @@ namespace Graphs {
 		private void Trapezoid(Integral.Answer answer) {
 			this.answer = answer;
 
-			double dx = (b - a) / answer.number_of_splits;
+			double dx = (b - a) / answer.splits;
 
-			for(double i = 0; i < answer.number_of_splits; i++) {
+			for(double i = 0; i < answer.splits; i++) {
 				List<Point> trapezoids = new();
 				trapezoids.Add(GetPixelFromLocation((a + dx * i), 0));
 				trapezoids.Add(GetPixelFromLocation((a + dx * i), func(a + dx * i)));
@@ -131,9 +127,9 @@ namespace Graphs {
 		private void Simpson(Integral.Answer answer) {
 			this.answer = answer;
 
-			double dx = (b - a) / answer.number_of_splits;
+			double dx = (b - a) / answer.splits;
 			List<Point> parabolas = new();
-			for(double i = 0; i <= answer.number_of_splits; i++) {
+			for(double i = 0; i <= answer.splits; i++) {
 				parabolas.Add(GetPixelFromLocation((a + dx * i), func(a + dx * i)));
 				gfx.DrawLine(Pens.Red, GetPixelFromLocation(((a + dx * i)), 0), GetPixelFromLocation(((a + dx * i)), func((a + dx * i))));
 			}

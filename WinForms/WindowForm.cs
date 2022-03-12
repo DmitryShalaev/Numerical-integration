@@ -23,7 +23,7 @@ namespace WindowForm {
 			graph = new(PB, func, a, b, delta);
 			graph.Visualize(method);
 
-			L_Answer.Text = "Answer: " + graph.answer.ans + "; Splits: " + graph.answer.number_of_splits;
+			L_Answer.Text = "Answer: " + graph.answer.ans + "; Splits: " + graph.answer.splits;
 			this.MinimumSize = new(L_Answer.Width + 16, 0);
 			this.Show();
 		}
