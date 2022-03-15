@@ -9,8 +9,8 @@ namespace WinForms {
 
 		private double a;
 		private double b;
-		private double upperBorder = double.MinValue;
-		private double bottomBorder = double.MaxValue;
+		private double upperBorder;
+		private double bottomBorder;
 		private double delta { get { return double.Parse(TB_Delta.Text.Replace('.', ',')); } }
 
 		private Graph.ParserFunc? parserFunc;
@@ -54,6 +54,9 @@ namespace WinForms {
 
 					mathParser.Parse(TB_MathFunc.Text.Replace(".", ","));
 					parserFunc = mathParser.Evaluate;
+
+					upperBorder = double.MinValue;
+					bottomBorder = double.MaxValue;
 
 					for(double i = a; i <= b; i += ((b - a) / windowManager.size)) {
 						double tmp = parserFunc(i);
