@@ -7,8 +7,8 @@ namespace Parser {
 		public class AnalogParser {
 			private List<PointF> list;
 
-			public float LeftBorder { get { return list[0].X; } }
-			public float RightBorder { get { return list[^1].X; } }
+			public float LeftBorder => list[0].X;
+			public float RightBorder => list[^1].X;
 			public float BottomBorder { get; private set; }
 			public float UpperBorder { get; private set; }
 
