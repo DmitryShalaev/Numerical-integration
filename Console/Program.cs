@@ -8,31 +8,35 @@ namespace ConsoleIntegral {
 		static void Main() {
 			bool quit = false;
 
-			Regex regEx = new(@"[a-z0-9(),+-/%^]+\s*[|]\s*[a-z0-9(),+-/%^]+\s*[a-z0-9(),+-/%^]");
+			Regex regEx = new(@"[a-z0-9(),+-\/%^]+\s*[|]\s*[a-z0-9(),+-\/%^]+\s*[a-z0-9(),+-\/%^]+\s*d[a-z]+");
 
 			while(!quit) {
 				try {
 					Console.Write(">");
-					string text = Console.ReadLine().ToLower();
+					string text = Console.ReadLine().ToLower().Replace('.', ',') ;
 
 					if(regEx.Match(text).Success) {
-						text = text.Replace('.', ',');
-
 						MathParser Parser = new();
 
-						string[] str = Regex.Split(text, @"^\s*([a-z0-9(),+-/%^]+)");
-						Parser.Parse(str[1]);
+						string[] str = Regex.Split(text, @"[|]\s*([a-z0-9(),+-\/%^]+)");
+
+						Parser.Parse(str[0]);
 						double a = Parser.Evaluate();
-						str = Regex.Split(str[2], @"[|]\s*([a-z0-9(),+-/%^]+)");
+
 						Parser.Parse(str[1]);
 						double b = Parser.Evaluate();
+
 						if(a >= b) throw new FormatException("a >= b");
+
+
+						str = Regex.Split(text,  @"\s+([a-z0-9(),+-\/%^]+\s*d)");
+
+						Parser.SetVariable(str[2]);
+						Parser.Parse(str[1].Trim('d'));
 
 						Console.Write("Delta: ");
 						double delta = Convert.ToDouble(Console.ReadLine().Replace('.', ','));
-
-						Parser.Parse(str[2]);
-
+						
 						Console.WriteLine("Left rectangle rule:\t\t" + Method.left_rectangle(Parser.Evaluate, a, b, delta));
 						Console.WriteLine("Right rectangle rule:\t\t" + Method.right_rectangle(Parser.Evaluate, a, b, delta));
 						Console.WriteLine("Midpoint rectangle rule:\t" + Method.midpoint_rectangle(Parser.Evaluate, a, b, delta));
@@ -81,15 +85,15 @@ namespace ConsoleIntegral {
 						}
 					}
 				} catch(Exception e) {
-					Console.WriteLine("ERROR: " + e.Message + e);
+					Console.WriteLine("ERROR: " + e.Message);
 					Console.WriteLine("Type \"/help\" for help.");
 				}
 			}
 		}
 
 		static private string Help() {
-			string str =    "\nIntegral expression input format: \"a|b f(x)\"\n" +
-							"Where: a - lower limit, b - upper limit, f(x) - function of x\n" +
+			string str =    "\nIntegral expression input format: \"a|b f(x)dx\"\n" +
+							"Where: a - lower limit, b - upper limit, f(x) - function of one variable, dx - integration variable\n" +
 							"a<b\n\n";
 
 			str += "Available Operators: ";
