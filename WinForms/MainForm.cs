@@ -37,7 +37,7 @@ namespace WinForms {
 		private void ParseFunction() {
 			try {
 				if(!string.IsNullOrWhiteSpace(TB_A.Text) && !string.IsNullOrWhiteSpace(TB_B.Text) &&
-					!string.IsNullOrWhiteSpace(TB_MathFunc.Text) && delta > 0) {
+					!string.IsNullOrWhiteSpace(TB_MathFunc.Text) && !string.IsNullOrWhiteSpace(TB_IntegrationVariable.Text) && delta > 0) {
 
 					B_Update.Visible = false;
 
@@ -51,6 +51,8 @@ namespace WinForms {
 
 					if(!(a < b))
 						throw new Exception("The lower limit must be less than the upper");
+
+					mathParser.SetVariable(TB_IntegrationVariable.Text);
 
 					mathParser.Parse(TB_MathFunc.Text.Replace(".", ","));
 					parserFunc = mathParser.Evaluate;

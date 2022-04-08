@@ -28,14 +28,16 @@
 			this.B_Calculate = new System.Windows.Forms.Button();
 			this.B_LoadFile = new System.Windows.Forms.Button();
 			this.GB_MathPars = new System.Windows.Forms.GroupBox();
+			this.L_IntegrationVariable = new System.Windows.Forms.Label();
+			this.TB_IntegrationVariable = new System.Windows.Forms.TextBox();
 			this.B_Update = new System.Windows.Forms.Button();
 			this.TB_A = new System.Windows.Forms.TextBox();
 			this.TB_B = new System.Windows.Forms.TextBox();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.CLB_Methods = new System.Windows.Forms.CheckedListBox();
 			this.CMS_MainForm = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.toggleALLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.enableALLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toggleALLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.resetALLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.GB_IntegrationOptions = new System.Windows.Forms.GroupBox();
 			this.LB_Methods = new System.Windows.Forms.Label();
@@ -52,33 +54,35 @@
 			this.TB_MathFunc.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.TB_MathFunc.Location = new System.Drawing.Point(77, 79);
 			this.TB_MathFunc.Name = "TB_MathFunc";
-			this.TB_MathFunc.Size = new System.Drawing.Size(240, 27);
+			this.TB_MathFunc.Size = new System.Drawing.Size(220, 27);
 			this.TB_MathFunc.TabIndex = 0;
 			this.TB_MathFunc.Text = "sin(x)";
 			this.TB_MathFunc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_MathFunc_KeyPress);
 			// 
 			// B_Calculate
 			// 
-			this.B_Calculate.Location = new System.Drawing.Point(323, 79);
+			this.B_Calculate.Location = new System.Drawing.Point(367, 79);
 			this.B_Calculate.Name = "B_Calculate";
 			this.B_Calculate.Size = new System.Drawing.Size(55, 27);
-			this.B_Calculate.TabIndex = 3;
+			this.B_Calculate.TabIndex = 5;
 			this.B_Calculate.Text = "=";
 			this.B_Calculate.UseVisualStyleBackColor = true;
 			this.B_Calculate.Click += new System.EventHandler(this.B_Calculate_Click);
 			// 
 			// B_LoadFile
 			// 
-			this.B_LoadFile.Location = new System.Drawing.Point(284, 188);
+			this.B_LoadFile.Location = new System.Drawing.Point(328, 188);
 			this.B_LoadFile.Name = "B_LoadFile";
 			this.B_LoadFile.Size = new System.Drawing.Size(94, 29);
-			this.B_LoadFile.TabIndex = 4;
+			this.B_LoadFile.TabIndex = 6;
 			this.B_LoadFile.Text = "Load File";
 			this.B_LoadFile.UseVisualStyleBackColor = true;
 			this.B_LoadFile.Click += new System.EventHandler(this.B_LoadFile_Click);
 			// 
 			// GB_MathPars
 			// 
+			this.GB_MathPars.Controls.Add(this.L_IntegrationVariable);
+			this.GB_MathPars.Controls.Add(this.TB_IntegrationVariable);
 			this.GB_MathPars.Controls.Add(this.B_Update);
 			this.GB_MathPars.Controls.Add(this.B_LoadFile);
 			this.GB_MathPars.Controls.Add(this.TB_A);
@@ -88,17 +92,36 @@
 			this.GB_MathPars.Controls.Add(this.B_Calculate);
 			this.GB_MathPars.Location = new System.Drawing.Point(12, 12);
 			this.GB_MathPars.Name = "GB_MathPars";
-			this.GB_MathPars.Size = new System.Drawing.Size(385, 223);
+			this.GB_MathPars.Size = new System.Drawing.Size(432, 223);
 			this.GB_MathPars.TabIndex = 3;
 			this.GB_MathPars.TabStop = false;
 			this.GB_MathPars.Text = "Parser";
 			// 
+			// L_IntegrationVariable
+			// 
+			this.L_IntegrationVariable.AutoSize = true;
+			this.L_IntegrationVariable.Location = new System.Drawing.Point(303, 82);
+			this.L_IntegrationVariable.Name = "L_IntegrationVariable";
+			this.L_IntegrationVariable.Size = new System.Drawing.Size(18, 20);
+			this.L_IntegrationVariable.TabIndex = 7;
+			this.L_IntegrationVariable.Text = "d";
+			// 
+			// TB_IntegrationVariable
+			// 
+			this.TB_IntegrationVariable.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.TB_IntegrationVariable.Location = new System.Drawing.Point(321, 79);
+			this.TB_IntegrationVariable.Name = "TB_IntegrationVariable";
+			this.TB_IntegrationVariable.Size = new System.Drawing.Size(40, 27);
+			this.TB_IntegrationVariable.TabIndex = 1;
+			this.TB_IntegrationVariable.Text = "x";
+			this.TB_IntegrationVariable.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
 			// B_Update
 			// 
-			this.B_Update.Location = new System.Drawing.Point(284, 153);
+			this.B_Update.Location = new System.Drawing.Point(328, 153);
 			this.B_Update.Name = "B_Update";
 			this.B_Update.Size = new System.Drawing.Size(94, 29);
-			this.B_Update.TabIndex = 5;
+			this.B_Update.TabIndex = 7;
 			this.B_Update.Text = "Update";
 			this.B_Update.UseVisualStyleBackColor = true;
 			this.B_Update.Visible = false;
@@ -110,7 +133,7 @@
 			this.TB_A.Location = new System.Drawing.Point(6, 137);
 			this.TB_A.Name = "TB_A";
 			this.TB_A.Size = new System.Drawing.Size(65, 27);
-			this.TB_A.TabIndex = 1;
+			this.TB_A.TabIndex = 2;
 			this.TB_A.Text = "-1";
 			this.TB_A.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
@@ -120,7 +143,7 @@
 			this.TB_B.Location = new System.Drawing.Point(6, 23);
 			this.TB_B.Name = "TB_B";
 			this.TB_B.Size = new System.Drawing.Size(65, 27);
-			this.TB_B.TabIndex = 2;
+			this.TB_B.TabIndex = 3;
 			this.TB_B.Text = "10";
 			this.TB_B.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
@@ -148,7 +171,7 @@
 			this.CLB_Methods.Location = new System.Drawing.Point(6, 103);
 			this.CLB_Methods.Name = "CLB_Methods";
 			this.CLB_Methods.Size = new System.Drawing.Size(173, 114);
-			this.CLB_Methods.TabIndex = 6;
+			this.CLB_Methods.TabIndex = 8;
 			this.CLB_Methods.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.CLB_Methods_ItemCheck);
 			// 
 			// CMS_MainForm
@@ -159,26 +182,26 @@
             this.toggleALLToolStripMenuItem,
             this.resetALLToolStripMenuItem});
 			this.CMS_MainForm.Name = "CMS_MainForm";
-			this.CMS_MainForm.Size = new System.Drawing.Size(211, 104);
-			// 
-			// toggleALLToolStripMenuItem
-			// 
-			this.toggleALLToolStripMenuItem.Name = "toggleALLToolStripMenuItem";
-			this.toggleALLToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
-			this.toggleALLToolStripMenuItem.Text = "Disable ALL";
-			this.toggleALLToolStripMenuItem.Click += new System.EventHandler(this.toggleALLToolStripMenuItem_Click);
+			this.CMS_MainForm.Size = new System.Drawing.Size(157, 76);
 			// 
 			// enableALLToolStripMenuItem
 			// 
 			this.enableALLToolStripMenuItem.Name = "enableALLToolStripMenuItem";
-			this.enableALLToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+			this.enableALLToolStripMenuItem.Size = new System.Drawing.Size(156, 24);
 			this.enableALLToolStripMenuItem.Text = "Enable ALL";
 			this.enableALLToolStripMenuItem.Click += new System.EventHandler(this.toggleALLToolStripMenuItem_Click);
+			// 
+			// toggleALLToolStripMenuItem
+			// 
+			this.toggleALLToolStripMenuItem.Name = "toggleALLToolStripMenuItem";
+			this.toggleALLToolStripMenuItem.Size = new System.Drawing.Size(156, 24);
+			this.toggleALLToolStripMenuItem.Text = "Disable ALL";
+			this.toggleALLToolStripMenuItem.Click += new System.EventHandler(this.toggleALLToolStripMenuItem_Click);
 			// 
 			// resetALLToolStripMenuItem
 			// 
 			this.resetALLToolStripMenuItem.Name = "resetALLToolStripMenuItem";
-			this.resetALLToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+			this.resetALLToolStripMenuItem.Size = new System.Drawing.Size(156, 24);
 			this.resetALLToolStripMenuItem.Text = "Reset ALL";
 			this.resetALLToolStripMenuItem.Click += new System.EventHandler(this.resetALLToolStripMenuItem_Click);
 			// 
@@ -188,7 +211,7 @@
 			this.GB_IntegrationOptions.Controls.Add(this.TB_Delta);
 			this.GB_IntegrationOptions.Controls.Add(this.CLB_Methods);
 			this.GB_IntegrationOptions.Controls.Add(this.LB_Delta);
-			this.GB_IntegrationOptions.Location = new System.Drawing.Point(403, 12);
+			this.GB_IntegrationOptions.Location = new System.Drawing.Point(450, 12);
 			this.GB_IntegrationOptions.Name = "GB_IntegrationOptions";
 			this.GB_IntegrationOptions.Size = new System.Drawing.Size(185, 223);
 			this.GB_IntegrationOptions.TabIndex = 5;
@@ -210,7 +233,7 @@
 			this.TB_Delta.Location = new System.Drawing.Point(60, 32);
 			this.TB_Delta.Name = "TB_Delta";
 			this.TB_Delta.Size = new System.Drawing.Size(94, 27);
-			this.TB_Delta.TabIndex = 5;
+			this.TB_Delta.TabIndex = 4;
 			this.TB_Delta.Text = "0,001";
 			// 
 			// LB_Delta
@@ -226,7 +249,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(599, 246);
+			this.ClientSize = new System.Drawing.Size(645, 246);
 			this.Controls.Add(this.GB_IntegrationOptions);
 			this.Controls.Add(this.GB_MathPars);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -264,5 +287,7 @@
 		private ToolStripMenuItem toggleALLToolStripMenuItem;
 		private ToolStripMenuItem enableALLToolStripMenuItem;
 		private ToolStripMenuItem resetALLToolStripMenuItem;
+		private TextBox TB_IntegrationVariable;
+		private Label L_IntegrationVariable;
 	}
 }
