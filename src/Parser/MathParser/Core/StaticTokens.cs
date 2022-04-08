@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Parser {
 	namespace Mathematical {
 		public partial class MathParser {
-			private static readonly List<Variable> Variables = new() { new("x") };
+			private static readonly List<Variable> Variables = new() { };
 
 			private static readonly Operator        LeftParenthesis = new("("),
 													RightParenthesis = new(")"), Comma = new(",");
