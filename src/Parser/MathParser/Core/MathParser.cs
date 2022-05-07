@@ -2,57 +2,55 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Parser {
-	namespace Mathematical {
-		public partial class MathParser {
+namespace Parser.Mathematical {
+	public partial class MathParser {
 
-			private List<Token> RPNExpression;
+		private List<Token> RPNExpression;
 
-			public char DecimalSeparator = ',';
+		public char DecimalSeparator = ',';
 
-			public void SetVariable(string Variable) {
-				Variables.Clear();
-				Variables.Add(new(Variable));
-			}
+		public void SetVariable(string Variable) {
+			Variables.Clear();
+			Variables.Add(new(Variable));
+		}
 
-			public void Parse(string Expression) { RPNExpression = ConvertToRPN(FormatString(Expression)); }
+		public void Parse(string Expression) { RPNExpression = ConvertToRPN(FormatString(Expression)); }
 
-			public double Evaluate(double Variable = 0) {
-				if(Variables.Count != 0)
-					Variables[0].Value = Variable;
+		public double Evaluate(double Variable = 0) {
+			if(Variables.Count != 0)
+				Variables[0].Value = Variable;
 
-				double tmp = CalculateRPN(RPNExpression);
-				if(double.IsInfinity(tmp) || double.IsNaN(tmp))
-					throw new Exception("Numerical integration failed, most likely because the integral diverges");
-				return tmp;
-			}
+			double tmp = CalculateRPN(RPNExpression);
+			if(double.IsInfinity(tmp) || double.IsNaN(tmp))
+				throw new Exception("Numerical integration failed, most likely because the integral diverges");
+			return tmp;
+		}
 
-			private string FormatString(string Expression) {
-				if(string.IsNullOrEmpty(Expression)) throw new ArgumentNullException("Expression is null or empty");
-				StringBuilder FormattedString = new();
+		private string FormatString(string Expression) {
+			if(string.IsNullOrEmpty(Expression)) throw new ArgumentNullException("Expression is null or empty");
+			StringBuilder FormattedString = new();
 
-				Stack<char> BalancedStack = new();
+			Stack<char> BalancedStack = new();
 
-				foreach(char ch in Expression) {
-					if(ch == '(')
-						BalancedStack.Push(ch);
-					else if(ch == ')') {
-						if(BalancedStack.Count == 0)
-							throw new FormatException("Close bracket found without opening");
+			foreach(char ch in Expression) {
+				if(ch == '(')
+					BalancedStack.Push(ch);
+				else if(ch == ')') {
+					if(BalancedStack.Count == 0)
+						throw new FormatException("Close bracket found without opening");
 
-						BalancedStack.Pop();
-					}
-
-					if(char.IsWhiteSpace(ch)) continue;
-					else FormattedString.Append(ch);
+					BalancedStack.Pop();
 				}
 
-				if(BalancedStack.Count != 0)
-					throw new FormatException("Number of left and right parenthesis is not equal");
-
-
-				return FormattedString.ToString().Replace(")(", ")*(");
+				if(char.IsWhiteSpace(ch)) continue;
+				else FormattedString.Append(ch);
 			}
+
+			if(BalancedStack.Count != 0)
+				throw new FormatException("Number of left and right parenthesis is not equal");
+
+
+			return FormattedString.ToString().Replace(")(", ")*(");
 		}
 	}
 }
