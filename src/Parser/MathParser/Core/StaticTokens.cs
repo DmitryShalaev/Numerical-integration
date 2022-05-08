@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Parser.Mathematical {
 	public partial class MathParser {
-		private static readonly List<Variable> Variables = new() { };
+		private static readonly List<Variable>	Variables = new() { };
 
 		private static readonly Operator        LeftParenthesis = new("("),
-													RightParenthesis = new(")"), Comma = new(",");
+												RightParenthesis = new(")"), Comma = new(",");
 
 		private static readonly UnaryOperator   UnaryPlus = new("un+", 6, (x) => x),
-													UnaryMinus = new("un-", 6, (x) => -x);
+												UnaryMinus = new("un-", 6, (x) => -x);
 
 		private static readonly BinaryOperator  Plus = new("+", 2, (x, y) => x + y),
-													Minus = new("-", 2, (x, y) => x - y);
+												Minus = new("-", 2, (x, y) => x - y);
 
 		public static readonly List<Operator>   DefaultOperators = new() {
 			LeftParenthesis,
