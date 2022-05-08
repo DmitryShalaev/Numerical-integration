@@ -16,7 +16,6 @@ namespace Integral {
 	public class Method {
 
 		public delegate double ParserFunc(double x);
-		delegate double AnalogParserFunc();
 
 		static private Answer run(ParserFunc func, double delta) {
 			double d = 1;
