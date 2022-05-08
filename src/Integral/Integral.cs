@@ -13,7 +13,7 @@ namespace Integral {
 		public override string ToString() => $"{splits}\t{ans}";
 	}
 
-	public class Method {
+	static public class Method {
 
 		public delegate double ParserFunc(double x);
 
