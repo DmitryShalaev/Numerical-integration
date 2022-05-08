@@ -28,8 +28,6 @@
 			this.B_Calculate = new System.Windows.Forms.Button();
 			this.B_LoadFile = new System.Windows.Forms.Button();
 			this.GB_MathPars = new System.Windows.Forms.GroupBox();
-			this.L_IntegrationVariable = new System.Windows.Forms.Label();
-			this.TB_IntegrationVariable = new System.Windows.Forms.TextBox();
 			this.B_Update = new System.Windows.Forms.Button();
 			this.TB_A = new System.Windows.Forms.TextBox();
 			this.TB_B = new System.Windows.Forms.TextBox();
@@ -43,6 +41,7 @@
 			this.LB_Methods = new System.Windows.Forms.Label();
 			this.TB_Delta = new System.Windows.Forms.TextBox();
 			this.LB_Delta = new System.Windows.Forms.Label();
+			this.ToolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.GB_MathPars.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.CMS_MainForm.SuspendLayout();
@@ -54,9 +53,10 @@
 			this.TB_MathFunc.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.TB_MathFunc.Location = new System.Drawing.Point(77, 79);
 			this.TB_MathFunc.Name = "TB_MathFunc";
-			this.TB_MathFunc.Size = new System.Drawing.Size(220, 27);
+			this.TB_MathFunc.Size = new System.Drawing.Size(284, 27);
 			this.TB_MathFunc.TabIndex = 0;
 			this.TB_MathFunc.Text = "sin(x)";
+			this.ToolTip1.SetToolTip(this.TB_MathFunc, "f(x) - function of one variable");
 			this.TB_MathFunc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_MathFunc_KeyPress);
 			// 
 			// B_Calculate
@@ -66,6 +66,7 @@
 			this.B_Calculate.Size = new System.Drawing.Size(55, 27);
 			this.B_Calculate.TabIndex = 5;
 			this.B_Calculate.Text = "=";
+			this.ToolTip1.SetToolTip(this.B_Calculate, "Calculate the integral of a function");
 			this.B_Calculate.UseVisualStyleBackColor = true;
 			this.B_Calculate.Click += new System.EventHandler(this.B_Calculate_Click);
 			// 
@@ -76,13 +77,12 @@
 			this.B_LoadFile.Size = new System.Drawing.Size(94, 29);
 			this.B_LoadFile.TabIndex = 6;
 			this.B_LoadFile.Text = "Load File";
+			this.ToolTip1.SetToolTip(this.B_LoadFile, "Calculate the integral from tabular data");
 			this.B_LoadFile.UseVisualStyleBackColor = true;
 			this.B_LoadFile.Click += new System.EventHandler(this.B_LoadFile_Click);
 			// 
 			// GB_MathPars
 			// 
-			this.GB_MathPars.Controls.Add(this.L_IntegrationVariable);
-			this.GB_MathPars.Controls.Add(this.TB_IntegrationVariable);
 			this.GB_MathPars.Controls.Add(this.B_Update);
 			this.GB_MathPars.Controls.Add(this.B_LoadFile);
 			this.GB_MathPars.Controls.Add(this.TB_A);
@@ -97,25 +97,6 @@
 			this.GB_MathPars.TabStop = false;
 			this.GB_MathPars.Text = "Parser";
 			// 
-			// L_IntegrationVariable
-			// 
-			this.L_IntegrationVariable.AutoSize = true;
-			this.L_IntegrationVariable.Location = new System.Drawing.Point(303, 82);
-			this.L_IntegrationVariable.Name = "L_IntegrationVariable";
-			this.L_IntegrationVariable.Size = new System.Drawing.Size(18, 20);
-			this.L_IntegrationVariable.TabIndex = 7;
-			this.L_IntegrationVariable.Text = "d";
-			// 
-			// TB_IntegrationVariable
-			// 
-			this.TB_IntegrationVariable.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.TB_IntegrationVariable.Location = new System.Drawing.Point(321, 79);
-			this.TB_IntegrationVariable.Name = "TB_IntegrationVariable";
-			this.TB_IntegrationVariable.Size = new System.Drawing.Size(40, 27);
-			this.TB_IntegrationVariable.TabIndex = 1;
-			this.TB_IntegrationVariable.Text = "x";
-			this.TB_IntegrationVariable.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			// 
 			// B_Update
 			// 
 			this.B_Update.Location = new System.Drawing.Point(328, 153);
@@ -123,6 +104,7 @@
 			this.B_Update.Size = new System.Drawing.Size(94, 29);
 			this.B_Update.TabIndex = 7;
 			this.B_Update.Text = "Update";
+			this.ToolTip1.SetToolTip(this.B_Update, "Recalculate the integral from the loaded file");
 			this.B_Update.UseVisualStyleBackColor = true;
 			this.B_Update.Visible = false;
 			this.B_Update.Click += new System.EventHandler(this.B_Update_Click);
@@ -132,20 +114,24 @@
 			this.TB_A.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.TB_A.Location = new System.Drawing.Point(6, 137);
 			this.TB_A.Name = "TB_A";
+			this.TB_A.PlaceholderText = "0";
 			this.TB_A.Size = new System.Drawing.Size(65, 27);
 			this.TB_A.TabIndex = 2;
 			this.TB_A.Text = "-1";
 			this.TB_A.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.ToolTip1.SetToolTip(this.TB_A, "Lower limit");
 			// 
 			// TB_B
 			// 
 			this.TB_B.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.TB_B.Location = new System.Drawing.Point(6, 23);
 			this.TB_B.Name = "TB_B";
+			this.TB_B.PlaceholderText = "0";
 			this.TB_B.Size = new System.Drawing.Size(65, 27);
 			this.TB_B.TabIndex = 3;
 			this.TB_B.Text = "10";
 			this.TB_B.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.ToolTip1.SetToolTip(this.TB_B, "Upper limit");
 			// 
 			// pictureBox1
 			// 
@@ -235,6 +221,7 @@
 			this.TB_Delta.Size = new System.Drawing.Size(94, 27);
 			this.TB_Delta.TabIndex = 4;
 			this.TB_Delta.Text = "0,001";
+			this.ToolTip1.SetToolTip(this.TB_Delta, "Integration accuracy");
 			// 
 			// LB_Delta
 			// 
@@ -287,7 +274,6 @@
 		private ToolStripMenuItem toggleALLToolStripMenuItem;
 		private ToolStripMenuItem enableALLToolStripMenuItem;
 		private ToolStripMenuItem resetALLToolStripMenuItem;
-		private TextBox TB_IntegrationVariable;
-		private Label L_IntegrationVariable;
+		private ToolTip ToolTip1;
 	}
 }

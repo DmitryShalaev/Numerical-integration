@@ -11,7 +11,7 @@ namespace Manager {
 			this.checkedListBox = checkedListBox;
 			Windows = new();
 
-			WorkingArea = new(System.Windows.Forms.Screen.GetWorkingArea(ctl).Width, System.Windows.Forms.Screen.GetWorkingArea(ctl).Height);
+			WorkingArea = new(Screen.GetWorkingArea(ctl).Width, Screen.GetWorkingArea(ctl).Height);
 			size = Math.Min(WorkingArea.Width / 3, WorkingArea.Height / 2);
 		}
 

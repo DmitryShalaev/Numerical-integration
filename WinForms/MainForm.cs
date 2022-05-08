@@ -4,7 +4,7 @@ using Parser.Analog;
 using Parser.Mathematical;
 
 namespace WinForms {
-	public partial class MainForm : System.Windows.Forms.Form {
+	public partial class MainForm : Form {
 		WindowManager windowManager;
 
 		private double a;
@@ -18,10 +18,12 @@ namespace WinForms {
 		public MainForm() {
 			InitializeComponent();
 
-			this.Location = new((System.Windows.Forms.Screen.GetWorkingArea(this).Width / 2) - (this.Width / 2),
-								(System.Windows.Forms.Screen.GetWorkingArea(this).Height / 2) + (this.Height / 2));
+			this.Location = new((Screen.GetWorkingArea(this).Width / 2) - (this.Width / 2),
+								(Screen.GetWorkingArea(this).Height / 2) + (this.Height / 2));
 
 			windowManager = new(this, CLB_Methods);
+
+			ToolTip1.SetToolTip(TB_MathFunc, ToolTip());
 
 			toggleALLToolStripMenuItem_Click("Enable ALL", EventArgs.Empty);
 
@@ -37,7 +39,7 @@ namespace WinForms {
 		private void ParseFunction() {
 			try {
 				if(!string.IsNullOrWhiteSpace(TB_A.Text) && !string.IsNullOrWhiteSpace(TB_B.Text) &&
-					!string.IsNullOrWhiteSpace(TB_MathFunc.Text) && !string.IsNullOrWhiteSpace(TB_IntegrationVariable.Text) && delta > 0) {
+					!string.IsNullOrWhiteSpace(TB_MathFunc.Text) && delta > 0) {
 
 					B_Update.Visible = false;
 
@@ -52,7 +54,7 @@ namespace WinForms {
 					if(!(a < b))
 						throw new Exception("The lower limit must be less than the upper");
 
-					mathParser.SetVariable(TB_IntegrationVariable.Text);
+					mathParser.SetVariable("x");
 
 					mathParser.Parse(TB_MathFunc.Text.Replace(".", ","));
 					parserFunc = mathParser.Evaluate;
@@ -141,6 +143,24 @@ namespace WinForms {
 
 		private void resetALLToolStripMenuItem_Click(object sender, EventArgs e) {
 			windowManager.ResetAll();
+		}
+
+		private string ToolTip() {
+			string str = "f(x) - function of one variable\n\n";
+
+			str += "Available Operators: ";
+			foreach(var item in MathParser.DefaultOperators)
+				str += item + " ";
+
+			str += "\nAvailable Functions: ";
+			foreach(var item in MathParser.DefaultFunctions)
+				str += item + " ";
+
+			str += "\nAvailable Constants: ";
+			foreach(var item in MathParser.Constants)
+				str += item.Key + " ";
+
+			return str;
 		}
 	}
 }
