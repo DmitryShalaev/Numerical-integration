@@ -4,8 +4,8 @@ namespace Manager {
 	public class WindowManager {
 		private Dictionary<Graph.Method, WindowForm.Window> Windows;
 		private CheckedListBox checkedListBox;
-		public int size { get; private set; }
 		private Size WorkingArea;
+		public readonly int size;
 
 		public WindowManager(Control ctl, CheckedListBox checkedListBox) {
 			this.checkedListBox = checkedListBox;

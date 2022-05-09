@@ -21,7 +21,6 @@
 		private readonly double bottomBorder;
 		private readonly double delta;
 		private Graphics gfx;
-		private double[] axisLimits;
 		private Point origin;
 
 		public Graph(PictureBox pictureBox, ParserFunc func, double a, double b, double upperBorder, double bottomBorder, double delta) {
@@ -40,16 +39,14 @@
 			gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 			PB.Image = bmp;
 
-			axisLimits = new[] { a, b, bottomBorder, upperBorder };
-
 			PlotGraph();
 		}
 
 		private Point GetPixelFromLocation(double x, double y) {
-			double pxPerUnitX = Math.Max(bmp.Width / (axisLimits[1] - axisLimits[0]), 0);
-			double pxPerUnitY = Math.Max(bmp.Height / (axisLimits[3] - axisLimits[2]), 0);
-			int xPx = (int)((x - axisLimits[0]) * pxPerUnitX);
-			int yPx = (int)(bmp.Height - ((y - axisLimits[2]) * pxPerUnitY));
+			double pxPerUnitX = Math.Max(bmp.Width / (b - a), 0);
+			double pxPerUnitY = Math.Max(bmp.Height / (upperBorder - bottomBorder), 0);
+			int xPx = (int)((x - a) * pxPerUnitX);
+			int yPx = (int)(bmp.Height - ((y - bottomBorder) * pxPerUnitY));
 			return new(xPx, yPx);
 		}
 
@@ -160,7 +157,7 @@
 					PictureBox pictureBox = new();
 
 					SizeForm.SetSizeForm setSizeForm = new(PB.Size);
-					setSizeForm.FormClosing += new((object? sender, FormClosingEventArgs e) => {
+					setSizeForm.FormClosing += new((sender, e) => {
 						if((sender as SizeForm.SetSizeForm).SetSizeSuccessful) {
 							pictureBox.Size = (sender as SizeForm.SetSizeForm).size;
 
