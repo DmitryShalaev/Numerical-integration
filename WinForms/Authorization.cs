@@ -9,16 +9,16 @@ namespace AuthorizationForm {
 
 		Dictionary<string, byte[]> users;
 
-		Regex regEx = new(@"^[0-9a-zA-Z-_]+");
+		Regex regEx = new(@"^[0-9A-z-_]+");
 
 		private string Personal = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 
 		public Authorization() {
 			try {
-				using(StreamReader SR = new(Personal + "\\users.us")) {
+				using(StreamReader SR = new(Personal + "\\users.us")) 
 					users = JsonSerializer.Deserialize<Dictionary<string, byte[]>>(SR.ReadToEnd()) ?? new();
-				}
-			} catch(Exception) {
+
+			} catch(FileNotFoundException) {
 				users = new();
 			}
 
@@ -47,9 +47,7 @@ namespace AuthorizationForm {
 					}
 				}
 			}
-
-			TB_Password.Text = "";
-			TB_Login.Text = "";
+			TB_Password.Text = TB_Login.Text = "";
 
 			MessageBox.Show("Login Error");
 		}
@@ -63,7 +61,6 @@ namespace AuthorizationForm {
 
 					MessageBox.Show("Login already in use");
 				} else {
-
 					users.Add(TB_Login.Text, MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(TB_Password.Text)));
 					TB_Password.Text = "";
 
@@ -74,8 +71,7 @@ namespace AuthorizationForm {
 				}
 				return;
 			}
-			TB_Password.Text = "";
-			TB_Login.Text = "";
+			TB_Password.Text = TB_Login.Text = "";
 
 			MessageBox.Show("Sing Up Error");
 		}

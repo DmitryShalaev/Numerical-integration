@@ -10,21 +10,19 @@
 
 		public delegate double ParserFunc(double x);
 		public readonly PictureBox PB;
-		private readonly ParserFunc func;
 		public Integral.Answer? answer;
+		public Bitmap bmp;
+
+		private readonly ParserFunc func;
 		private Method? lastMethod;
 		private readonly double a;
 		private readonly double b;
 		private readonly double upperBorder;
 		private readonly double bottomBorder;
 		private readonly double delta;
-		public Bitmap bmp;
 		private Graphics gfx;
-
 		private double[] axisLimits;
 		private Point origin;
-
-		private Size? saveSize;
 
 		public Graph(PictureBox pictureBox, ParserFunc func, double a, double b, double upperBorder, double bottomBorder, double delta) {
 			PB = pictureBox;
@@ -36,23 +34,23 @@
 			this.bottomBorder = bottomBorder;
 			this.delta = delta;
 
-			bmp = new Bitmap(PB.Width, PB.Height);
+			bmp = new(PB.Width, PB.Height);
 			gfx = Graphics.FromImage(bmp);
 			gfx.Clear(Color.White);
 			gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 			PB.Image = bmp;
 
-			axisLimits = new double[] { a, b, bottomBorder, upperBorder };
+			axisLimits = new[] { a, b, bottomBorder, upperBorder };
 
 			PlotGraph();
 		}
 
 		private Point GetPixelFromLocation(double x, double y) {
-			double pxPerUnitX = Math.Max(bmp.Width  / (axisLimits[1] - axisLimits[0]),0);
-			double pxPerUnitY = Math.Max(bmp.Height / (axisLimits[3] - axisLimits[2]),0);
+			double pxPerUnitX = Math.Max(bmp.Width / (axisLimits[1] - axisLimits[0]), 0);
+			double pxPerUnitY = Math.Max(bmp.Height / (axisLimits[3] - axisLimits[2]), 0);
 			int xPx = (int)((x - axisLimits[0]) * pxPerUnitX);
-			int yPx = (int)(bmp.Height  - ((y - axisLimits[2]) * pxPerUnitY));
-			return new Point(xPx, yPx);
+			int yPx = (int)(bmp.Height - ((y - axisLimits[2]) * pxPerUnitY));
+			return new(xPx, yPx);
 		}
 
 		public void Visualize(Method? method, Integral.Answer? answer = null) {
@@ -85,7 +83,7 @@
 			double offset = frac * dx;
 
 			for(int i = 0; i <= answer.splits; i++) {
-				Point p = GetPixelFromLocation((a + dx  * i) - offset, func(a + dx * i));
+				Point p = GetPixelFromLocation((a + dx * i) - offset, func(a + dx * i));
 				if(func(a + dx * i) >= 0) {
 					rectangles.Add(new(p, new(GetPixelFromLocation(((a + dx * i) - offset) + dx, 0).X - p.X, origin.Y - p.Y)));
 				} else {
@@ -94,7 +92,6 @@
 					rectangles.Add(new(p, new(GetPixelFromLocation(((a + dx * i) - offset) + dx, 0).X - p.X, height)));
 				}
 			}
-			Rectangle[] rec = rectangles.ToArray();
 			gfx.DrawRectangles(Pens.Red, rectangles.ToArray());
 		}
 
@@ -142,7 +139,7 @@
 		public void ReDraw() {
 			if(answer != null && lastMethod != null) {
 
-				bmp = new Bitmap(Math.Max(PB.Width, 1), Math.Max(PB.Height, 1));
+				bmp = new(Math.Max(PB.Width, 1), Math.Max(PB.Height, 1));
 				gfx = Graphics.FromImage(bmp);
 				gfx.Clear(Color.White);
 				gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
@@ -154,32 +151,26 @@
 		}
 
 		public void SaveGraph() {
-			using(SaveFileDialog saveFileDialog = new SaveFileDialog()) {
+			using(SaveFileDialog saveFileDialog = new()) {
 				saveFileDialog.Filter = "PNG|*.png|JPEG|*.jpg|BMP|*.bmp";
 				saveFileDialog.FileName = lastMethod.ToString() ?? " ";
 				saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
 				if(saveFileDialog.ShowDialog() == DialogResult.OK) {
-					PictureBox pictureBox = new PictureBox();
+					PictureBox pictureBox = new();
 
 					SizeForm.SetSizeForm setSizeForm = new(PB.Size);
-					setSizeForm.FormClosing += new FormClosingEventHandler(SetSizeFormClosing);
+					setSizeForm.FormClosing += new((object? sender, FormClosingEventArgs e) => {
+						if((sender as SizeForm.SetSizeForm).SetSizeSuccessful) {
+							pictureBox.Size = (sender as SizeForm.SetSizeForm).size;
+
+							Graph PBGraph = new(pictureBox, func, a, b, upperBorder, bottomBorder, delta);
+							PBGraph.Visualize(lastMethod, answer);
+							PBGraph.bmp.Save(saveFileDialog.FileName);
+						}
+					});
 					setSizeForm.ShowDialog();
-
-					if(saveSize != null) {
-						pictureBox.Size = (Size)saveSize;
-
-						Graph PBGraph = new(pictureBox, func, a, b, upperBorder, bottomBorder, delta);
-						PBGraph.Visualize(lastMethod, answer);
-						PBGraph.bmp.Save(saveFileDialog.FileName);
-					}
 				}
-			}
-		}
-
-		private void SetSizeFormClosing(object? sender, FormClosingEventArgs e) {
-			if((sender as SizeForm.SetSizeForm).SetSizeSuccessful) {
-				saveSize = new(Math.Max((sender as SizeForm.SetSizeForm).width, 1), Math.Max((sender as SizeForm.SetSizeForm).height, 1));
 			}
 		}
 	}

@@ -6,7 +6,8 @@ namespace Parser.Mathematical {
 		private static readonly List<Variable>	Variables = new() { };
 
 		private static readonly Operator        LeftParenthesis = new("("),
-												RightParenthesis = new(")"), Comma = new(",");
+												RightParenthesis = new(")"), 
+												Comma = new(",");
 
 		private static readonly UnaryOperator   UnaryPlus = new("un+", 6, (x) => x),
 												UnaryMinus = new("un-", 6, (x) => -x);

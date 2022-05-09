@@ -17,8 +17,8 @@ namespace Manager {
 
 		public void Add(Graph.Method method) {
 			WindowForm.Window window = new(method);
-			window.FormClosing += new FormClosingEventHandler(WindowClosing);
-			window.SetSize(new Size(size, size));
+			window.FormClosing += new(WindowClosing);
+			window.SetSize(new(size, size));
 			Windows.Add(method, window);
 		}
 

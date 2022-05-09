@@ -2,8 +2,7 @@
 	public partial class SetSizeForm : Form {
 
 		public bool SetSizeSuccessful { get; private set; }
-		public int width;
-		public int height;
+		public Size size { get; private set; }
 
 		public SetSizeForm(Size size) {
 			InitializeComponent();
@@ -13,10 +12,12 @@
 		}
 
 		private void B_OK_Click(object sender, EventArgs e) {
+			int width, height;
 			if(!(string.IsNullOrWhiteSpace(TB_Height.Text) && string.IsNullOrWhiteSpace(TB_Width.Text))
 				 && int.TryParse(TB_Height.Text, out height) && int.TryParse(TB_Width.Text, out width)) {
 
 				SetSizeSuccessful = true;
+				size = new(Math.Max(width, 1), Math.Max(height, 1));
 				this.Close();
 				return;
 			}

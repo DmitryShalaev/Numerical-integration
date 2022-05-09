@@ -52,7 +52,7 @@ namespace WinForms {
 					b = mathParser.Evaluate();
 
 					if(!(a < b))
-						throw new Exception("The lower limit must be less than the upper");
+						throw new("The lower limit must be less than the upper");
 
 					mathParser.SetVariable("x");
 
@@ -72,7 +72,7 @@ namespace WinForms {
 
 					windowManager.Refresh(parserFunc, a, b, upperBorder, bottomBorder, delta);
 				} else {
-					throw new Exception("The lower limit, upper limit, and math fields must be filled in " +
+					throw new("The lower limit, upper limit, and math fields must be filled in " +
 									"and Delta must be greater than zero");
 				}
 			} catch(Exception e) {
@@ -94,7 +94,7 @@ namespace WinForms {
 				using(OpenFileDialog openFileDialog = new OpenFileDialog()) {
 					openFileDialog.Filter = "(*.txt *.csv)|*.txt;*.csv";
 					if(openFileDialog.ShowDialog() == DialogResult.OK) {
-						using(StreamReader reader = new StreamReader(openFileDialog.OpenFile())) {
+						using(StreamReader reader = new(openFileDialog.OpenFile())) {
 							AnalogParser analogParser = new(openFileDialog.FileName);
 
 							a = analogParser.LeftBorder;

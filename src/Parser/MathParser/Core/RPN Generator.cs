@@ -35,7 +35,8 @@ namespace Parser.Mathematical {
 						return FindOperator(Word.ToString());
 				}
 			} else if(char.IsLetter(Word[0]) || IsFunctionDefined(Word.ToString())
-										|| Constants.ContainsKey(Word.ToString()) || IsVariableDefined(Word.ToString())) {
+												|| Constants.ContainsKey(Word.ToString()) 
+												|| IsVariableDefined(Word.ToString())) {
 				while(++Position < Expression.Length && char.IsLetter(Expression[Position]))
 					Word.Append(Expression[Position]);
 				if(IsFunctionDefined(Word.ToString()))
