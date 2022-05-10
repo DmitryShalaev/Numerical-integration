@@ -6,6 +6,7 @@ namespace Manager {
 		private CheckedListBox checkedListBox;
 		private Size WorkingArea;
 		public readonly int size;
+		public bool Reverse { get; set; }
 
 		public WindowManager(Control ctl, CheckedListBox checkedListBox) {
 			this.checkedListBox = checkedListBox;
@@ -13,6 +14,7 @@ namespace Manager {
 
 			WorkingArea = new(Screen.GetWorkingArea(ctl).Width, Screen.GetWorkingArea(ctl).Height);
 			size = Math.Min(WorkingArea.Width / 3, WorkingArea.Height / 2);
+			Reverse = false;
 		}
 
 		public void Add(Graph.Method method) {
@@ -42,11 +44,11 @@ namespace Manager {
 					if(!window.Value.IsShown)
 						SetLocation(window.Key);
 
-					window.Value.Show(func, a, b, upperBorder, bottomBorder, delta);
+					window.Value.Show(func, a, b, upperBorder, bottomBorder, delta, Reverse);
 				}
 			} else {
 				SetLocation((Graph.Method)method);
-				Windows[(Graph.Method)method].Show(func, a, b, upperBorder, bottomBorder, delta);
+				Windows[(Graph.Method)method].Show(func, a, b, upperBorder, bottomBorder, delta, Reverse);
 			}
 
 		}

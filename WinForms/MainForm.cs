@@ -51,8 +51,15 @@ namespace WinForms {
 					mathParser.Parse(TB_B.Text.Replace(".", ","));
 					b = mathParser.Evaluate();
 
-					if(!(a < b))
-						throw new("The lower limit must be less than the upper");
+					if(a==b)
+						throw new("With equal boundaries of integration, the definite integral is equal to ZERO");
+					
+					if(a > b) {
+						windowManager.Reverse = true;
+						(a, b) = (b, a);
+					} else {
+						windowManager.Reverse = false;
+					}
 
 					mathParser.SetVariable("x");
 
