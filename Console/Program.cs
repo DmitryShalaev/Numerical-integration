@@ -13,9 +13,11 @@ namespace ConsoleIntegral {
 			while(!quit) {
 				try {
 					Console.Write(">");
-					string text = Console.ReadLine().ToLower().Replace('.', ',') ;
+					string text = Console.ReadLine().ToLower();
 
 					if(regEx.Match(text).Success) {
+						text = text.Replace('.', ',');
+
 						MathParser Parser = new();
 
 						string[] str = Regex.Split(text, @"[|]\s*([a-z0-9(),+-\/%^]+)");
