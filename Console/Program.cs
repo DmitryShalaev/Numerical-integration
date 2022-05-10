@@ -39,11 +39,12 @@ namespace ConsoleIntegral {
 						Console.Write("Delta: ");
 						double delta = Convert.ToDouble(Console.ReadLine().Replace('.', ','));
 
-						Console.WriteLine("Left rectangle rule:\t\t" + Method.left_rectangle(Parser.Evaluate, a, b, delta));
-						Console.WriteLine("Right rectangle rule:\t\t" + Method.right_rectangle(Parser.Evaluate, a, b, delta));
-						Console.WriteLine("Midpoint rectangle rule:\t" + Method.midpoint_rectangle(Parser.Evaluate, a, b, delta));
-						Console.WriteLine("Trapezoid rule:\t\t\t" + Method.trapezoid(Parser.Evaluate, a, b, delta));
-						Console.WriteLine("Simpson rule:\t\t\t" + Method.simpson(Parser.Evaluate, a, b, delta));
+						Method method = new(Parser.Evaluate, a, b, delta);
+						Console.WriteLine("Left rectangle rule:\t\t" + method.left_rectangle());
+						Console.WriteLine("Right rectangle rule:\t\t" + method.right_rectangle());
+						Console.WriteLine("Midpoint rectangle rule:\t" + method.midpoint_rectangle());
+						Console.WriteLine("Trapezoid rule:\t\t\t" + method.trapezoid());
+						Console.WriteLine("Simpson rule:\t\t\t" + method.simpson());
 
 					} else {
 						switch(text.Split()[0]) {
@@ -53,11 +54,12 @@ namespace ConsoleIntegral {
 								Console.Write("Delta: ");
 								double delta = Convert.ToDouble(Console.ReadLine().Replace('.', ','));
 
-								Console.WriteLine("Left rectangle rule:\t\t" + Method.left_rectangle(analogParser.Interpolate, analogParser.LeftBorder, analogParser.RightBorder, delta));
-								Console.WriteLine("Right rectangle rule:\t\t" + Method.right_rectangle(analogParser.Interpolate, analogParser.LeftBorder, analogParser.RightBorder, delta));
-								Console.WriteLine("Midpoint rectangle rule:\t" + Method.midpoint_rectangle(analogParser.Interpolate, analogParser.LeftBorder, analogParser.RightBorder, delta));
-								Console.WriteLine("Trapezoid rule:\t\t\t" + Method.trapezoid(analogParser.Interpolate, analogParser.LeftBorder, analogParser.RightBorder, delta));
-								Console.WriteLine("Simpson rule:\t\t\t" + Method.simpson(analogParser.Interpolate, analogParser.LeftBorder, analogParser.RightBorder, delta));
+								Method method = new(analogParser.Interpolate, analogParser.LeftBorder, analogParser.RightBorder, delta);
+								Console.WriteLine("Left rectangle rule:\t\t" + method.left_rectangle());
+								Console.WriteLine("Right rectangle rule:\t\t" + method.right_rectangle());
+								Console.WriteLine("Midpoint rectangle rule:\t" + method.midpoint_rectangle());
+								Console.WriteLine("Trapezoid rule:\t\t\t" + method.trapezoid());
+								Console.WriteLine("Simpson rule:\t\t\t" + method.simpson());
 
 								break;
 

@@ -13,11 +13,20 @@ namespace Integral {
 		public override string ToString() => $"{splits}\t{ans}";
 	}
 
-	static public class Method {
+	public class Method {
+		private ParserFunc func;
+		private double a, b, delta;
+
+		public Method(ParserFunc func, double a, double b, double delta) {
+			this.func = func;
+			this.a = a;
+			this.b = b;
+			this.delta = delta;
+		}
 
 		public delegate double ParserFunc(double x);
 
-		static private Answer run(ParserFunc func, double delta) {
+		private Answer run(ParserFunc func) {
 			double d = 1;
 			int n = 1;
 
@@ -29,7 +38,7 @@ namespace Integral {
 			return new(n, (a + d) / 2);
 		}
 
-		static private double rectangle(ParserFunc func, double a, double b, double n, double frac) {
+		private double rectangle(double n, double frac) {
 			double dx = (b - a) / n;
 			double sum = 0;
 			double xstart = a + frac * dx;
@@ -41,29 +50,29 @@ namespace Integral {
 			return sum * dx;
 		}
 
-		static public Answer left_rectangle(ParserFunc func, double a, double b, double delta) {
+		public Answer left_rectangle() {
 			double integrate(double n) {
-				return rectangle(func, a, b, n, 0.0);
+				return rectangle(n, 0.0);
 			}
 
-			return run(integrate, delta);
+			return run(integrate);
 		}
 
-		static public Answer right_rectangle(ParserFunc func, double a, double b, double delta) {
+		public Answer right_rectangle() {
 			double integrate(double n) {
-				return rectangle(func, a, b, n, 1.0);
+				return rectangle(n, 1.0);
 			}
-			return run(integrate, delta);
+			return run(integrate);
 		}
 
-		static public Answer midpoint_rectangle(ParserFunc func, double a, double b, double delta) {
+		public Answer midpoint_rectangle() {
 			double integrate(double n) {
-				return rectangle(func, a, b, n, 0.5);
+				return rectangle(n, 0.5);
 			}
-			return run(integrate, delta);
+			return run(integrate);
 		}
 
-		static public Answer trapezoid(ParserFunc func, double a, double b, double delta) {
+		public Answer trapezoid() {
 			double integrate(double n) {
 				double dx = (b - a) / n;
 				double sum = (func(a) + func(b)) / 2;
@@ -73,10 +82,10 @@ namespace Integral {
 
 				return sum * dx;
 			}
-			return run(integrate, delta);
+			return run(integrate);
 		}
 
-		static public Answer simpson(ParserFunc func, double a, double b, double delta) {
+		public Answer simpson() {
 			double integrate(double n) {
 				double dx = (b - a) / n;
 				double sum = 0;
@@ -85,7 +94,7 @@ namespace Integral {
 
 				return (dx / 6) * sum;
 			}
-			return run(integrate, delta);
+			return run(integrate);
 		}
 	}
 }
