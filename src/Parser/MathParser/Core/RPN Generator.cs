@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Text;
 
 namespace Parser.Mathematical {
@@ -13,7 +12,7 @@ namespace Parser.Mathematical {
 				SyntaxAnalysisInfixNotation(LexicalAnalysisInfixNotation(Expression, ref Position), RPNOutput, Stack);
 			while(Stack.Count > 0) {
 				if(Stack.Peek().IsOperator) RPNOutput.Add(Stack.Pop());
-				else throw new FormatException("Format exception, there is function without parenthesis");
+				else throw new FormatException("Format exception, there is function without parentheses");
 			}
 			return RPNOutput;
 		}
@@ -26,9 +25,9 @@ namespace Parser.Mathematical {
 				Position++;
 				switch(Word.ToString()) {
 					case "+":
-						return IsUnary ? (Operator)UnaryPlus : Plus;
+						return IsUnary ? UnaryPlus : Plus;
 					case "-":
-						return IsUnary ? (Operator)UnaryMinus : Minus;
+						return IsUnary ? UnaryMinus : Minus;
 					case ",":
 						return Comma;
 					default:
@@ -52,17 +51,16 @@ namespace Parser.Mathematical {
 						Word.Append(Expression[Position]);
 				else Word.Clear();
 				if(Position < Expression.Length && Expression[Position] == DecimalSeparator) {
-					Word.Append(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
-					while(++Position < Expression.Length
-					&& char.IsDigit(Expression[Position]))
+					Word.Append(DecimalSeparator);
+					while(++Position < Expression.Length && char.IsDigit(Expression[Position]))
 						Word.Append(Expression[Position]);
 				}
 				if(Position + 1 < Expression.Length && Expression[Position] == 'e'
-						&& (char.IsDigit(Expression[Position + 1])
-								|| (Position + 2 < Expression.Length
-										&& (Expression[Position + 1] == '+'
-												|| Expression[Position + 1] == '-')
-														&& char.IsDigit(Expression[Position + 2])))) {
+													&& (char.IsDigit(Expression[Position + 1])
+													|| (Position + 2 < Expression.Length
+													&& (Expression[Position + 1] == '+'
+													|| Expression[Position + 1] == '-')
+													&& char.IsDigit(Expression[Position + 2])))) {
 					Word.Append(Expression[Position++]);
 					if(Expression[Position] == '+' || Expression[Position] == '-')
 						Word.Append(Expression[Position++]);
