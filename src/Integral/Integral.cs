@@ -43,9 +43,8 @@ namespace Integral {
 			double sum = 0;
 			double xstart = a + frac * dx;
 
-			for(int i = 0; i < n; i++) {
+			for(int i = 0; i < n; i++) 
 				sum += func(xstart + i * dx);
-			}
 
 			return sum * dx;
 		}

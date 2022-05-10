@@ -30,25 +30,24 @@ namespace Parser.Mathematical {
 			if(string.IsNullOrEmpty(Expression)) throw new ArgumentNullException("Expression is null or empty");
 			StringBuilder FormattedString = new();
 
-			Stack<char> BalancedStack = new();
+			int UnbalancedParanthesis = 0;
 
 			foreach(char ch in Expression) {
 				if(ch == '(')
-					BalancedStack.Push(ch);
+					UnbalancedParanthesis++;
 				else if(ch == ')') {
-					if(BalancedStack.Count == 0)
+					if(UnbalancedParanthesis == 0)
 						throw new FormatException("Close bracket found without opening");
 
-					BalancedStack.Pop();
+					UnbalancedParanthesis--;
 				}
 
 				if(char.IsWhiteSpace(ch)) continue;
 				else FormattedString.Append(ch);
 			}
 
-			if(BalancedStack.Count != 0)
+			if(UnbalancedParanthesis != 0)
 				throw new FormatException("Number of left and right parenthesis is not equal");
-
 
 			return FormattedString.ToString().Replace(")(", ")*(");
 		}
