@@ -35,7 +35,7 @@ namespace Integral {
 
 			double a = func(n);
 
-			return new(n, (a + d) / 2);
+			return new(n, a + d);
 		}
 
 		private double rectangle(double n, double frac) {
