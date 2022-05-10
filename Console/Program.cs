@@ -58,7 +58,6 @@ namespace ConsoleIntegral {
 								Console.WriteLine("Midpoint rectangle rule:\t" + method.midpoint_rectangle());
 								Console.WriteLine("Trapezoid rule:\t\t\t" + method.trapezoid());
 								Console.WriteLine("Simpson rule:\t\t\t" + method.simpson());
-
 								break;
 
 							case "/help":
