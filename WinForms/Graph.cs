@@ -51,21 +51,22 @@
 		}
 
 		public void Visualize(Method? method, Integral.Answer? answer = null) {
+			Integral.Method IntegralMethod = new(func.Invoke, a, b, delta);
 			switch(method) {
 				case Method.left_rectangle:
-					Rectangle(answer ?? Integral.Method.left_rectangle(func.Invoke, a, b, delta), 0);
+					Rectangle(answer ?? IntegralMethod.left_rectangle(), 0);
 					break;
 				case Method.right_rectangle:
-					Rectangle(answer ?? Integral.Method.right_rectangle(func.Invoke, a, b, delta), 1);
+					Rectangle(answer ?? IntegralMethod.right_rectangle(), 1);
 					break;
 				case Method.midpoint_rectangle:
-					Rectangle(answer ?? Integral.Method.midpoint_rectangle(func.Invoke, a, b, delta), 0.5);
+					Rectangle(answer ?? IntegralMethod.midpoint_rectangle(), 0.5);
 					break;
 				case Method.trapezoid:
-					Trapezoid(answer ?? Integral.Method.trapezoid(func.Invoke, a, b, delta));
+					Trapezoid(answer ?? IntegralMethod.trapezoid());
 					break;
 				case Method.simpson:
-					Simpson(answer ?? Integral.Method.simpson(func.Invoke, a, b, delta));
+					Simpson(answer ?? IntegralMethod.simpson());
 					break;
 			}
 			lastMethod = method;
