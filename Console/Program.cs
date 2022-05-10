@@ -8,7 +8,7 @@ namespace ConsoleIntegral {
 		static void Main() {
 			bool quit = false;
 
-			Regex regEx = new(@"[a-z0-9(),+-\/%^]+\s*[|]\s*[a-z0-9(),+-\/%^]+\s*[a-z0-9(),+-\/%^]+\s*d[a-z]+");
+			Regex regEx = new(@"[a-z0-9(),+-\/%^]+\s*[|]\s*[a-z0-9(),+-\/%^]+\s*[a-z0-9(),+-\/%^]+");
 
 			while(!quit) {
 				try {
@@ -30,11 +30,9 @@ namespace ConsoleIntegral {
 
 						if(a >= b) throw new FormatException("a >= b");
 
-
-						str = Regex.Split(text, @"\s+([a-z0-9(),+-\/%^]+\s*d)");
-
-						Parser.SetVariable(str[2]);
-						Parser.Parse(str[1].Trim('d'));
+						Parser.SetVariable("x");
+						Console.WriteLine(str[2]);
+						Parser.Parse(str[2]);
 
 						Console.Write("Delta: ");
 						double delta = Convert.ToDouble(Console.ReadLine().Replace('.', ','));
