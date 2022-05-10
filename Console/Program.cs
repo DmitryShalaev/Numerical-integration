@@ -1,7 +1,7 @@
-﻿using Integral;
+﻿using System.Text.RegularExpressions;
+using Integral;
 using Parser.Analog;
 using Parser.Mathematical;
-using System.Text.RegularExpressions;
 
 namespace ConsoleIntegral {
 	class Program {
@@ -31,14 +31,14 @@ namespace ConsoleIntegral {
 						if(a >= b) throw new FormatException("a >= b");
 
 
-						str = Regex.Split(text,  @"\s+([a-z0-9(),+-\/%^]+\s*d)");
+						str = Regex.Split(text, @"\s+([a-z0-9(),+-\/%^]+\s*d)");
 
 						Parser.SetVariable(str[2]);
 						Parser.Parse(str[1].Trim('d'));
 
 						Console.Write("Delta: ");
 						double delta = Convert.ToDouble(Console.ReadLine().Replace('.', ','));
-						
+
 						Console.WriteLine("Left rectangle rule:\t\t" + Method.left_rectangle(Parser.Evaluate, a, b, delta));
 						Console.WriteLine("Right rectangle rule:\t\t" + Method.right_rectangle(Parser.Evaluate, a, b, delta));
 						Console.WriteLine("Midpoint rectangle rule:\t" + Method.midpoint_rectangle(Parser.Evaluate, a, b, delta));
@@ -53,16 +53,11 @@ namespace ConsoleIntegral {
 								Console.Write("Delta: ");
 								double delta = Convert.ToDouble(Console.ReadLine().Replace('.', ','));
 
-								Task[] tasks = new Task[5];
-								tasks[0] = new Task(() => Console.WriteLine("Left rectangle rule:\t\t" + Method.left_rectangle(analogParser.Interpolate, analogParser.LeftBorder, analogParser.RightBorder, delta)));
-								tasks[1] = new Task(() => Console.WriteLine("Right rectangle rule:\t\t" + Method.right_rectangle(analogParser.Interpolate, analogParser.LeftBorder, analogParser.RightBorder, delta)));
-								tasks[2] = new Task(() => Console.WriteLine("Midpoint rectangle rule:\t" + Method.midpoint_rectangle(analogParser.Interpolate, analogParser.LeftBorder, analogParser.RightBorder, delta)));
-								tasks[3] = new Task(() => Console.WriteLine("Trapezoid rule:\t\t\t" + Method.trapezoid(analogParser.Interpolate, analogParser.LeftBorder, analogParser.RightBorder, delta)));
-								tasks[4] = new Task(() => Console.WriteLine("Simpson rule:\t\t\t" + Method.simpson(analogParser.Interpolate, analogParser.LeftBorder, analogParser.RightBorder, delta)));
-								foreach(var item in tasks) {
-									item.Start();
-								}
-								Task.WaitAll(tasks);
+								Console.WriteLine("Left rectangle rule:\t\t" + Method.left_rectangle(analogParser.Interpolate, analogParser.LeftBorder, analogParser.RightBorder, delta));
+								Console.WriteLine("Right rectangle rule:\t\t" + Method.right_rectangle(analogParser.Interpolate, analogParser.LeftBorder, analogParser.RightBorder, delta));
+								Console.WriteLine("Midpoint rectangle rule:\t" + Method.midpoint_rectangle(analogParser.Interpolate, analogParser.LeftBorder, analogParser.RightBorder, delta));
+								Console.WriteLine("Trapezoid rule:\t\t\t" + Method.trapezoid(analogParser.Interpolate, analogParser.LeftBorder, analogParser.RightBorder, delta));
+								Console.WriteLine("Simpson rule:\t\t\t" + Method.simpson(analogParser.Interpolate, analogParser.LeftBorder, analogParser.RightBorder, delta));
 
 								break;
 
