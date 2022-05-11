@@ -25,14 +25,10 @@ namespace Manager {
 		}
 
 		public void Remove(Graph.Method method) {
-			if(Contains(method)) {
+			if(Windows.ContainsKey(method)) {
 				Windows[method].Close();
 				Windows.Remove(method);
 			}
-		}
-
-		public bool Contains(Graph.Method method) {
-			return Windows.ContainsKey(method);
 		}
 
 		public void Refresh(Graph.ParserFunc func, double a, double b, double upperBorder, double bottomBorder, double delta, Graph.Method? method = null) {

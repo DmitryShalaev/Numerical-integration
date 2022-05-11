@@ -16,14 +16,14 @@ namespace WindowForm {
 			IsShown = false;
 			this.Text = method.ToString().Replace('_', ' ');
 		}
-
+		
 		public void Show(Graph.ParserFunc func, double a, double b, double upperBorder, double bottomBorder, double delta, bool reverse) {
 			IsShown = true;
 
 			graph = new(PB, func, a, b, upperBorder, bottomBorder, delta);
 			graph.Visualize(method);
 
-			L_Answer.Text = "Answer: " + (reverse == true ? "-" : "") + graph.answer.ans + "; Splits: " + graph.answer.splits;
+			L_Answer.Text = "Answer: " + (reverse == true ? -graph.answer.ans : graph.answer.ans) + "; Splits: " + graph.answer.splits;
 			this.MinimumSize = new(L_Answer.Width + 16, 0);
 			this.Show();
 		}
