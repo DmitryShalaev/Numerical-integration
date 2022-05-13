@@ -29,6 +29,7 @@
 			this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.resetZizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.L_Answer = new System.Windows.Forms.Label();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			((System.ComponentModel.ISupportInitialize)(this.PB)).BeginInit();
 			this.CMS_WindowForm.SuspendLayout();
 			this.SuspendLayout();
@@ -49,9 +50,10 @@
 			this.CMS_WindowForm.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.CMS_WindowForm.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveToolStripMenuItem,
+            this.toolStripSeparator1,
             this.resetZizeToolStripMenuItem});
 			this.CMS_WindowForm.Name = "CMS_WindowForm";
-			this.CMS_WindowForm.Size = new System.Drawing.Size(130, 52);
+			this.CMS_WindowForm.Size = new System.Drawing.Size(130, 58);
 			// 
 			// saveToolStripMenuItem
 			// 
@@ -79,6 +81,11 @@
 			this.L_Answer.Size = new System.Drawing.Size(60, 20);
 			this.L_Answer.TabIndex = 2;
 			this.L_Answer.Text = "Answer:";
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(126, 6);
 			// 
 			// Window
 			// 
@@ -108,5 +115,6 @@
         private ContextMenuStrip CMS_WindowForm;
         private ToolStripMenuItem saveToolStripMenuItem;
         private ToolStripMenuItem resetZizeToolStripMenuItem;
-    }
+		private ToolStripSeparator toolStripSeparator1;
+	}
 }

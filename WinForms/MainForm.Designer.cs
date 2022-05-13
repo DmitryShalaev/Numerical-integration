@@ -42,6 +42,7 @@
 			this.TB_Delta = new System.Windows.Forms.TextBox();
 			this.LB_Delta = new System.Windows.Forms.Label();
 			this.ToolTip1 = new System.Windows.Forms.ToolTip(this.components);
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.GB_MathPars.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.CMS_MainForm.SuspendLayout();
@@ -166,9 +167,10 @@
 			this.CMS_MainForm.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.enableALLToolStripMenuItem,
             this.toggleALLToolStripMenuItem,
+            this.toolStripSeparator1,
             this.resetALLToolStripMenuItem});
 			this.CMS_MainForm.Name = "CMS_MainForm";
-			this.CMS_MainForm.Size = new System.Drawing.Size(157, 76);
+			this.CMS_MainForm.Size = new System.Drawing.Size(157, 82);
 			// 
 			// enableALLToolStripMenuItem
 			// 
@@ -232,6 +234,11 @@
 			this.LB_Delta.TabIndex = 0;
 			this.LB_Delta.Text = "Delta:";
 			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(153, 6);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -275,5 +282,6 @@
 		private ToolStripMenuItem enableALLToolStripMenuItem;
 		private ToolStripMenuItem resetALLToolStripMenuItem;
 		private ToolTip ToolTip1;
+		private ToolStripSeparator toolStripSeparator1;
 	}
 }
