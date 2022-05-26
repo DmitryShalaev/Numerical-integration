@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Parser.Mathematical {
-	public partial class MathParser {
-		private static readonly List<Variable>	Variables = new() { };
+namespace Parser.Mathematical;
+public partial class MathParser {
+	private static readonly List<Variable> Variables = new() { };
 
-		private static readonly Operator        LeftParenthesis = new("("),
-												RightParenthesis = new(")"), Comma = new(",");
+	private static readonly Operator LeftParenthesis = new("("),
+											RightParenthesis = new(")"), Comma = new(",");
 
-		private static readonly UnaryOperator   UnaryPlus = new("un+", 6, (x) => x),
-												UnaryMinus = new("un-", 6, (x) => -x);
+	private static readonly UnaryOperator UnaryPlus = new("un+", 6, (x) => x),
+											UnaryMinus = new("un-", 6, (x) => -x);
 
-		private static readonly BinaryOperator  Plus = new("+", 2, (x, y) => x + y),
-												Minus = new("-", 2, (x, y) => x - y);
+	private static readonly BinaryOperator Plus = new("+", 2, (x, y) => x + y),
+											Minus = new("-", 2, (x, y) => x - y);
 
-		public static readonly List<Operator>   DefaultOperators = new() {
+	public static readonly List<Operator> DefaultOperators = new() {
 			LeftParenthesis,
 			RightParenthesis,
 			Comma,
@@ -28,7 +28,7 @@ namespace Parser.Mathematical {
 			new BinaryOperator("%", 8, (x, y) => x % y)
 		};
 
-		public static readonly List<Function>   DefaultFunctions = new() {
+	public static readonly List<Function> DefaultFunctions = new() {
 			new UnaryFunction("sqrt", Math.Sqrt),
 			new UnaryFunction("sin", Math.Sin),
 			new UnaryFunction("cos", Math.Cos),
@@ -39,9 +39,8 @@ namespace Parser.Mathematical {
 			new BinaryFunction("log", Math.Log),
 		};
 
-		public static readonly Dictionary<string, Constant> Constants = new() {
+	public static readonly Dictionary<string, Constant> Constants = new() {
 			{ "pi", Math.PI },
 			{ "e", Math.E }
 		};
-	}
 }
