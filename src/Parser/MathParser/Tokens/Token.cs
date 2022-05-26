@@ -28,6 +28,7 @@ public class Token {
 	public bool IsFunction => GetType().IsSubclassOf(typeof(Function));
 
 	public override bool Equals(object obj) => obj is Token && (obj as Token).Keyword == Keyword;
+	public override int GetHashCode() => Priority.GetHashCode() + Keyword.GetHashCode();
 
 	public static bool operator <=(Token T1, Token T2) {
 		return T1.Keyword == "^" ? T1.Priority < T2.Priority : T1.Priority <= T2.Priority;
