@@ -1,0 +1,6 @@
+MainPackage=C:\CODE\Numerical-integration\Installer\bin\ARM64\Release\Installer_1.1.1.0_ARM64.msix
+SymbolPackage=C:\CODE\Numerical-integration\Installer\obj\ARM64\Release\Symbols\Installer_1.1.1.0_ARM64.appxsym
+ResourcePack=C:\CODE\Numerical-integration\Installer\bin\ARM64\Release\Installer_1.1.1.0_scale-100.msix
+ResourcePack=C:\CODE\Numerical-integration\Installer\bin\ARM64\Release\Installer_1.1.1.0_scale-125.msix
+ResourcePack=C:\CODE\Numerical-integration\Installer\bin\ARM64\Release\Installer_1.1.1.0_scale-150.msix
+ResourcePack=C:\CODE\Numerical-integration\Installer\bin\ARM64\Release\Installer_1.1.1.0_scale-400.msix

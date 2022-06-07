@@ -1,0 +1,2 @@
+MainPackage=C:\CODE\Numerical-integration\Installer\bin\x86\Release\Installer_1.1.1.0_x86.msix
+SymbolPackage=C:\CODE\Numerical-integration\Installer\obj\x86\Release\Symbols\Installer_1.1.1.0_x86.appxsym

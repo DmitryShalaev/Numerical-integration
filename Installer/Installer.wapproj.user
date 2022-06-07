@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebuggerFlavor>AppHostLocalDebugger</DebuggerFlavor>
+    <RemoteDebugEnabled>False</RemoteDebugEnabled>
+    <DeployOptionalPackages>False</DeployOptionalPackages>
+  </PropertyGroup>
+  <PropertyGroup>
+    <UapAppxPackageBuildMode>SideloadOnly</UapAppxPackageBuildMode>
+    <AppxShowAllApps>False</AppxShowAllApps>
+    <AppxBuildConfigurationSelection>neutral</AppxBuildConfigurationSelection>
+    <PackageOptionalProjectsInIdeBuilds>False</PackageOptionalProjectsInIdeBuilds>
+    <Source>C:\CODE\Numerical-integration\WinForms\Resources\integral.png</Source>
+    <SmallTileSource>C:\CODE\Numerical-integration\WinForms\Resources\integral.png</SmallTileSource>
+    <MediumTileSource>C:\CODE\Numerical-integration\WinForms\Resources\integral.png</MediumTileSource>
+    <WideTileSource>C:\CODE\Numerical-integration\WinForms\Resources\integral.png</WideTileSource>
+    <LargeTileSource>C:\CODE\Numerical-integration\WinForms\Resources\integral.png</LargeTileSource>
+    <AppIconSource>C:\CODE\Numerical-integration\WinForms\Resources\integral.png</AppIconSource>
+    <SplashScreenSource>C:\CODE\Numerical-integration\WinForms\Resources\integral.png</SplashScreenSource>
+    <BadgeLogoSource>C:\CODE\Numerical-integration\WinForms\Resources\integral.png</BadgeLogoSource>
+    <PackageLogoSource>C:\CODE\Numerical-integration\WinForms\Resources\integral.png</PackageLogoSource>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebuggerFlavor>AppHostLocalDebugger</DebuggerFlavor>
+    <RemoteDebugEnabled>False</RemoteDebugEnabled>
+  </PropertyGroup>
+</Project>
