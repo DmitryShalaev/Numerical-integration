@@ -14,7 +14,7 @@ public partial class Window : Form {
 
 		this.method = method;
 		IsShown = false;
-		this.Text = method.ToString().Replace('_', ' ');
+		Text = method.ToString().Replace('_', ' ');
 	}
 
 	public void Show(Graph.ParserFunc func, double a, double b, double upperBorder, double bottomBorder, double delta, bool reverse) {
@@ -24,8 +24,8 @@ public partial class Window : Form {
 		graph.Visualize(method);
 
 		L_Answer.Text = "Answer: " + (reverse == true ? -graph.answer.ans : graph.answer.ans) + "; Splits: " + graph.answer.splits;
-		this.MinimumSize = new(L_Answer.Width + 16, 0);
-		this.Show();
+		MinimumSize = new(L_Answer.Width + 16, 0);
+		Show();
 	}
 
 	private void Item_SizeChanged(object sender, EventArgs e) => graph?.ReDraw();
@@ -34,14 +34,14 @@ public partial class Window : Form {
 
 	public void SetLocation(Point location) => this.Location = initiallocation = location;
 
-	private void saveToolStripMenuItem_Click(object sender, EventArgs e) => graph.SaveGraph();
+	private void SaveToolStripMenuItem_Click(object sender, EventArgs e) => graph.SaveGraph();
 
-	private void resetSizeToolStripMenuItem_Click(object sender, EventArgs e) => Reset();
+	private void ResetSizeToolStripMenuItem_Click(object sender, EventArgs e) => Reset();
 
 	public void Reset() {
-		this.WindowState = FormWindowState.Normal;
-		this.Size = initialSize;
-		this.Location = initiallocation;
+		WindowState = FormWindowState.Normal;
+		Size = initialSize;
+		Location = initiallocation;
 	}
 
 	private void PB_DoubleClick(object sender, EventArgs e) => this.WindowState = this.WindowState == FormWindowState.Normal ? FormWindowState.Maximized : FormWindowState.Normal;

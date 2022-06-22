@@ -27,13 +27,13 @@ public class WindowManager {
 	public void Remove(Graph.Method method) {
 		if(Windows.ContainsKey(method)) {
 			Windows[method].Close();
-			_ = Windows.Remove(method);
+			Windows.Remove(method);
 		}
 	}
 
 	public void Refresh(Graph.ParserFunc func, double a, double b, double upperBorder, double bottomBorder, double delta, Graph.Method? method = null) {
 		if(Windows.Count == 0)
-			_ = MessageBox.Show("In order to see the result of numerical integration,\nyou must select at least one method");
+			MessageBox.Show("In order to see the result of numerical integration,\nyou must select at least one method");
 
 		if(method == null) {
 			foreach(var window in Windows) {
@@ -74,7 +74,7 @@ public class WindowManager {
 	}
 
 	private void WindowClosing(object? sender, FormClosingEventArgs e) {
-		_ = Windows.Remove((sender as WindowForm.Window).method);
+		Windows.Remove((sender as WindowForm.Window).method);
 		checkedListBox.SetItemChecked((int)(sender as WindowForm.Window).method, false);
 	}
 }

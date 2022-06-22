@@ -47,7 +47,7 @@ public partial class Authorization : Form {
 		}
 		TB_Password.Text = TB_Login.Text = "";
 
-		_ = MessageBox.Show("Login Error");
+		MessageBox.Show("Login Error");
 	}
 
 	private void B_SingUp_Click(object sender, EventArgs e) {
@@ -57,7 +57,7 @@ public partial class Authorization : Form {
 				TB_Password.Text = "";
 				TB_Login.Text = "";
 
-				_ = MessageBox.Show("Login already in use");
+				MessageBox.Show("Login already in use");
 			} else {
 				users.Add(TB_Login.Text, MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(TB_Password.Text)));
 				TB_Password.Text = "";
@@ -65,13 +65,13 @@ public partial class Authorization : Form {
 				using(StreamWriter SW = new(Personal + "\\users.us"))
 					SW.WriteLine(JsonSerializer.Serialize(users));
 
-				_ = MessageBox.Show("Successful registration");
+				MessageBox.Show("Successful registration");
 			}
 			return;
 		}
 		TB_Password.Text = TB_Login.Text = "";
 
-		_ = MessageBox.Show("Sing Up Error");
+		MessageBox.Show("Sing Up Error");
 	}
 
 	private void TB_KeyPress(object sender, KeyPressEventArgs e) {

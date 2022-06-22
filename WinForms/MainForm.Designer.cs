@@ -177,21 +177,21 @@
 			this.enableALLToolStripMenuItem.Name = "enableALLToolStripMenuItem";
 			this.enableALLToolStripMenuItem.Size = new System.Drawing.Size(156, 24);
 			this.enableALLToolStripMenuItem.Text = "Enable ALL";
-			this.enableALLToolStripMenuItem.Click += new System.EventHandler(this.toggleALLToolStripMenuItem_Click);
+			this.enableALLToolStripMenuItem.Click += new System.EventHandler(this.ToggleALLToolStripMenuItem_Click);
 			// 
 			// toggleALLToolStripMenuItem
 			// 
 			this.toggleALLToolStripMenuItem.Name = "toggleALLToolStripMenuItem";
 			this.toggleALLToolStripMenuItem.Size = new System.Drawing.Size(156, 24);
 			this.toggleALLToolStripMenuItem.Text = "Disable ALL";
-			this.toggleALLToolStripMenuItem.Click += new System.EventHandler(this.toggleALLToolStripMenuItem_Click);
+			this.toggleALLToolStripMenuItem.Click += new System.EventHandler(this.ToggleALLToolStripMenuItem_Click);
 			// 
 			// resetALLToolStripMenuItem
 			// 
 			this.resetALLToolStripMenuItem.Name = "resetALLToolStripMenuItem";
 			this.resetALLToolStripMenuItem.Size = new System.Drawing.Size(156, 24);
 			this.resetALLToolStripMenuItem.Text = "Reset ALL";
-			this.resetALLToolStripMenuItem.Click += new System.EventHandler(this.resetALLToolStripMenuItem_Click);
+			this.resetALLToolStripMenuItem.Click += new System.EventHandler(this.ResetALLToolStripMenuItem_Click);
 			// 
 			// GB_IntegrationOptions
 			// 

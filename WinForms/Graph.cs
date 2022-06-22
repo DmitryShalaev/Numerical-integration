@@ -162,7 +162,7 @@ public class Graph {
 				setSizeForm.FormClosing += new((sender, e) => {
 					if(sender is SizeForm.SetSizeForm sizeForm) {
 						if(sizeForm.SetSizeSuccessful) {
-							pictureBox.Size = sizeForm.size;
+							pictureBox.Size = sizeForm.SetSize;
 
 							Graph PBGraph = new(pictureBox, func, a, b, upperBorder, bottomBorder, delta);
 							PBGraph.Visualize(lastMethod, answer);

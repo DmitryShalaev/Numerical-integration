@@ -25,7 +25,7 @@ public partial class MainForm : Form {
 
 		ToolTip1.SetToolTip(TB_MathFunc, ToolTip());
 
-		toggleALLToolStripMenuItem_Click("Enable ALL", EventArgs.Empty);
+		ToggleALLToolStripMenuItem_Click("Enable ALL", EventArgs.Empty);
 
 #if !DEBUG
 		#region Launching the authorization window
@@ -83,7 +83,7 @@ public partial class MainForm : Form {
 								"and Delta must be greater than zero");
 			}
 		} catch(Exception e) {
-			_ = MessageBox.Show(e.Message.ToString());
+			MessageBox.Show(e.Message.ToString());
 		}
 	}
 
@@ -117,7 +117,7 @@ public partial class MainForm : Form {
 				}
 			}
 		} catch(Exception ex) {
-			_ = MessageBox.Show(ex.Message.ToString());
+			MessageBox.Show(ex.Message.ToString());
 		}
 	}
 	private void B_Update_Click(object sender, EventArgs e) {
@@ -127,7 +127,7 @@ public partial class MainForm : Form {
 
 	private void AuthorizationFormClosing(object? sender, FormClosingEventArgs e) {
 		if(!(sender as AuthorizationForm.Authorization).logInSuccessful)
-			this.Close();
+			Close();
 	}
 
 	private void CLB_Methods_ItemCheck(object sender, ItemCheckEventArgs e) {
@@ -141,14 +141,14 @@ public partial class MainForm : Form {
 		}
 	}
 
-	private void toggleALLToolStripMenuItem_Click(object sender, EventArgs e) {
+	private void ToggleALLToolStripMenuItem_Click(object sender, EventArgs e) {
 		for(int i = 0; i < CLB_Methods.Items.Count; i++)
 			CLB_Methods.SetItemChecked(i, sender.ToString() == "Enable ALL");
 	}
 
-	private void resetALLToolStripMenuItem_Click(object sender, EventArgs e) => windowManager.ResetAll();
+	private void ResetALLToolStripMenuItem_Click(object sender, EventArgs e) => windowManager.ResetAll();
 
-	private string ToolTip() {
+	private static string ToolTip() {
 		string str = "f(x) - function of one variable\n\n";
 
 		str += "Available Operators: ";

@@ -60,14 +60,14 @@
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
 			this.saveToolStripMenuItem.Size = new System.Drawing.Size(129, 24);
 			this.saveToolStripMenuItem.Text = "Save As";
-			this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+			this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
 			// 
 			// resetZizeToolStripMenuItem
 			// 
 			this.resetZizeToolStripMenuItem.Name = "resetZizeToolStripMenuItem";
 			this.resetZizeToolStripMenuItem.Size = new System.Drawing.Size(129, 24);
 			this.resetZizeToolStripMenuItem.Text = "Reset";
-			this.resetZizeToolStripMenuItem.Click += new System.EventHandler(this.resetSizeToolStripMenuItem_Click);
+			this.resetZizeToolStripMenuItem.Click += new System.EventHandler(this.ResetSizeToolStripMenuItem_Click);
 			// 
 			// L_Answer
 			// 
